@@ -117,6 +117,9 @@ def forgot_password_view(request):
             request.session["reset_email"] = email
             messages.success(request, "Check your email for the reset code.")
             return redirect("reset_password")
+        else:
+            messages.error(request, "No account with this email")
+            print(form.errors)
 
     return render(request, "accounts/c_forgot_password.html", {"form": form})
 
