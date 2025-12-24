@@ -1,0 +1,23 @@
+1. Installer a virtual env called venv. 
+    python3 -m venv .venv
+Then we activate it with 
+    source .venv/bin/activate  or .venv\Scripts\activate on Windows
+And I create .env file.
+
+2. We install django python-dotenv django-allauth 
+    pip install Django python-dotenv django-allauth 
+
+3. We create the project inside of the main folder, we call it "cas" referring to Clinic Appointment Scheduling
+    django-admin startproject cas .
+
+4. We start with the authentication apps
+    python manage.py startapp accounts
+
+5.  We make all the necessary setu
+    for allauth in settings and in general urls 
+        path('accounts/', include('allauth.urls')),
+    we add the model Profile linked to the built-in User django model and we add signal on save method. and add it to the admin panel
+    we set-up the folders for media and staticfiles
+
+6. We create group, even from the admin panel : 2 groups doctor and patient.
+

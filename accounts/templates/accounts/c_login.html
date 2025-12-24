@@ -1,0 +1,166 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="dark" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>GUKODESHA - Login</title>
+        <link href="https://fonts.googleapis.com" rel="preconnect" />
+        <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+              rel="stylesheet" />
+        <!-- Tailwind CSS with Config -->
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#36e27b",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#112117",
+                        "surface-dark": "#1c2620",
+                        "border-dark": "#3d5245",
+                        "text-muted": "#9eb7a8",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+        </script>
+    </head>
+    <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased overflow-x-hidden">
+        <div class="flex min-h-screen w-full flex-row">
+            <!-- Left Panel: Login Form -->
+            <div class="flex w-full flex-col justify-center px-4 py-12 sm:px-6 lg:w-1/2 lg:px-20 xl:px-24 bg-background-light dark:bg-background-dark relative">
+                <!-- Mobile/Top Logo -->
+                <div class="absolute top-8 left-8 lg:left-24 flex items-center gap-2 text-slate-900 dark:text-white">
+                    <div class="size-8 text-primary">
+                        <svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor">
+                            </path>
+                        </svg>
+                    </div>
+                    <h2 class="text-xl font-bold leading-tight tracking-[-0.015em]">GUKODESHA</h2>
+                </div>
+                <div class="mx-auto w-full max-w-sm lg:max-w-md mt-12 lg:mt-0">
+                    <div class="flex flex-col gap-2 text-left mb-10">
+                        <h1 class="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">Welcome back</h1>
+                        <p class="text-slate-500 dark:text-text-muted text-base">Manage your property and community services securely.</p>
+                    </div>
+                    {% if form.non_field_errors %}
+                        <div class="mb-4 rounded-lg bg-red-100 text-red-700 px-4 py-3 text-sm">{{ form.non_field_errors }}</div>
+                    {% endif %}
+                    <form method="POST" action="{% url 'login' %}" class="space-y-6">
+                        {% csrf_token %}
+                        <div>
+                            <label class="block text-sm font-medium leading-6 mb-2" for="email">Email or Username</label>
+                            <div class="relative rounded-lg shadow-sm">
+                                <input class="block w-full rounded-lg border-0 py-3.5 pl-4 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-primary dark:bg-surface-dark dark:text-white dark:ring-border-dark dark:placeholder:text-text-muted sm:text-sm sm:leading-6 transition-colors"
+                                       id="email"
+                                       name="username"
+                                       placeholder="theo@example.com"
+                                       type="email" />
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                                    <span class="material-symbols-outlined text-slate-400 dark:text-text-muted"
+                                          style="font-size: 20px">person</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Password Input -->
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <label class="block text-sm font-medium leading-6" for="password">Password</label>
+                                <div class="text-sm">
+                                    <a class="font-semibold text-primary hover:text-green-400"
+                                       href="{% url 'forgot_password' %}">Forgot password?</a>
+                                </div>
+                            </div>
+                            <div class="relative rounded-lg shadow-sm">
+                                <input class="block w-full rounded-lg border-0 py-3.5 pl-4 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-primary dark:bg-surface-dark dark:text-white dark:ring-border-dark dark:placeholder:text-text-muted sm:text-sm sm:leading-6 transition-colors"
+                                       id="password"
+                                       name="password"
+                                       placeholder="••••••••"
+                                       type="password" />
+                            </div>
+                        </div>
+                        <!-- Login Button -->
+                        <div>
+                            <button class="flex w-full justify-center rounded-lg bg-primary px-3 py-3.5 text-sm font-bold leading-6 text-[#111714] shadow-sm hover:bg-green-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition-colors"
+                                    type="submit">Log In</button>
+                        </div>
+                    </form>
+                    <!-- Divider -->
+                    <div class="relative mt-8">
+                        <div aria-hidden="true" class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-slate-200 dark:border-border-dark"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm font-medium leading-6">
+                            <span class="bg-background-light px-6 text-slate-500 dark:bg-background-dark dark:text-text-muted">Or continue with</span>
+                        </div>
+                    </div>
+                    <!-- Social Login -->
+                    <div class="mt-6">
+                        <button class="hidden flex w-full items-center justify-center gap-3 rounded-lg bg-white px-3 py-3 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:bg-surface-dark dark:text-white dark:ring-border-dark dark:hover:bg-[#25322b] transition-colors"
+                                type="button">
+                            <svg aria-hidden="true" class="h-5 w-5" viewbox="0 0 24 24">
+                                <path d="M12.0003 20.45C16.667 20.45 20.5836 17.2755 21.9902 12.9841H12.0003V9.55017H25.3263C25.4851 10.3703 25.5683 11.218 25.5683 12.0834C25.5683 19.8638 19.4939 26.1667 12.0003 26.1667C4.17643 26.1667 -2.16641 19.8239 -2.16641 12.0001C-2.16641 4.17625 4.17643 -2.16656 12.0003 -2.16656C15.4299 -2.16656 18.5392 -1.02875 21.0102 0.880469L17.8841 4.00656C16.8924 3.08562 14.8878 2.25365 12.0003 2.25365C6.82773 2.25365 2.58553 6.69172 2.58553 12.0001C2.58553 17.3084 6.82773 21.7465 12.0003 21.7465V20.45Z" fill="currentColor" transform="translate(2.16641 2.16656) scale(0.830508)">
+                                </path>
+                            </svg>
+                            Google
+                        </button>
+                    </div>
+                    <!-- Register Link -->
+                    <p class="mt-10 text-center text-sm text-slate-500 dark:text-text-muted">
+                        New to GUKODESHA?
+                        <a class="font-semibold leading-6 text-primary hover:text-green-400"
+                           href="#">Create an account</a>
+                    </p>
+                </div>
+            </div>
+            <!-- Right Panel: Visual Showcase -->
+            <div class="hidden lg:block lg:w-1/2 relative bg-surface-dark">
+                <!-- Background Image -->
+                <div class="absolute inset-0 h-full w-full bg-cover bg-center"
+                     data-alt="Modern apartment building with lush greenery in an African city"
+                     style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA5bGjfXxFVoNQWhT70KFkLKa3ni2giI8lrclHd5SG9HjjKI3SYnHPwHW7IG4wORVksXU8dIhvbkKov3c2WgcFRpaMr7MiH8r51BNNjfvOIWWMUWaAOkHhlsiOKIJioAq5t618Ikm10FpK33vDQryHm6bzx9kNEl83qXltWuJY6Y-a944qLNnblwMp_cYGt-C-rMHvuBGEsfRuAAGZgXLCxo0TDG2UI5QXiO7HVPAVBJMv1G52LlvezHT_HX83SvFT9OYvu5vkj3h8')">
+                </div>
+                <!-- Dark Overlay Gradient -->
+                <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/80 to-transparent opacity-90">
+                </div>
+                <!-- Content Overlay -->
+                <div class="absolute bottom-0 left-0 right-0 p-16 flex flex-col justify-end h-full">
+                    <div class="max-w-xl">
+                        <div class="flex items-center gap-2 mb-6 text-primary">
+                            <span class="material-symbols-outlined">shield_lock</span>
+                            <span class="text-sm font-bold tracking-wider uppercase">Secure &amp; Reliable</span>
+                        </div>
+                        <blockquote class="text-3xl font-medium text-white mb-6 leading-normal">
+                            "Connecting tenants, landlords, and communities across the Great Lakes region."
+                        </blockquote>
+                        <p class="text-lg text-slate-300">Join thousands of users managing their homes and security with GUKODESHA today.</p>
+                        <!-- Feature Tags -->
+                        <div class="flex gap-3 mt-10">
+                            <div class="flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm border border-white/10">
+                                <span class="material-symbols-outlined text-sm">apartment</span>
+                                Rental Management
+                            </div>
+                            <div class="flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm border border-white/10">
+                                <span class="material-symbols-outlined text-sm">local_police</span>
+                                Community Security
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
