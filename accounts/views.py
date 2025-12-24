@@ -162,6 +162,8 @@ def reset_password_view(request):
 
             messages.success(request, "Password reset successfully.")
             return redirect("login")
+        else:
+            print(form.errors)
 
     return render(
         request,
