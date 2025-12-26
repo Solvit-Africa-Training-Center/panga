@@ -1,3 +1,5 @@
+# this is the latest version
+
 import random
 from django.conf import settings
 from django.db import models
