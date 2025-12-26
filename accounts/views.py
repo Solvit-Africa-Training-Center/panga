@@ -27,7 +27,7 @@ def signup_view(request):
                 request,
                 "Form not valid."
             )
-            print("Form not valid")
+            print(form.errors)
 
     return render(request, "accounts/c_register.html", {"form": form})
 
