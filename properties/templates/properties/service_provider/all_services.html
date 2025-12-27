@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>GUKODESHA - Services Listing</title>
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com" rel="preconnect" />
+        <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap"
+              rel="stylesheet" />
+        <!-- Material Symbols -->
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+              rel="stylesheet" />
+        <!-- Tailwind CSS -->
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <!-- Tailwind Config -->
+        <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#38e07b",
+              "background-light": "#f6f8f7",
+              "background-dark": "#122017",
+            },
+            fontFamily: {
+              "display": ["Manrope", "Noto Sans", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+        </script>
+    </head>
+    <body class="bg-background-light dark:bg-background-dark font-display text-[#111714] dark:text-white overflow-x-hidden">
+        <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+            <!-- Top Navigation -->
+            {% include 'partial/header.html' %}
+            <div class="layout-container flex h-full grow flex-col">
+                <div class="flex flex-1 justify-center py-5">
+                    <div class="layout-content-container flex flex-col w-full max-w-[1200px] flex-1 px-4 md:px-10">
+                        <!-- Hero Section -->
+                        <div class="@container mb-8">
+                            <div class="">
+                                <div class="flex min-h-[400px] flex-col gap-6 bg-cover bg-center bg-no-repeat rounded-xl items-start justify-end px-4 pb-10 md:px-10 shadow-lg"
+                                     data-alt="Blurry dark background with abstract tools silhouette"
+                                     style='background-image: linear-gradient(rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.8) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuAVO0yiXOEDXWSGHZ_9B-Lsr7chTCtGNvG2jO6iN6Qt-aOjCV9Rd3HWXZHjMEV7J3nB5TlulEKnm-2peKIanwVfyBj5AFaUlbXbynuhyzSOTtNZHN4wv88oj0TlEk89c9RwrTWw0eAEHoRbR2dEMi19BhH59ms2O7-y0m7bO4K2ZPOggJ77ZOU0n-Ek4Vp9qrHmUaO3LkbDSOsmSEmXGMP6zHml5dslHadEQJNKz6IetZdVI-yQwYMjE-bDVTCWY3B0QNfJq4PC5ME")'>
+                                    <div class="flex flex-col gap-2 text-left max-w-2xl">
+                                        <h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em] md:text-5xl">
+                                            Find Trusted Local Services
+                                        </h1>
+                                        <h2 class="text-white/90 text-sm font-normal leading-normal md:text-base">
+                                            Expert professionals for plumbing, electricity, security, and more in the Great Lakes region.
+                                        </h2>
+                                    </div>
+                                    <label class="flex flex-col h-14 w-full max-w-[580px] md:h-16 shadow-xl">
+                                        <div class="flex w-full flex-1 items-stretch rounded-lg h-full overflow-hidden">
+                                            <div class="text-[#9eb7a8] flex border border-[#3d5245] bg-[#1c2620] items-center justify-center pl-[15px] border-r-0">
+                                                <span class="material-symbols-outlined">search</span>
+                                            </div>
+                                            <input class="flex w-full min-w-0 flex-1 resize-none outline-none text-white border border-[#3d5245] bg-[#1c2620] placeholder:text-[#9eb7a8] px-[15px] border-r-0 border-l-0 text-sm md:text-base"
+                                                   placeholder="What help do you need today?"
+                                                   value="" />
+                                            <div class="flex items-center justify-center border-l-0 border border-[#3d5245] bg-[#1c2620] pr-[7px] border-r-0">
+                                                <div class="h-8 w-[1px] bg-[#3d5245]"></div>
+                                            </div>
+                                            <div class="text-[#9eb7a8] hidden sm:flex border border-[#3d5245] bg-[#1c2620] items-center justify-center pl-[10px] border-l-0 border-r-0 text-sm">
+                                                <span class="material-symbols-outlined mr-1 text-base">location_on</span>
+                                                <span class="mr-2">Kigali</span>
+                                            </div>
+                                            <div class="flex items-center justify-center border-l-0 border border-[#3d5245] bg-[#1c2620] pr-[7px] rounded-r-lg">
+                                                <button class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-4 md:h-12 md:px-6 bg-primary hover:bg-green-400 transition-colors text-[#111714] text-sm font-bold tracking-[0.015em] md:text-base">
+                                                    <span class="truncate">Search</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Filters & Controls Toolbar -->
+                        <div class="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center mb-6">
+                            <!-- Chips / Categories -->
+                            <div class="flex gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto scrollbar-hide mask-fade">
+                                <button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary text-[#111714] px-5 transition-transform hover:scale-105">
+                                    <p class="text-sm font-bold leading-normal">All Services</p>
+                                </button>
+                                <button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#29382f] hover:bg-[#3d5245] px-5 transition-colors">
+                                    <span class="material-symbols-outlined text-[18px] text-[#9eb7a8]">plumbing</span>
+                                    <p class="text-white text-sm font-medium leading-normal">Plumbing</p>
+                                </button>
+                                <button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#29382f] hover:bg-[#3d5245] px-5 transition-colors">
+                                    <span class="material-symbols-outlined text-[18px] text-[#9eb7a8]">bolt</span>
+                                    <p class="text-white text-sm font-medium leading-normal">Electrical</p>
+                                </button>
+                                <button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#29382f] hover:bg-[#3d5245] px-5 transition-colors">
+                                    <span class="material-symbols-outlined text-[18px] text-[#9eb7a8]">cleaning_services</span>
+                                    <p class="text-white text-sm font-medium leading-normal">Cleaning</p>
+                                </button>
+                                <button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#29382f] hover:bg-[#3d5245] px-5 transition-colors">
+                                    <span class="material-symbols-outlined text-[18px] text-[#9eb7a8]">security</span>
+                                    <p class="text-white text-sm font-medium leading-normal">Security</p>
+                                </button>
+                            </div>
+                            <!-- View Toggle -->
+                            <div class="flex items-center gap-3 shrink-0 self-end md:self-auto">
+                                <button class="flex items-center gap-2 text-[#9eb7a8] text-sm font-medium hover:text-white mr-2">
+                                    <span class="material-symbols-outlined">sort</span> Sort by
+                                </button>
+                                <div class="flex h-10 items-center justify-center rounded-lg bg-[#29382f] p-1">
+                                    <label class="flex cursor-pointer h-full items-center justify-center rounded-md px-3 bg-[#111714] shadow-sm text-white text-sm font-medium leading-normal transition-all">
+                                        <span class="material-symbols-outlined text-[18px] mr-2">list</span>
+                                        <span class="truncate">List</span>
+                                        <input checked=""
+                                               class="invisible w-0"
+                                               name="view-toggle"
+                                               type="radio"
+                                               value="List View" />
+                                    </label>
+                                    <label class="flex cursor-pointer h-full items-center justify-center rounded-md px-3 text-[#9eb7a8] hover:text-white text-sm font-medium leading-normal transition-all">
+                                        <span class="material-symbols-outlined text-[18px] mr-2">map</span>
+                                        <span class="truncate">Map</span>
+                                        <input class="invisible w-0"
+                                               name="view-toggle"
+                                               type="radio"
+                                               value="Map View" />
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Top Rated Section -->
+                        <div class="mb-10">
+                            <div class="flex items-center justify-between px-1 pb-4">
+                                <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">Top Rated in Kigali</h2>
+                                <a class="text-primary text-sm font-bold hover:underline" href="#">View All</a>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <!-- Card 1 -->
+                                <div class="flex flex-col rounded-xl overflow-hidden bg-[#1c2620] border border-[#29382f] hover:border-[#3d5245] transition-all group shadow-md">
+                                    <div class="relative h-48 w-full overflow-hidden">
+                                        <div class="absolute top-3 right-3 z-10 bg-black/60 backdrop-blur-sm px-2 py-1 rounded text-white text-xs font-bold flex items-center gap-1">
+                                            <span class="material-symbols-outlined text-[14px] text-yellow-400">star</span> 4.9
+                                        </div>
+                                        <div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+                                             data-alt="Professional plumber checking pipes under sink"
+                                             style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAGeWiOvSVWwp9UDh7Vf43LkweffqNJjo2iMoLvTEnfdmwXR_fmvw1D67peH82ABlHFjoxFYMPZKn9BPRecXIRqqpJ7VeWnOSl7F3LeEXz8ifsA2ZZnhH3fqbN8D2fqEMR7PRogSHjuvJlkG15YmS10T9Aim6vN01tMld48q-DzlaY_AVKp1qF74nykDsrVyv0W4bzPPQsgxYj8P3gqXMH_UWAu-lBfVCbRkxLZ45t-ZYNYaW07zlVrwbN-eE0z27ML8zClMUtwM1s")'>
+                                        </div>
+                                    </div>
+                                    <div class="p-4 flex flex-col gap-2">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <h3 class="text-white text-lg font-bold leading-tight group-hover:text-primary transition-colors">
+                                                    Kigali Plumbers Pro
+                                                </h3>
+                                                <p class="text-[#9eb7a8] text-sm mt-1">Plumbing • Nyarugenge</p>
+                                            </div>
+                                            <span class="bg-primary/10 text-primary rounded-full p-1"
+                                                  title="Verified Provider">
+                                                <span class="material-symbols-outlined text-[20px]">verified</span>
+                                            </span>
+                                        </div>
+                                        <div class="flex flex-wrap gap-2 mt-2">
+                                            <span class="px-2 py-1 rounded bg-[#29382f] text-[#9eb7a8] text-xs">Pipe Repair</span>
+                                            <span class="px-2 py-1 rounded bg-[#29382f] text-[#9eb7a8] text-xs">Installation</span>
+                                        </div>
+                                        <div class="mt-4 pt-4 border-t border-[#29382f] flex gap-3">
+                                            <button class="flex-1 bg-primary hover:bg-green-400 text-[#111714] font-bold py-2.5 rounded-lg text-sm transition-colors">
+                                                Book Now
+                                            </button>
+                                            <button class="size-10 flex items-center justify-center border border-[#3d5245] rounded-lg text-white hover:bg-[#29382f] transition-colors">
+                                                <span class="material-symbols-outlined text-[20px]">chat_bubble</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card 2 -->
+                                <div class="flex flex-col rounded-xl overflow-hidden bg-[#1c2620] border border-[#29382f] hover:border-[#3d5245] transition-all group shadow-md">
+                                    <div class="relative h-48 w-full overflow-hidden">
+                                        <div class="absolute top-3 right-3 z-10 bg-black/60 backdrop-blur-sm px-2 py-1 rounded text-white text-xs font-bold flex items-center gap-1">
+                                            <span class="material-symbols-outlined text-[14px] text-yellow-400">star</span> 4.8
+                                        </div>
+                                        <div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+                                             data-alt="Electrician fixing wires in a fuse box"
+                                             style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDkQygE5vMRe2ApGPxqgEyqIUerAgXKK7z5dOrdG9rZls5MDGUxhP6oBdi3mEEB2nDAKRf9_sKfkUiYWG5QRTuYJxRS-uyfDQIyB5XFFhDU2c_J9pD2eTPBe2B0ZJFfxRbcXTdKD4CUgf_E1eu-l2Klqn7UgyrUudN8AN7rlrZjiL9lOl6JvOIb8eqlUIpjPEVTie-oRFpliWUdRzKL5AS_GmMrr0Z0izi9gc_kepuYsgzZMRKPXJJ653FmpzA9no_TSCfRgZEqNhE")'>
+                                        </div>
+                                    </div>
+                                    <div class="p-4 flex flex-col gap-2">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <h3 class="text-white text-lg font-bold leading-tight group-hover:text-primary transition-colors">
+                                                    Spark Electricals
+                                                </h3>
+                                                <p class="text-[#9eb7a8] text-sm mt-1">Electrical • Kicukiro</p>
+                                            </div>
+                                            <span class="bg-primary/10 text-primary rounded-full p-1"
+                                                  title="Verified Provider">
+                                                <span class="material-symbols-outlined text-[20px]">verified</span>
+                                            </span>
+                                        </div>
+                                        <div class="flex flex-wrap gap-2 mt-2">
+                                            <span class="px-2 py-1 rounded bg-[#29382f] text-[#9eb7a8] text-xs">Wiring</span>
+                                            <span class="px-2 py-1 rounded bg-[#29382f] text-[#9eb7a8] text-xs">Generators</span>
+                                        </div>
+                                        <div class="mt-4 pt-4 border-t border-[#29382f] flex gap-3">
+                                            <button class="flex-1 bg-primary hover:bg-green-400 text-[#111714] font-bold py-2.5 rounded-lg text-sm transition-colors">
+                                                Book Now
+                                            </button>
+                                            <button class="size-10 flex items-center justify-center border border-[#3d5245] rounded-lg text-white hover:bg-[#29382f] transition-colors">
+                                                <span class="material-symbols-outlined text-[20px]">chat_bubble</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card 3 -->
+                                <div class="flex flex-col rounded-xl overflow-hidden bg-[#1c2620] border border-[#29382f] hover:border-[#3d5245] transition-all group shadow-md">
+                                    <div class="relative h-48 w-full overflow-hidden">
+                                        <div class="absolute top-3 right-3 z-10 bg-black/60 backdrop-blur-sm px-2 py-1 rounded text-white text-xs font-bold flex items-center gap-1">
+                                            <span class="material-symbols-outlined text-[14px] text-yellow-400">star</span> 4.7
+                                        </div>
+                                        <div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+                                             data-alt="Security guard in uniform standing watch"
+                                             style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuChf4tXpv7zamIpcPPAw62UcBo96hVgvV-lCm3eacSudyur2SPwHtamW-92PtnpqUkkW4AuOOWz6kn03VkasOHIG1r1E5nF7tcxDZwhTfvADUarPnWALw4m8Sv9RM9HGy4ugoQFNGJ8brHvioRfAtubPfGhRmEMydhlXl5bCyEvOY2drCV3jfaLohRSvt-Pp_OMD3INLuRMJgEds5pjx0jnkMiMBjUQkC9ErO68t5F_QTB6LoSpvDhkNO_aRx25yivV1ZxcZfyZslk")'>
+                                        </div>
+                                    </div>
+                                    <div class="p-4 flex flex-col gap-2">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <h3 class="text-white text-lg font-bold leading-tight group-hover:text-primary transition-colors">
+                                                    SafeGuard Services
+                                                </h3>
+                                                <p class="text-[#9eb7a8] text-sm mt-1">Security • Gasabo</p>
+                                            </div>
+                                            <span class="bg-primary/10 text-primary rounded-full p-1"
+                                                  title="Verified Provider">
+                                                <span class="material-symbols-outlined text-[20px]">verified</span>
+                                            </span>
+                                        </div>
+                                        <div class="flex flex-wrap gap-2 mt-2">
+                                            <span class="px-2 py-1 rounded bg-[#29382f] text-[#9eb7a8] text-xs">Guards</span>
+                                            <span class="px-2 py-1 rounded bg-[#29382f] text-[#9eb7a8] text-xs">CCTV</span>
+                                        </div>
+                                        <div class="mt-4 pt-4 border-t border-[#29382f] flex gap-3">
+                                            <button class="flex-1 bg-primary hover:bg-green-400 text-[#111714] font-bold py-2.5 rounded-lg text-sm transition-colors">
+                                                Book Now
+                                            </button>
+                                            <button class="size-10 flex items-center justify-center border border-[#3d5245] rounded-lg text-white hover:bg-[#29382f] transition-colors">
+                                                <span class="material-symbols-outlined text-[20px]">chat_bubble</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Trust Banner -->
+                        <div class="w-full bg-[#1c2620] border border-[#29382f] rounded-xl p-6 mb-10 flex flex-col md:flex-row items-center justify-between gap-4">
+                            <div class="flex items-center gap-4">
+                                <div class="bg-primary/10 p-3 rounded-full text-primary">
+                                    <span class="material-symbols-outlined text-3xl">verified_user</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-white font-bold text-lg">Verified Professionals Only</h3>
+                                    <p class="text-[#9eb7a8] text-sm">Every provider on GUKODESHA is vetted for safety and quality.</p>
+                                </div>
+                            </div>
+                            <a class="text-white text-sm font-medium underline decoration-primary hover:text-primary transition-colors"
+                               href="#">Learn about our verification process</a>
+                        </div>
+                        <!-- All Categories Grid -->
+                        <div class="mb-10">
+                            <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-1 pb-4">Browse All Services</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <!-- Card 4 -->
+                                <div class="flex flex-col rounded-xl overflow-hidden bg-[#1c2620] border border-[#29382f] hover:border-[#3d5245] transition-all group shadow-sm">
+                                    <div class="flex items-center p-4 gap-4">
+                                        <div class="size-16 rounded-lg bg-cover bg-center shrink-0"
+                                             data-alt="Close up of cleaning supplies in a bucket"
+                                             style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBkFQV24VkMWpft4_KAKlTiTTT01QqEI012S5xFU0QOGFmivmRyJ7bR2072rjVsPE-8M6NM3n2eykfDfqNRphZLFWA7F-KiT1BkG-c7JIWt-trkRh3DQ31K15aDJ64cPul_1diPOXk1IcaukhqVuYnTngKI0-3RXLjNDNw4rBafjNolKPJKNcTsGsFl6wjn0hFpkVhtFFwytJ6Yl60dRbpRRCdo3ubwqOEvFcUW4fV-bjcbWQZ7mu6rZNHJdedIZqQ5xLUyWCxruZM")'>
+                                        </div>
+                                        <div class="flex flex-col flex-1">
+                                            <h3 class="text-white text-base font-bold">Mama Safi Cleaning</h3>
+                                            <p class="text-[#9eb7a8] text-xs">Cleaning • Kigali</p>
+                                            <div class="flex items-center gap-1 mt-1">
+                                                <span class="material-symbols-outlined text-[14px] text-yellow-400">star</span>
+                                                <span class="text-white text-xs font-bold">4.5</span>
+                                                <span class="text-[#9eb7a8] text-xs">(84)</span>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-col justify-center">
+                                            <button class="bg-[#29382f] hover:bg-[#3d5245] text-primary p-2 rounded-full transition-colors">
+                                                <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card 5 -->
+                                <div class="flex flex-col rounded-xl overflow-hidden bg-[#1c2620] border border-[#29382f] hover:border-[#3d5245] transition-all group shadow-sm">
+                                    <div class="flex items-center p-4 gap-4">
+                                        <div class="size-16 rounded-lg bg-cover bg-center shrink-0"
+                                             data-alt="Gardener trimming green hedge"
+                                             style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAMtFLL_WifT1Z3rxwJ-UQuYVf8u3M7XYvcxvWycv8rNTdBukFrF8Vu5E8sVC4pxPmcmGvtCGendGmbNAmh3JagPaeHZZLu-Uq1cJBhbJfDWSS3WuFmRsOFwFYTn_1G5dTawcdbnzjFX8g5jdZXqOT0p6LdOYzXju1cruO5eTQTpGJDk11ymb7uwKHIl3rIydPHegZ-QhuPi50-LioumrbOsTQ9Z-HkChlLXZLvb_qnFXLWYbAPd5VxNCmmE1mn9dsGNgQaFHyBXsU")'>
+                                        </div>
+                                        <div class="flex flex-col flex-1">
+                                            <h3 class="text-white text-base font-bold">Green City Gardens</h3>
+                                            <p class="text-[#9eb7a8] text-xs">Gardening • Remera</p>
+                                            <div class="flex items-center gap-1 mt-1">
+                                                <span class="material-symbols-outlined text-[14px] text-yellow-400">star</span>
+                                                <span class="text-white text-xs font-bold">4.2</span>
+                                                <span class="text-[#9eb7a8] text-xs">(32)</span>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-col justify-center">
+                                            <button class="bg-[#29382f] hover:bg-[#3d5245] text-primary p-2 rounded-full transition-colors">
+                                                <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card 6 -->
+                                <div class="flex flex-col rounded-xl overflow-hidden bg-[#1c2620] border border-[#29382f] hover:border-[#3d5245] transition-all group shadow-sm">
+                                    <div class="flex items-center p-4 gap-4">
+                                        <div class="size-16 rounded-lg bg-cover bg-center shrink-0"
+                                             data-alt="Pest control worker spraying outdoors"
+                                             style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBtalK0rtiqm_T3Z5u_uazKXMvr19E0SLGVIrXfXDOllhVXTSbqHHdKf1lWCy47jjZAgNrsYIV5jgEtYWlo3iUvP3PadnAnNP3F1jd1vfyhohaMK_KLbSMnWh2RTMetkN0FhL1ITvSajTqwEXemITdp_FrgPfHe27aqTzqhuYnlwhSngaxX56d23VE0x5GUImhGNeD66ZT0zjhQtCT2Ngb6Z07GTBOJym9Agg06flN5jgLI2V5k5HFmuc-MdW7pmi0j-1dmPxiwyiM")'>
+                                        </div>
+                                        <div class="flex flex-col flex-1">
+                                            <h3 class="text-white text-base font-bold">Pest Control Ltd</h3>
+                                            <p class="text-[#9eb7a8] text-xs">Fumigation • Kigali</p>
+                                            <div class="flex items-center gap-1 mt-1">
+                                                <span class="material-symbols-outlined text-[14px] text-yellow-400">star</span>
+                                                <span class="text-white text-xs font-bold">4.8</span>
+                                                <span class="text-[#9eb7a8] text-xs">(156)</span>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-col justify-center">
+                                            <button class="bg-[#29382f] hover:bg-[#3d5245] text-primary p-2 rounded-full transition-colors">
+                                                <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-8 flex justify-center">
+                                <button class="flex items-center gap-2 border border-[#3d5245] bg-[#1c2620] hover:bg-[#29382f] text-white px-6 py-3 rounded-lg text-sm font-bold transition-colors">
+                                    Load More Providers
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Footer -->
+                {% include 'partial/footer.html' %}
+            </div>
+        </div>
+    </body>
+</html>

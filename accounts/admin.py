@@ -10,7 +10,7 @@ class ProfileInline(admin.StackedInline):
     model = Profile
     can_delete = False
     verbose_name_plural = 'Profiles'
-    fk_name = 'user'
+    # fk_name = 'user'
 
 
 class ProfileAdmin(admin.ModelAdmin):

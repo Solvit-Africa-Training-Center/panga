@@ -1,6 +1,9 @@
 # this is the latest version
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 97a9579860b32534779e35ddcb953d1b903b2807
 import random
 from django.conf import settings
 from django.db import models
@@ -17,6 +20,7 @@ class Profile(models.Model):
    SERVICE_PROVIDER = "SERVICE_PROVIDER"
 
 
+<<<<<<< HEAD
    ROLE_CHOICES = [
        (LANDLORD, 'Landlord'),
        (TENANT, 'Tenant'),
@@ -45,6 +49,19 @@ class Profile(models.Model):
 
    def __str__(self):
        return f"{self.user.email} - {self.role}"
+=======
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name="profile"
+    )
+    full_name = models.CharField(max_length=150)
+
+    role = models.CharField(max_length=30, choices=ROLE_CHOICES)
+    phone = models.CharField(max_length=20)
+    is_active = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+>>>>>>> 97a9579860b32534779e35ddcb953d1b903b2807
 
 
 

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>Browse Houses - GUKODESHA</title>
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+              rel="stylesheet" />
+        <script>
+        tailwind.config = {
+            darkMode: "class", 
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#38e07b",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#111714",
+                        "surface-dark": "#1c2620",
+                        "border-dark": "#29382f",
+                        "text-secondary": "#9eb7a8",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+        </script>
+        <style>
+        /* Custom scrollbar for better aesthetics in dark mode */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111714; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #29382f; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #38e07b; 
+        }
+        </style>
+    </head>
+    <body class="bg-background-dark text-white font-display overflow-x-hidden min-h-screen flex flex-col">
+        <!-- Top Navigation Bar -->
+        {% include 'partial/header.html' %}
+        <div class="flex flex-1 w-full max-w-[1440px] mx-auto">
+            <!-- Left Sidebar: Filters -->
+            <aside class="hidden lg:flex flex-col w-72 border-r border-border-dark bg-[#111714] p-6 gap-8 sticky top-[73px] h-[calc(100vh-73px)] overflow-y-auto">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-bold text-white">Filters</h3>
+                    <button class="text-text-secondary text-sm font-medium hover:text-white">Reset</button>
+                </div>
+                <!-- Location Filter -->
+                <div class="flex flex-col gap-3">
+                    <label class="text-white text-sm font-medium">Location</label>
+                    <div class="relative">
+                        <select class="w-full appearance-none rounded-lg border border-border-dark bg-surface-dark py-3 px-4 text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+                            <option>Kigali, All Districts</option>
+                            <option>Gasabo</option>
+                            <option>Kicukiro</option>
+                            <option>Nyarugenge</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-text-secondary">
+                            <span class="material-symbols-outlined">expand_more</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Property Type -->
+                <div class="flex flex-col gap-3">
+                    <label class="text-white text-sm font-medium">Property Type</label>
+                    <div class="relative">
+                        <select class="w-full appearance-none rounded-lg border border-border-dark bg-surface-dark py-3 px-4 text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+                            <option>All Types</option>
+                            <option>Apartment</option>
+                            <option>House / Villa</option>
+                            <option>Studio</option>
+                            <option>Guest House</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-text-secondary">
+                            <span class="material-symbols-outlined">expand_more</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Price Range Slider -->
+                <div class="flex flex-col gap-4">
+                    <div class="flex justify-between items-center">
+                        <label class="text-white text-sm font-medium">Price Range (UGX)</label>
+                    </div>
+                    <div class="flex h-[38px] w-full pt-1.5 px-2">
+                        <div class="relative flex h-1 w-full rounded-sm bg-border-dark">
+                            <!-- Active Track -->
+                            <div class="absolute left-[10%] right-[30%] h-1 rounded-sm bg-primary"></div>
+                            <!-- Thumb 1 -->
+                            <div class="absolute left-[10%] -top-1.5 -ml-1.5 cursor-grab">
+                                <div class="size-4 rounded-full bg-white shadow border border-gray-300"></div>
+                                <div class="absolute -left-2 top-5 w-max">
+                                    <p class="text-white text-xs font-normal bg-surface-dark px-1 rounded">200k</p>
+                                </div>
+                            </div>
+                            <!-- Thumb 2 -->
+                            <div class="absolute right-[30%] -top-1.5 -mr-1.5 cursor-grab">
+                                <div class="size-4 rounded-full bg-white shadow border border-gray-300"></div>
+                                <div class="absolute -right-2 top-5 w-max">
+                                    <p class="text-white text-xs font-normal bg-surface-dark px-1 rounded">1.5M</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Bedrooms -->
+                <div class="flex flex-col gap-3 mt-4">
+                    <label class="text-white text-sm font-medium">Bedrooms</label>
+                    <div class="flex gap-2">
+                        <button class="flex-1 rounded-lg border border-border-dark bg-surface-dark py-2 text-sm text-white hover:border-primary hover:text-primary transition-colors">
+                            Any
+                        </button>
+                        <button class="flex-1 rounded-lg border border-border-dark bg-surface-dark py-2 text-sm text-white hover:border-primary hover:text-primary transition-colors">
+                            1
+                        </button>
+                        <button class="flex-1 rounded-lg border border-primary bg-primary/20 py-2 text-sm text-primary font-bold transition-colors">
+                            2
+                        </button>
+                        <button class="flex-1 rounded-lg border border-border-dark bg-surface-dark py-2 text-sm text-white hover:border-primary hover:text-primary transition-colors">
+                            3+
+                        </button>
+                    </div>
+                </div>
+                <!-- Amenities Checkboxes -->
+                <div class="flex flex-col gap-3">
+                    <label class="text-white text-sm font-medium">Amenities</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <div class="relative flex items-center">
+                                <input class="peer size-5 appearance-none rounded border border-border-dark bg-surface-dark checked:border-primary checked:bg-primary transition-all"
+                                       type="checkbox" />
+                                <span class="material-symbols-outlined absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[16px] text-[#111714] opacity-0 peer-checked:opacity-100 font-bold">check</span>
+                            </div>
+                            <span class="text-text-secondary text-sm group-hover:text-white transition-colors">Verified Landlord</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <div class="relative flex items-center">
+                                <input class="peer size-5 appearance-none rounded border border-border-dark bg-surface-dark checked:border-primary checked:bg-primary transition-all"
+                                       type="checkbox" />
+                                <span class="material-symbols-outlined absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[16px] text-[#111714] opacity-0 peer-checked:opacity-100 font-bold">check</span>
+                            </div>
+                            <span class="text-text-secondary text-sm group-hover:text-white transition-colors">Water Tank</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <div class="relative flex items-center">
+                                <input checked=""
+                                       class="peer size-5 appearance-none rounded border border-border-dark bg-surface-dark checked:border-primary checked:bg-primary transition-all"
+                                       type="checkbox" />
+                                <span class="material-symbols-outlined absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[16px] text-[#111714] opacity-0 peer-checked:opacity-100 font-bold">check</span>
+                            </div>
+                            <span class="text-text-secondary text-sm group-hover:text-white transition-colors">Security Guard</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <div class="relative flex items-center">
+                                <input class="peer size-5 appearance-none rounded border border-border-dark bg-surface-dark checked:border-primary checked:bg-primary transition-all"
+                                       type="checkbox" />
+                                <span class="material-symbols-outlined absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[16px] text-[#111714] opacity-0 peer-checked:opacity-100 font-bold">check</span>
+                            </div>
+                            <span class="text-text-secondary text-sm group-hover:text-white transition-colors">Parking</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <div class="relative flex items-center">
+                                <input class="peer size-5 appearance-none rounded border border-border-dark bg-surface-dark checked:border-primary checked:bg-primary transition-all"
+                                       type="checkbox" />
+                                <span class="material-symbols-outlined absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[16px] text-[#111714] opacity-0 peer-checked:opacity-100 font-bold">check</span>
+                            </div>
+                            <span class="text-text-secondary text-sm group-hover:text-white transition-colors">Wi-Fi</span>
+                        </label>
+                    </div>
+                </div>
+                <button class="mt-4 flex w-full items-center justify-center rounded-lg bg-primary py-3 text-[#111714] font-bold hover:bg-opacity-90 transition-opacity">
+                    Apply Filters
+                </button>
+            </aside>
+            <!-- Main Content -->
+            <main class="flex-1 flex flex-col min-w-0">
+                <!-- Breadcrumbs Area -->
+                <div class="px-6 pt-6 pb-2">
+                    <div class="flex flex-wrap gap-2 items-center text-sm">
+                        <a class="text-text-secondary hover:text-primary transition-colors"
+                           href="#">Home</a>
+                        <span class="text-text-secondary">/</span>
+                        <a class="text-text-secondary hover:text-primary transition-colors"
+                           href="#">Rentals</a>
+                        <span class="text-text-secondary">/</span>
+                        <span class="text-white font-medium">Kigali</span>
+                    </div>
+                </div>
+                <!-- Page Header & Sorting -->
+                <div class="px-6 py-4">
+                    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+                        <div>
+                            <h1 class="text-white text-3xl md:text-4xl font-extrabold leading-tight tracking-[-0.033em] mb-2">
+                                Properties for Rent in Kigali
+                            </h1>
+                            <p class="text-text-secondary text-base">145 listings found</p>
+                        </div>
+                        <!-- Mobile Filter Toggle (Visible only on mobile) -->
+                        <button class="lg:hidden flex items-center gap-2 rounded-lg border border-border-dark bg-surface-dark px-4 py-2.5 text-white">
+                            <span class="material-symbols-outlined">filter_list</span>
+                            <span>Filters</span>
+                        </button>
+                    </div>
+                    <div class="flex flex-wrap items-center justify-between gap-4 border-y border-border-dark py-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-text-secondary text-sm hidden sm:inline">Sort by:</span>
+                            <div class="relative">
+                                <select class="appearance-none bg-transparent text-white font-medium pr-8 pl-2 py-1 focus:outline-none cursor-pointer">
+                                    <option class="bg-surface-dark">Newest First</option>
+                                    <option class="bg-surface-dark">Price: Low to High</option>
+                                    <option class="bg-surface-dark">Price: High to Low</option>
+                                </select>
+                                <span class="material-symbols-outlined absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none text-text-secondary text-lg">expand_more</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button class="p-2 text-primary bg-surface-dark rounded border border-border-dark">
+                                <span class="material-symbols-outlined block">grid_view</span>
+                            </button>
+                            <button class="p-2 text-text-secondary hover:text-white transition-colors">
+                                <span class="material-symbols-outlined block">view_list</span>
+                            </button>
+                            <div class="h-6 w-px bg-border-dark mx-1"></div>
+                            <button class="flex items-center gap-2 text-white text-sm font-medium hover:text-primary transition-colors">
+                                <span class="material-symbols-outlined">map</span>
+                                <span class="hidden sm:inline">Map View</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Listings Grid -->
+                <div class="flex-1 p-6 pt-2">
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                        <!-- Card 1 -->
+                        <article class="group relative flex flex-col overflow-hidden rounded-xl bg-surface-dark border border-border-dark hover:border-primary/50 transition-colors duration-300">
+                            <div class="relative aspect-[4/3] w-full overflow-hidden bg-gray-800">
+                                <img alt="Modern white two-story house with balcony"
+                                     class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                     data-alt="Modern house exterior"
+                                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaZVgAk1ygqFM4kkLSCEQEYHD6OTkR7ff8d-7fq6U8Fk3F7DmRtRksaP4sYwfBDX9hvfDWtIoeKMFMolBz6I0Laeo90lPs0Peyas9jrDpQ2piV11FCAmVbaQatTSxSaCBcgAEig_Xen_JHy3b2E4cC6yT2TxLDv0N5XS36mJhqsmA7O97kl9AX5Ph9ytrWoBrfx556dqJqIhNI_HAqla_7K7Z6Jv5a68I5iDZ36qL3nnPZQ_naDD2Y6cA654mAqijlPRXUJ3Cx28I" />
+                                <!-- Badges -->
+                                <div class="absolute top-3 left-3 flex gap-2">
+                                    <span class="bg-primary text-[#111714] text-xs font-bold px-2 py-1 rounded shadow-sm flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[14px]">verified</span> Verified
+                                    </span>
+                                </div>
+                                <!-- Heart Button -->
+                                <button class="absolute top-3 right-3 p-2 rounded-full bg-black/40 text-white hover:bg-black/60 hover:text-red-400 transition-all backdrop-blur-sm">
+                                    <span class="material-symbols-outlined block text-[20px]">favorite</span>
+                                </button>
+                            </div>
+                            <div class="flex flex-col gap-2 p-4">
+                                <div class="flex items-start justify-between">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-white group-hover:text-primary transition-colors">Modern Villa</h3>
+                                        <p class="text-text-secondary text-sm flex items-center gap-1 mt-1">
+                                            <span class="material-symbols-outlined text-[16px]">location_on</span> Nyarutarama, Kigali
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4 py-3 border-b border-border-dark">
+                                    <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                                        <span class="material-symbols-outlined text-text-secondary text-[18px]">bed</span>
+                                        <span>4 Bed</span>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                                        <span class="material-symbols-outlined text-text-secondary text-[18px]">bathtub</span>
+                                        <span>3 Bath</span>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                                        <span class="material-symbols-outlined text-text-secondary text-[18px]">square_foot</span>
+                                        <span>350 m²</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between pt-2">
+                                    <p class="text-primary text-lg font-bold">
+                                        UGX 2.5M <span class="text-sm font-normal text-text-secondary">/ month</span>
+                                    </p>
+                                    <button class="text-sm font-bold text-white bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded transition-colors border border-border-dark">
+                                        Details
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                        <!-- Card 2 -->
+                        <article class="group relative flex flex-col overflow-hidden rounded-xl bg-surface-dark border border-border-dark hover:border-primary/50 transition-colors duration-300">
+                            <div class="relative aspect-[4/3] w-full overflow-hidden bg-gray-800">
+                                <img alt="Interior of a modern apartment living room"
+                                     class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                     data-alt="Apartment interior living room"
+                                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLjt-dgC7YJ7pFPuWTH5OxBJnnpGoNu8u51ZYlXiYT8Ul6U2HSL11m1-tJg6-kdDn7tmv4FUuYqgHqk4acf6BLFXGN6Q6INkvqUpH265rjk6Bp6DHPn2uNPvFCughz7E6iRkg0nTOnbJUWbV7INbdORjFh2H0JUoaWHq0ilsA7RUlktj0ZbTqjVIQ_y1r0yJ7s_dV3Ye8h0FZDO3YMo5XpPHwHlN_asa6-_aCnJqg5hFs6rhoksTAselySh6aPxYhwg66-ubcSD5M" />
+                                <div class="absolute top-3 left-3 flex gap-2">
+                                    <span class="bg-[#3b82f6] text-white text-xs font-bold px-2 py-1 rounded shadow-sm">New</span>
+                                </div>
+                                <button class="absolute top-3 right-3 p-2 rounded-full bg-black/40 text-white hover:bg-black/60 hover:text-red-400 transition-all backdrop-blur-sm">
+                                    <span class="material-symbols-outlined block text-[20px]">favorite</span>
+                                </button>
+                            </div>
+                            <div class="flex flex-col gap-2 p-4">
+                                <div class="flex items-start justify-between">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-white group-hover:text-primary transition-colors">Sunny Apartment</h3>
+                                        <p class="text-text-secondary text-sm flex items-center gap-1 mt-1">
+                                            <span class="material-symbols-outlined text-[16px]">location_on</span> Kicukiro, Kigali
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4 py-3 border-b border-border-dark">
+                                    <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                                        <span class="material-symbols-outlined text-text-secondary text-[18px]">bed</span>
+                                        <span>2 Bed</span>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                                        <span class="material-symbols-outlined text-text-secondary text-[18px]">bathtub</span>
+                                        <span>2 Bath</span>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                                        <span class="material-symbols-outlined text-text-secondary text-[18px]">wifi</span>
+                                        <span>Fiber</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between pt-2">
+                                    <p class="text-primary text-lg font-bold">
+                                        UGX 850k <span class="text-sm font-normal text-text-secondary">/ month</span>
+                                    </p>
+                                    <button class="text-sm font-bold text-white bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded transition-colors border border-border-dark">
+                                        Details
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                        <!-- Card 3 -->
+                        <article class="group relative flex flex-col overflow-hidden rounded-xl bg-surface-dark border border-border-dark hover:border-primary/50 transition-colors duration-300">
+                            <div class="relative aspect-[4/3] w-full overflow-hidden bg-gray-800">
+                                <img alt="White modern house with a pool"
+                                     class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                     data-alt="Luxury house with pool"
+                                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8Yp0AFtDd0Un2Mm05nWaQ511YHgXAltV9R1WjAkesC1AG5Pn-NT2voMnYnfOvIn7fqmBw2WNziqZm-ahitx74-1fUE0W9fyw1r-5oY9VgJ63r79KPzXGT42C9LxC_N-HYQA359hhd21Szd0mfN7eDJBmahlAF5jzgbIIqGpj0zkqW_AB49R_6h_W28h_Uv5Re7K2u2c-F691Ii2FSFqIsUPFpldElw7z-rfwImc6ciQbK8M9_W8_WblbQKgaUYatWzqxYeblhGWo" />
+                                <div class="absolute top-3 left-3 flex gap-2">
+                                    <span class="bg-primary text-[#111714] text-xs font-bold px-2 py-1 rounded shadow-sm flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[14px]">verified</span> Verified
+                                    </span>
+                                </div>
+                                <button class="absolute top-3 right-3 p-2 rounded-full bg-black/40 text-white hover:bg-black/60 hover:text-red-400 transition-all backdrop-blur-sm">
+                                    <span class="material-symbols-outlined block text-[20px]">favorite</span>
+                                </button>
+                            </div>
+                            <div class="flex flex-col gap-2 p-4">
+                                <div class="flex items-start justify-between">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-white group-hover:text-primary transition-colors">Executive Suite</h3>
+                                        <p class="text-text-secondary text-sm flex items-center gap-1 mt-1">
+                                            <span class="material-symbols-outlined text-[16px]">location_on</span> Gacuriro, Kigali
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4 py-3 border-b border-border-dark">
+                                    <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                                        <span class="material-symbols-outlined text-text-secondary text-[18px]">bed</span>
+                                        <span>3 Bed</span>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                                        <span class="material-symbols-outlined text-text-secondary text-[18px]">bathtub</span>
+                                        <span>2 Bath</span>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                                        <span class="material-symbols-outlined text-text-secondary text-[18px]">local_parking</span>
+                                        <span>2 Spots</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between pt-2">
+                                    <p class="text-primary text-lg font-bold">
+                                        UGX 1.2M <span class="text-sm font-normal text-text-secondary">/ month</span>
+                                    </p>
+                                    <button class="text-sm font-bold text-white bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded transition-colors border border-border-dark">
+                                        Details
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                        <!-- Card 4 -->
+                        <article class="group relative flex flex-col overflow-hidden rounded-xl bg-surface-dark border border-border-dark hover:border-primary/50 transition-colors duration-300">
+                            <div class="relative aspect-[4/3] w-full overflow-hidden bg-gray-800">
+                                <img alt="Cozy studio apartment interior"
+                                     class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                     data-alt="Studio apartment room"
+                                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNv5Apy9BTw4l7UWM63jhjA5SvwbRMaK9A7BZwG_w5Ar8HyGjAnjNu3Lr4hWoeQhtzwYrB2QDDj6AqWpg4AkMO4hYgo-ku-EQ2DgXbnY3lkTZdhKWQgu1iZPGBQ_Ghnh5Shpl0idK1P8k6K7zqkjjNF4cXUiMlOmlXm3guKtiWrej4c-yiR9JRQEgYNlNrNfMsQmKsnLfdlcnroY5syPmLw9PfpD9tIw_sTPWEPUfl1oVp6wsH77IejFNMgGOldJjOCafMz1CqWro" />
+                                <button class="absolute top-3 right-3 p-2 rounded-full bg-black/40 text-white hover:bg-black/60 hover:text-red-400 transition-all backdrop-blur-sm">
+                                    <span class="material-symbols-outlined block text-[20px]">favorite</span>
+                                </button>
+                            </div>
+                            <div class="flex flex-col gap-2 p-4">
+                                <div class="flex items-start justify-between">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-white group-hover:text-primary transition-colors">Cozy Studio</h3>
+                                        <p class="text-text-secondary text-sm flex items-center gap-1 mt-1">
+                                            <span class="material-symbols-outlined text-[16px]">location_on</span> Kimihurura, Kigali
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4 py-3 border-b border-border-dark">
+                                    <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                                        <span class="material-symbols-outlined text-text-secondary text-[18px]">bed</span>
+                                        <span>Studio</span>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                                        <span class="material-symbols-outlined text-text-secondary text-[18px]">bathtub</span>
+                                        <span>1 Bath</span>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                                        <span class="material-symbols-outlined text-text-secondary text-[18px]">bolt</span>
+                                        <span>Backup</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between pt-2">
+                                    <p class="text-primary text-lg font-bold">
+                                        UGX 450k <span class="text-sm font-normal text-text-secondary">/ month</span>
+                                    </p>
+                                    <button class="text-sm font-bold text-white bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded transition-colors border border-border-dark">
+                                        Details
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                        <!-- Card 5 -->
+                        <article class="group relative flex flex-col overflow-hidden rounded-xl bg-surface-dark border border-border-dark hover:border-primary/50 transition-colors duration-300">
+                            <div class="relative aspect-[4/3] w-full overflow-hidden bg-gray-800">
+                                <img alt="Large modern apartment building"
+                                     class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                     data-alt="Apartment building exterior"
+                                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7LCUDcRe_YYnL4rJASzuV-H28AWBrx7zGaaj5Py0vaE5J6GypFUsuizFIcU1mRc3hZ6dtHdl3FF9LwkutI_uOnOlQh99zes5m5D15ijhPfagNycnlQ4xahP53m0vh9HqtfcOQjQFH1tiUd7KdCDGaM2vBJz3350x7-RlvBXqOys0W6RyQxNh2Nb4EEYAMiu-TxDV1zuWeGfMC6lqfRrotN3toQcjwtC7FCeTdhIYsPk7zqs7kAOWsWT2I9hLH-OOq_XQgGFEcZBA" />
+                                <div class="absolute top-3 left-3 flex gap-2">
+                                    <span class="bg-primary text-[#111714] text-xs font-bold px-2 py-1 rounded shadow-sm flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[14px]">verified</span> Verified
+                                    </span>
+                                </div>
+                                <button class="absolute top-3 right-3 p-2 rounded-full bg-black/40 text-white hover:bg-black/60 hover:text-red-400 transition-all backdrop-blur-sm">
+                                    <span class="material-symbols-outlined block text-[20px]">favorite</span>
+                                </button>
+                            </div>
+                            <div class="flex flex-col gap-2 p-4">
+                                <div class="flex items-start justify-between">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-white group-hover:text-primary transition-colors">Greenview Heights</h3>
+                                        <p class="text-text-secondary text-sm flex items-center gap-1 mt-1">
+                                            <span class="material-symbols-outlined text-[16px]">location_on</span> Kiyovu, Kigali
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4 py-3 border-b border-border-dark">
+                                    <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                                        <span class="material-symbols-outlined text-text-secondary text-[18px]">bed</span>
+                                        <span>3 Bed</span>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                                        <span class="material-symbols-outlined text-text-secondary text-[18px]">bathtub</span>
+                                        <span>2.5 Bath</span>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                                        <span class="material-symbols-outlined text-text-secondary text-[18px]">pool</span>
+                                        <span>Pool</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between pt-2">
+                                    <p class="text-primary text-lg font-bold">
+                                        UGX 1.8M <span class="text-sm font-normal text-text-secondary">/ month</span>
+                                    </p>
+                                    <button class="text-sm font-bold text-white bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded transition-colors border border-border-dark">
+                                        Details
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                        <!-- Card 6 -->
+                        <article class="group relative flex flex-col overflow-hidden rounded-xl bg-surface-dark border border-border-dark hover:border-primary/50 transition-colors duration-300">
+                            <div class="relative aspect-[4/3] w-full overflow-hidden bg-gray-800">
+                                <img alt="Kitchen interior with modern appliances"
+                                     class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                     data-alt="Modern kitchen interior"
+                                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPlH4pXeF1P3X5jlDHz5YS1aim4tLpRewTLzqCwWO6QpjtBgie7oXfNGrB39sGDjPp_e5DS6G0VWvFCxFpzNj2qf8PGerW8o4Ny5wSyHBtjqP--3mTBO4CZXQLtXl3uwyIbdCUAokKqFxS4Iv4I-DXOVT2164kpflR9HODx4ZOoxWFTfkOxkNxbl5hWi_yrwhtIQ0bQuC96IwQNOqmSI1DJwqh8rQLv55yqXKSnf13OFzRotBMLiXXIIzovs7ivl-9SEaELX2I_5Y" />
+                                <button class="absolute top-3 right-3 p-2 rounded-full bg-black/40 text-white hover:bg-black/60 hover:text-red-400 transition-all backdrop-blur-sm">
+                                    <span class="material-symbols-outlined block text-[20px]">favorite</span>
+                                </button>
+                            </div>
+                            <div class="flex flex-col gap-2 p-4">
+                                <div class="flex items-start justify-between">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-white group-hover:text-primary transition-colors">Family Home</h3>
+                                        <p class="text-text-secondary text-sm flex items-center gap-1 mt-1">
+                                            <span class="material-symbols-outlined text-[16px]">location_on</span> Remera, Kigali
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4 py-3 border-b border-border-dark">
+                                    <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                                        <span class="material-symbols-outlined text-text-secondary text-[18px]">bed</span>
+                                        <span>4 Bed</span>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                                        <span class="material-symbols-outlined text-text-secondary text-[18px]">bathtub</span>
+                                        <span>3 Bath</span>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                                        <span class="material-symbols-outlined text-text-secondary text-[18px]">shield</span>
+                                        <span>Secure</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between pt-2">
+                                    <p class="text-primary text-lg font-bold">
+                                        UGX 900k <span class="text-sm font-normal text-text-secondary">/ month</span>
+                                    </p>
+                                    <button class="text-sm font-bold text-white bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded transition-colors border border-border-dark">
+                                        Details
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <!-- Pagination -->
+                    <div class="flex items-center justify-center gap-2 mt-12 mb-8">
+                        <button class="flex h-10 w-10 items-center justify-center rounded-lg border border-border-dark bg-surface-dark text-white hover:border-primary hover:text-primary transition-all disabled:opacity-50">
+                            <span class="material-symbols-outlined text-lg">chevron_left</span>
+                        </button>
+                        <button class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-[#111714] font-bold shadow-lg shadow-primary/20">
+                            1
+                        </button>
+                        <button class="flex h-10 w-10 items-center justify-center rounded-lg border border-border-dark bg-surface-dark text-white hover:border-primary hover:text-primary transition-all">
+                            2
+                        </button>
+                        <button class="flex h-10 w-10 items-center justify-center rounded-lg border border-border-dark bg-surface-dark text-white hover:border-primary hover:text-primary transition-all">
+                            3
+                        </button>
+                        <span class="text-text-secondary px-2">...</span>
+                        <button class="flex h-10 w-10 items-center justify-center rounded-lg border border-border-dark bg-surface-dark text-white hover:border-primary hover:text-primary transition-all">
+                            12
+                        </button>
+                        <button class="flex h-10 w-10 items-center justify-center rounded-lg border border-border-dark bg-surface-dark text-white hover:border-primary hover:text-primary transition-all">
+                            <span class="material-symbols-outlined text-lg">chevron_right</span>
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>

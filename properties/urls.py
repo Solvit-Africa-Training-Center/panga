@@ -7,6 +7,7 @@ urlpatterns = [
     # Home
     path('', views.home, name='home'), 
 
+<<<<<<< HEAD
     path('create/', views.house_create, name='house_create'),
     path('list/', views.house_list, name='house_list'),
     path('available/', views.available_house, name='available_house'),
@@ -19,3 +20,7 @@ urlpatterns = [
     
   
 ]
+=======
+
+]
+>>>>>>> 97a9579860b32534779e35ddcb953d1b903b2807
