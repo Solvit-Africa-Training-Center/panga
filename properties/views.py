@@ -2,13 +2,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from .models import House, ListingImage, Province, District, Sector, Cell, Village
+from .models import House, ListingImage,Country, Province, District, Sector, Cell, Village
 from .forms import HouseForm, ListingImageFormSet, HouseSearchForm 
-
+@login_required
 def home(request):
     return render(request, "properties/homepage.html", {})
-
+@login_required
 def house_list(request):
     #Display list of all houses with search and filtering
     houses = House.objects.filter(is_active=True).select_related('location').order_by('-date_of_listing')
@@ -72,7 +73,8 @@ def house_list(request):
         'total_count': houses.count()
     }
     return render(request, 'properties/house_list.html', context)
-
+ 
+@login_required
 def house_create(request):
     """Create a new house listing"""
     if request.method == 'POST':
@@ -80,7 +82,43 @@ def house_create(request):
         image_formset = ListingImageFormSet(request.POST, request.FILES)
         
         if form.is_valid() and image_formset.is_valid():
-            house = form.save()
+            house = form.save(commit=False)           
+         
+            location_text = form.cleaned_data.get('location_text')
+            if location_text:               
+                village = Village.objects.filter(name__iexact=location_text).first()                
+                if not village:            
+                                    
+                    country, _ = Country.objects.get_or_create(
+                        name="Rwanda",
+                        defaults={'code': 'RW'}
+                    )
+                    province, _ = Province.objects.get_or_create(
+                        name="User Specified",
+                        country=country
+                    )
+                    district, _ = District.objects.get_or_create(
+                        name="User Specified",
+                        province=province
+                    )
+                    sector, _ = Sector.objects.get_or_create(
+                        name="User Specified",
+                        district=district
+                    )
+                    cell, _ = Cell.objects.get_or_create(
+                        name="User Specified",
+                        sector=sector
+                    )                    
+                   
+                    village = Village.objects.create(
+                        name=location_text,
+                        cell=cell
+                    )
+                
+                house.location = village
+            
+            house.save()           
+            
             image_formset.instance = house
             image_formset.save()
             
@@ -98,7 +136,9 @@ def house_create(request):
         'title': 'Create New Listing'
     }
     return render(request, 'properties/house_create.html', context)
-
+            
+    
+@login_required
 def house_detail(request, pk):
     """Display details of a specific house listing"""
     house = get_object_or_404(House, pk=pk, is_active=True)
@@ -110,7 +150,7 @@ def house_detail(request, pk):
     }
     return render(request, 'properties/house_detail.html', context)
 
-
+@login_required
 def house_update(request, pk):
     """Update an existing house listing"""
     house = get_object_or_404(House, pk=pk)
@@ -124,7 +164,7 @@ def house_update(request, pk):
             image_formset.save()
             
             messages.success(request, 'House listing updated successfully!')
-            return redirect('properties:house_create', pk=house.pk)  # Add 'properties:' here
+            return redirect('properties:house_create', pk=house.pk)  
         else:
             messages.error(request, 'Please correct the errors below.')
     else:
@@ -139,7 +179,7 @@ def house_update(request, pk):
     }
     return render(request, 'properties/house_create.html', context)
 
-
+@login_required
 def house_delete(request, pk):
     """Delete a house listing"""
     house = get_object_or_404(House, pk=pk)
@@ -152,7 +192,7 @@ def house_delete(request, pk):
     context = {'house': house}
     return render(request, 'properties/house_confirm_delete.html', context)
 
-
+@login_required
 def house_search(request):
     """Search houses by query text"""
     query = request.GET.get('q', '')
@@ -198,74 +238,9 @@ def house_search(request):
         'query': query,
         'total_count': houses.count()
     }
-    return render(request, 'properties/house_search.html', context)
-    
+    return render(request, 'properties/house_search.html', context)   
 
-
-# AJAX views for cascading dropdowns
-def load_provinces(request):
-    #Load provinces based on selected country
-    country_id = request.GET.get('country_id')
-    provinces = Province.objects.filter(country_id=country_id).order_by('name')
-    return JsonResponse(list(provinces.values('id', 'name')), safe=False)
-
-
-def load_districts(request):
-   #Load districts based on selected province
-    province_id = request.GET.get('province_id')
-    districts = District.objects.filter(province_id=province_id).order_by('name')
-    return JsonResponse(list(districts.values('id', 'name')), safe=False)
-
-
-def load_sectors(request):
-    #Load sectors based on selected district
-    district_id = request.GET.get('district_id')
-    sectors = Sector.objects.filter(district_id=district_id).order_by('name')
-    return JsonResponse(list(sectors.values('id', 'name')), safe=False)
-
-
-def load_cells(request):
-   #Load cells based on selected sector
-    sector_id = request.GET.get('sector_id')
-    cells = Cell.objects.filter(sector_id=sector_id).order_by('name')
-    return JsonResponse(list(cells.values('id', 'name')), safe=False)
-
-
-def load_villages(request):
-   #Load villages based on selected cell
-    cell_id = request.GET.get('cell_id')
-    villages = Village.objects.filter(cell_id=cell_id).order_by('name')
-    return JsonResponse(list(villages.values('id', 'name')), safe=False)
-
-
-def houses_by_location(request):
-    #Filter houses by location hierarchy
-    village_id = request.GET.get('village')
-    cell_id = request.GET.get('cell')
-    sector_id = request.GET.get('sector')
-    district_id = request.GET.get('district')
-    province_id = request.GET.get('province')
-    
-    houses = House.objects.filter(is_active=True)
-    
-    if village_id:
-        houses = houses.filter(location_id=village_id)
-    elif cell_id:
-        houses = houses.filter(location__cell_id=cell_id)
-    elif sector_id:
-        houses = houses.filter(location__cell__sector_id=sector_id)
-    elif district_id:
-        houses = houses.filter(location__cell__sector__district_id=district_id)
-    elif province_id:
-        houses = houses.filter(location__cell__sector__district__province_id=province_id)
-    
-    context = {
-        'properties': houses,
-        'location_filter': True
-    }
-    return render(request, 'properties/house_list.html', context)
-
-
+@login_required
 def available_house(request):
     #Display only available houses
     houses = House.objects.filter(status='Available', is_active=True).order_by('-date_of_listing')
@@ -281,7 +256,7 @@ def available_house(request):
     }
     return render(request, 'properties/house_list.html', context)
 
-
+@login_required
 def house_by_type(request, house_type):
     #Display houses filtered by type
     houses = House.objects.filter(

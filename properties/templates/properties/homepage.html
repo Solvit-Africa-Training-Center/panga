@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 {% load static %}
-=======
->>>>>>> 97a9579860b32534779e35ddcb953d1b903b2807
 <!DOCTYPE html>
 <html class="dark" lang="en">
     <head>
@@ -11,11 +8,6 @@
         <!-- Google Fonts -->
         <link href="https://fonts.googleapis.com" rel="preconnect" />
         <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-<<<<<<< HEAD
-        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet" />
-        <!-- Material Icons -->
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
-=======
         <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap"
               rel="stylesheet" />
         <!-- Material Icons -->
@@ -23,7 +15,6 @@
               rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
               rel="stylesheet" />
->>>>>>> 97a9579860b32534779e35ddcb953d1b903b2807
         <!-- Tailwind CSS -->
         <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
         <!-- Theme Configuration -->
@@ -55,36 +46,23 @@
         <header class="sticky top-0 z-50 w-full border-b border-border-dark bg-background-dark/95 backdrop-blur-md">
             <div class="px-4 md:px-10 py-3 flex items-center justify-between mx-auto max-w-[1440px]">
                 <div class="flex items-center gap-3 text-white cursor-pointer">
-<<<<<<< HEAD
                     <a href="{% url 'properties:home' %}" class="flex items-center gap-3 text-white">
-                        <span class="material-symbols-outlined text-primary text-4xl">roofing</span>
-                        <h2 class="text-2xl font-bold tracking-tight">GUKODESHA</h2>
-                    </a>
-=======
                     <div class="flex items-center gap-3 text-white mb-4">
                         <span class="material-symbols-outlined text-primary text-4xl">roofing</span>
                         <h2 class="text-2xl font-bold tracking-tight">GUKODESHA</h2>
                     </div>
->>>>>>> 97a9579860b32534779e35ddcb953d1b903b2807
-                </div>
+                </a>
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex flex-1 justify-end gap-8 items-center">
                     <nav class="flex items-center gap-8">
-<<<<<<< HEAD
-                        <a class="text-white hover:text-primary transition-colors text-sm font-medium leading-normal" href="{% url 'properties:house_list' %}">Rentals</a>
-                        <a class="text-white hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Services</a>
-                        <a class="text-white hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Community</a>
-                        <a class="text-white hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Alerts</a>
-=======
                         <a class="text-white hover:text-primary transition-colors text-sm font-medium leading-normal"
-                           href="#">Rentals</a>
+                           href="{% url 'properties:available_house' %}">Rentals</a>
                         <a class="text-white hover:text-primary transition-colors text-sm font-medium leading-normal"
                            href="#">Services</a>
                         <a class="text-white hover:text-primary transition-colors text-sm font-medium leading-normal"
                            href="#">Community</a>
                         <a class="text-white hover:text-primary transition-colors text-sm font-medium leading-normal"
                            href="#">Alerts</a>
->>>>>>> 97a9579860b32534779e35ddcb953d1b903b2807
                     </nav>
                     <div class="h-6 w-px bg-border-dark"></div>
                     <div class="flex items-center gap-4 text-text-secondary text-sm font-bold">
@@ -93,11 +71,6 @@
                         <button class="hover:text-white transition-colors">SW</button>
                     </div>
                     <div class="flex gap-3">
-<<<<<<< HEAD
-                        <a href="{% url 'properties:house_create' %}" class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary-hover text-background-dark text-sm font-bold shadow-[0_0_15px_rgba(56,224,123,0.3)] transition-all">
-                            <span class="truncate">List Property</span>
-                        </a>
-=======
                         {% if not request.user.is_authenticated %}
                             <button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-transparent border border-border-dark hover:bg-surface-dark text-white text-sm font-bold transition-all">
                                 <span class="truncate"><a href="{% url 'login' %}">Log In</a></span>
@@ -107,13 +80,35 @@
                             </button>
                         {% else %}
                             <button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary-hover text-background-dark text-sm font-bold shadow-[0_0_15px_rgba(56,224,123,0.3)] transition-all">
-                                <span class="truncate">Hey {{ request.user.username }}</span>
+                                {% if request.user.is_authenticated and user.profile.role == 'LANDLORD' %}
+                                <span class="truncate"><a href="{% url 'properties:house_create' %}">List House</a></span>
                             </button>
-                            <button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-transparent border border-border-dark hover:bg-surface-dark text-white text-sm font-bold transition-all">
+                            <button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary-hover text-background-dark text-sm font-bold shadow-[0_0_15px_rgba(56,224,123,0.3)] transition-all">
+                                    <span class="truncate"> {{ user.profile.full_name }}</span>
+                                </button>
+                                <button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary-hover text-background-dark text-sm font-bold shadow-[0_0_15px_rgba(56,224,123,0.3)] transition-all">
+                                    <span class="truncate"> Landlord Page</span>
+                                </button>
+                                {% elif request.user.is_authenticated and user.profile.role == 'TENANT' %}
+                                  <span class="truncate"> {{ user.profile.full_name }}</span>
+
+                                  <button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary-hover text-background-dark text-sm font-bold shadow-[0_0_15px_rgba(56,224,123,0.3)] transition-all">
+                                    <span class="truncate"> Tenant Page</span>
+                                </button>
+                                {% elif request.user.is_authenticated and user.profile.role == 'SERVICE_PROVIDER' %}
+                                <span class="truncate"><a href="{% url 'services:service_create' %}">List Service</a></span>
+                                {% else %}
+                                <span class="truncate"><a href="{% url 'properties:available_house' %}">Browse Houses</a></span>
+
+                                <button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary-hover text-background-dark text-sm font-bold shadow-[0_0_15px_rgba(56,224,123,0.3)] transition-all">
+                                    <span class="truncate"> Service Provider Page</span>
+                                </button>
+                                
+                            {% endif %}
+                            <button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary-hover text-background-dark text-sm font-bold shadow-[0_0_15px_rgba(56,224,123,0.3)] transition-all">
                                 <span class="truncate"><a href="{% url 'logout' %}">Log Out</a></span>
                             </button>
                         {% endif %}
->>>>>>> 97a9579860b32534779e35ddcb953d1b903b2807
                     </div>
                 </div>
                 <!-- Mobile Menu Icon -->
@@ -123,18 +118,14 @@
             </div>
         </header>
         <main class="flex-grow">
+            {% if request.user.is_authenticated%}
             <!-- Hero Section with Search Module -->
             <section class="relative flex flex-col items-center justify-center min-h-[600px] md:min-h-[700px] w-full p-4">
                 <!-- Background Image -->
                 <div class="absolute inset-0 z-0">
                     <img class="w-full h-full object-cover opacity-40"
-<<<<<<< HEAD
-                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuAn9cUV-1YcU-O7XDaiJbHJ0kBPTh6DiRx_T3OfhAMHrVoSGoRKjI1-dOvr4LW-eZSIgXOATRgFnESsiQMHujDldw-57JFh5fFbybZ53zLmxNh9D3Ekaw8xaqKgJtcuemwkN8ZuPoTZEtYFwQGTyFqEGGQnHm2gJZTE8rH7liM0zk0iV8xdG_mC8IsE3T8knT5SRWIXu7edxGawhazI3vOnUBpWbW0uU53_0AA1KFxORPi4VhzYnR785fia0rUfxCTv6FWenerVH1k"
-                         alt="Modern African city residential area" />
-=======
                          data-alt="Modern African city residential area at dusk with warm lighting"
                          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAn9cUV-1YcU-O7XDaiJbHJ0kBPTh6DiRx_T3OfhAMHrVoSGoRKjI1-dOvr4LW-eZSIgXOATRgFnESsiQMHujDldw-57JFh5fFbybZ53zLmxNh9D3Ekaw8xaqKgJtcuemwkN8ZuPoTZEtYFwQGTyFqEGGQnHm2gJZTE8rH7liM0zk0iV8xdG_mC8IsE3T8knT5SRWIXu7edxGawhazI3vOnUBpWbW0uU53_0AA1KFxORPi4VhzYnR785fia0rUfxCTv6FWenerVH1k" />
->>>>>>> 97a9579860b32534779e35ddcb953d1b903b2807
                     <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/80 to-transparent"></div>
                 </div>
                 <div class="relative z-10 w-full max-w-4xl flex flex-col items-center text-center gap-8 mt-10">
@@ -150,6 +141,7 @@
                             Connect with verified landlords, trusted service providers, and your community.
                         </p>
                     </div>
+                  
                     <!-- Search Module -->
                     <div class="w-full max-w-3xl bg-surface-dark/90 backdrop-blur-sm border border-border-dark rounded-xl p-2 shadow-2xl mt-4">
                         <!-- Tabs -->
@@ -167,8 +159,7 @@
                                 Community Alerts
                             </button>
                         </div>
-<<<<<<< HEAD
-                        <!-- Search Form -->
+                        <!-- Search Inputs -->
                         <form action="{% url 'properties:house_list' %}" method="GET" class="bg-background-dark rounded-lg p-3 md:p-4 flex flex-col md:flex-row gap-3 border border-border-dark">
                             <div class="flex-1 flex items-center gap-3 border-b md:border-b-0 md:border-r border-border-dark pb-3 md:pb-0 md:pr-4">
                                 <span class="material-symbols-outlined text-text-secondary">search</span>
@@ -188,35 +179,10 @@
                                     <option value="Single Room">Single Room</option>
                                     <option value="Duplex">Duplex</option>
                                     <option value="Townhouse">Townhouse</option>
-                                    <option value="Other">Other</option>
+                                    <option value="office">office</option>
 
                                 </select>
-                            </div>
-                            <button type="submit" class="bg-primary hover:bg-primary-hover text-background-dark font-bold px-8 py-3 rounded-lg transition-colors">
-                                Search
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </section>
-            
-=======
-                        <!-- Search Inputs -->
-                        <div class="bg-background-dark rounded-lg p-3 md:p-4 flex flex-col md:flex-row gap-3 border border-border-dark">
-                            <div class="flex-1 flex items-center gap-3 border-b md:border-b-0 md:border-r border-border-dark pb-3 md:pb-0 md:pr-4">
-                                <span class="material-symbols-outlined text-text-secondary">search</span>
-                                <input class="bg-transparent border-none text-white placeholder-text-secondary focus:ring-0 w-full text-base"
-                                       placeholder="Neighborhood, City, or Zip Code"
-                                       type="text" />
-                            </div>
-                            <div class="flex-1 flex items-center gap-3 border-b md:border-b-0 md:border-r border-border-dark pb-3 md:pb-0 md:pr-4">
-                                <span class="material-symbols-outlined text-text-secondary">tune</span>
-                                <select class="bg-transparent border-none text-white placeholder-text-secondary focus:ring-0 w-full text-base cursor-pointer [&amp;&gt;option]:bg-background-dark">
-                                    <option>Any Type</option>
-                                    <option>Apartment</option>
-                                    <option>Villa</option>
-                                    <option>Office</option>
-                                </select>
+                       
                             </div>
                             <button class="bg-primary hover:bg-primary-hover text-background-dark font-bold px-8 py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
                                 Search
@@ -224,27 +190,19 @@
                         </div>
                     </div>
                 </div>
+                
             </section>
->>>>>>> 97a9579860b32534779e35ddcb953d1b903b2807
+            {% endif %}
             <!-- Stats / Trust Indicators -->
             <section class="border-y border-border-dark bg-surface-dark py-8">
                 <div class="layout-content-container max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8">
                     <div class="flex flex-col items-center md:items-start text-center md:text-left">
-<<<<<<< HEAD
-                        <span class="text-3xl font-black text-white">{{ total_properties }}+</span>
-                        <span class="text-text-secondary text-sm">Verified Listings</span>
-                    </div>
-                    <div class="flex flex-col items-center md:items-start text-center md:text-left">
-                        <span class="text-3xl font-black text-white">{{ available_count }}+</span>
-                        <span class="text-text-secondary text-sm">Available Now</span>
-=======
                         <span class="text-3xl font-black text-white">10k+</span>
                         <span class="text-text-secondary text-sm">Verified Listings</span>
                     </div>
                     <div class="flex flex-col items-center md:items-start text-center md:text-left">
                         <span class="text-3xl font-black text-white">5k+</span>
                         <span class="text-text-secondary text-sm">Trusted Providers</span>
->>>>>>> 97a9579860b32534779e35ddcb953d1b903b2807
                     </div>
                     <div class="flex flex-col items-center md:items-start text-center md:text-left">
                         <span class="text-3xl font-black text-white">3</span>
@@ -256,48 +214,19 @@
                     </div>
                 </div>
             </section>
-<<<<<<< HEAD
-            
             <!-- Featured Rentals -->
-            {% if featured_properties %}
-=======
-            <!-- Featured Rentals -->
->>>>>>> 97a9579860b32534779e35ddcb953d1b903b2807
             <section class="py-16 px-4 md:px-10 max-w-[1440px] mx-auto w-full">
                 <div class="flex justify-between items-end mb-8">
                     <div>
                         <h2 class="text-white text-3xl font-bold leading-tight tracking-tight mb-2">Featured Rentals</h2>
                         <p class="text-text-secondary">Explore top-rated verified homes in your area</p>
                     </div>
-<<<<<<< HEAD
-                    <a class="hidden md:flex items-center gap-1 text-primary font-bold hover:underline" href="{% url 'properties:house_list' %}">
-=======
                     <a class="hidden md:flex items-center gap-1 text-primary font-bold hover:underline"
                        href="#">
->>>>>>> 97a9579860b32534779e35ddcb953d1b903b2807
                         View all <span class="material-symbols-outlined text-sm">arrow_forward</span>
                     </a>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-<<<<<<< HEAD
-                    {% for house in featured_properties %}
-                    <a href="{% url 'properties:house_create' house.pk %}" class="group bg-surface-dark border border-border-dark rounded-xl overflow-hidden hover:border-primary/50 transition-all cursor-pointer">
-                        <div class="relative h-60 overflow-hidden">
-                            {% if house.image %}
-                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                 src="{{ house.image.url }}"
-                                 alt="{{ house.name }}" />
-                            {% else %}
-                            <div class="w-full h-full bg-surface-dark flex items-center justify-center">
-                                <span class="material-symbols-outlined text-text-secondary text-6xl">home</span>
-                            </div>
-                            {% endif %}
-                            <div class="absolute top-3 left-3 bg-primary text-background-dark text-xs font-bold px-2 py-1 rounded flex items-center gap-1">
-                                <span class="material-symbols-outlined text-sm">verified</span> {{ house.status }}
-                            </div>
-                            <div class="absolute bottom-3 right-3 bg-black/70 backdrop-blur-md text-white text-sm font-bold px-3 py-1 rounded-lg">
-                                {{ house.monthly_rent|floatformat:0 }} RWF/mo
-=======
                     <!-- Card 1 -->
                     <div class="group bg-surface-dark border border-border-dark rounded-xl overflow-hidden hover:border-primary/50 transition-all cursor-pointer">
                         <div class="relative h-60 overflow-hidden">
@@ -309,138 +238,17 @@
                             </div>
                             <div class="absolute bottom-3 right-3 bg-black/70 backdrop-blur-md text-white text-sm font-bold px-3 py-1 rounded-lg">
                                 $1,200/mo
->>>>>>> 97a9579860b32534779e35ddcb953d1b903b2807
                             </div>
                         </div>
                         <div class="p-5">
                             <div class="flex justify-between items-start mb-2">
-<<<<<<< HEAD
-                                <h3 class="text-white font-bold text-lg">{{ house.name|default:"Property" }}</h3>
-=======
                                 <h3 class="text-white font-bold text-lg">Modern Villa, Nyarutarama</h3>
->>>>>>> 97a9579860b32534779e35ddcb953d1b903b2807
                                 <div class="flex items-center gap-1 text-yellow-400 text-sm">
                                     <span class="material-symbols-outlined text-sm fill-current">star</span>
                                     4.9
                                 </div>
                             </div>
                             <p class="text-text-secondary text-sm flex items-center gap-1 mb-4">
-<<<<<<< HEAD
-                                <span class="material-symbols-outlined text-sm">location_on</span> 
-                                {{ house.location.name }}, {{ house.location.cell.sector.district.name }}
-                            </p>
-                            <div class="flex gap-4 border-t border-border-dark pt-4">
-                                <div class="flex items-center gap-2 text-text-secondary text-sm">
-                                    <span class="material-symbols-outlined text-lg">home</span> {{ house.type }}
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                    {% endfor %}
-                </div>
-                <div class="mt-8 md:hidden flex justify-center">
-                    <a class="w-full text-center py-3 border border-border-dark rounded-lg text-primary font-bold hover:bg-surface-dark" href="{% url 'properties:house_list' %}">
-                        View all Rentals
-                    </a>
-                </div>
-            </section>
-            {% endif %}
-
-            <!-- Recent Properties -->
-            {% if recent_properties %}
-            <section class="py-16 px-4 md:px-10 max-w-[1440px] mx-auto w-full bg-surface-dark/50">
-                <div class="flex justify-between items-end mb-8">
-                    <div>
-                        <h2 class="text-white text-3xl font-bold leading-tight tracking-tight mb-2">Recently Added</h2>
-                        <p class="text-text-secondary">Latest properties on the market</p>
-                    </div>
-                    <a class="hidden md:flex items-center gap-1 text-primary font-bold hover:underline" href="{% url 'properties:house_list' %}">
-                        View all <span class="material-symbols-outlined text-sm">arrow_forward</span>
-                    </a>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {% for house in recent_properties %}
-                    <a href="{% url 'properties:house_create' house.pk %}" class="group bg-surface-dark border border-border-dark rounded-xl overflow-hidden hover:border-primary/50 transition-all cursor-pointer">
-                        <div class="relative h-48 overflow-hidden">
-                            {% if house.image %}
-                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                 src="{{ house.image.url }}"
-                                 alt="{{ house.name }}" />
-                            {% else %}
-                            <div class="w-full h-full bg-surface-dark flex items-center justify-center">
-                                <span class="material-symbols-outlined text-text-secondary text-5xl">home</span>
-                            </div>
-                            {% endif %}
-                            <div class="absolute top-3 right-3 bg-black/70 backdrop-blur-md text-white text-xs font-bold px-2 py-1 rounded-lg">
-                                {{ house.monthly_rent|floatformat:0 }} RWF
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="text-white font-bold mb-1">{{ house.name|default:"Property"|truncatewords:3 }}</h3>
-                            <p class="text-text-secondary text-xs flex items-center gap-1 mb-2">
-                                <span class="material-symbols-outlined text-xs">location_on</span> 
-                                {{ house.location.name }}
-                            </p>
-                            <span class="inline-block text-xs px-2 py-1 rounded {% if house.status == 'Available' %}bg-primary/20 text-primary{% else %}bg-red-500/20 text-red-400{% endif %}">
-                                {{ house.status }}
-                            </span>
-                        </div>
-                    </a>
-                    {% endfor %}
-                </div>
-            </section>
-            {% endif %}
-
-            <!-- Available Properties -->
-            {% if available_properties %}
-            <section class="py-16 px-4 md:px-10 max-w-[1440px] mx-auto w-full">
-                <div class="flex justify-between items-end mb-8">
-                    <div>
-                        <h2 class="text-white text-3xl font-bold leading-tight tracking-tight mb-2">Available Properties</h2>
-                        <p class="text-text-secondary">Ready to move in today</p>
-                    </div>
-                    <a class="hidden md:flex items-center gap-1 text-primary font-bold hover:underline" href="{% url 'properties:available_properties' %}">
-                        View all <span class="material-symbols-outlined text-sm">arrow_forward</span>
-                    </a>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {% for house in available_properties %}
-                    <a href="{% url 'properties:house_create' house.pk %}" class="group bg-surface-dark border border-border-dark rounded-xl overflow-hidden hover:border-primary/50 transition-all cursor-pointer">
-                        <div class="relative h-60 overflow-hidden">
-                            {% if house.image %}
-                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                 src="{{ house.image.url }}"
-                                 alt="{{ house.name }}" />
-                            {% else %}
-                            <div class="w-full h-full bg-surface-dark flex items-center justify-center">
-                                <span class="material-symbols-outlined text-text-secondary text-6xl">home</span>
-                            </div>
-                            {% endif %}
-                            <div class="absolute top-3 left-3 bg-primary text-background-dark text-xs font-bold px-2 py-1 rounded flex items-center gap-1">
-                                <span class="material-symbols-outlined text-sm">check_circle</span> Available
-                            </div>
-                            <div class="absolute bottom-3 right-3 bg-black/70 backdrop-blur-md text-white text-sm font-bold px-3 py-1 rounded-lg">
-                                {{ house.monthly_rent|floatformat:0 }} RWF/mo
-                            </div>
-                        </div>
-                        <div class="p-5">
-                            <h3 class="text-white font-bold text-lg mb-2">{{ house.name|default:"Property" }}</h3>
-                            <p class="text-text-secondary text-sm flex items-center gap-1 mb-3">
-                                <span class="material-symbols-outlined text-sm">location_on</span> 
-                                {{ house.location.name }}, {{ house.location.cell.sector.district.name }}
-                            </p>
-                            <p class="text-text-secondary text-xs mb-3">{{ house.description|truncatewords:15 }}</p>
-                            <div class="flex items-center gap-2 text-text-secondary text-sm">
-                                <span class="material-symbols-outlined text-lg">home</span> {{ house.type }}
-                            </div>
-                        </div>
-                    </a>
-                    {% endfor %}
-                </div>
-            </section>
-            {% endif %}
-            
-=======
                                 <span class="material-symbols-outlined text-sm">location_on</span> Kigali, Rwanda
                             </p>
                             <div class="flex gap-4 border-t border-border-dark pt-4">
@@ -643,7 +451,6 @@
                     </a>
                 </div>
             </section>
->>>>>>> 97a9579860b32534779e35ddcb953d1b903b2807
             <!-- CTA Section -->
             <section class="py-10 px-4">
                 <div class="max-w-5xl mx-auto bg-gradient-to-r from-primary/20 to-surface-dark border border-border-dark rounded-2xl p-8 md:p-12 text-center relative overflow-hidden">
@@ -653,15 +460,9 @@
                             Join thousands of others growing their business on GUKODESHA. List your property or offer your services today.
                         </p>
                         <div class="flex gap-4">
-<<<<<<< HEAD
-                            <a href="{% url 'properties:house_create' %}" class="bg-primary hover:bg-primary-hover text-background-dark font-bold px-6 py-3 rounded-lg transition-colors">
-                                List Your Property
-                            </a>
-=======
                             <button class="bg-primary hover:bg-primary-hover text-background-dark font-bold px-6 py-3 rounded-lg transition-colors">
                                 List Your Property
                             </button>
->>>>>>> 97a9579860b32534779e35ddcb953d1b903b2807
                             <button class="bg-surface-dark border border-border-dark hover:bg-border-dark text-white font-bold px-6 py-3 rounded-lg transition-colors">
                                 Register as Pro
                             </button>
@@ -670,29 +471,20 @@
                 </div>
             </section>
         </main>
-<<<<<<< HEAD
-        
-=======
->>>>>>> 97a9579860b32534779e35ddcb953d1b903b2807
         <!-- Footer -->
         <footer class="bg-background-dark border-t border-border-dark pt-16 pb-8">
             <div class="max-w-[1440px] mx-auto px-4 md:px-10">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
                     <div class="flex flex-col gap-4">
                         <div class="flex items-center gap-3 text-white">
-<<<<<<< HEAD
-                            <span class="material-symbols-outlined text-primary text-2xl">roofing</span>
-=======
                             <div class="size-6 rounded bg-primary/20 flex items-center justify-center text-primary">
                                 <span class="material-symbols-outlined text-sm">home_work</span>
                             </div>
->>>>>>> 97a9579860b32534779e35ddcb953d1b903b2807
                             <h2 class="text-white text-lg font-bold">GUKODESHA</h2>
                         </div>
                         <p class="text-text-secondary text-sm leading-relaxed">
                             The leading housing and community platform for the Great Lakes region. Connecting people, homes, and services with trust.
                         </p>
-<<<<<<< HEAD
                     </div>
                     <div>
                         <h3 class="text-white font-bold mb-4">Company</h3>
@@ -733,7 +525,6 @@
         </footer>
     </body>
 </html>
-=======
                         <div class="flex gap-4 mt-2">
                         <a class="text-text-secondary hover:text-white" href="#"><span class="hidden">Facebook</span>
                         <svg class="size-5" fill="currentColor" viewbox="0 0 24 24">
@@ -806,4 +597,3 @@
 </footer>
 </body>
 </html>
->>>>>>> 97a9579860b32534779e35ddcb953d1b903b2807

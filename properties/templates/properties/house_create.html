@@ -2,35 +2,6 @@
 
 {% block title %}{{ title }} - GUKODESHA{% endblock %}
 
-{% block extra_css %}
-<style>
-    /* Force dark mode styling for select dropdowns */
-    select {
-        color-scheme: dark;
-    }
-    
-    select option {
-        background-color: #122017 !important;
-        color: white !important;
-        padding: 10px !important;
-    }
-    
-    select option:checked,
-    select option:hover {
-        background-color: #1c2620 !important;
-        color: #38e07b !important;
-    }
-    
-    /* Firefox specific */
-    @-moz-document url-prefix() {
-        select option {
-            background-color: #122017;
-            color: white;
-        }
-    }
-</style>
-{% endblock %}
-
 {% block content %}
 <div class="py-8 px-4 md:px-10 max-w-[1440px] mx-auto">
     <div class="max-w-4xl mx-auto">
@@ -132,15 +103,15 @@
                         </h5>
                         
                         <div class="mb-5">
-                            <label for="{{ form.location.id_for_label }}" class="block text-sm font-medium text-text-secondary mb-2">
-                                Village <span class="text-red-400">*</span>
+                            <label for="{{ form.location_text.id_for_label }}" class="block text-sm font-medium text-text-secondary mb-2">
+                                Location / Village / Area <span class="text-red-400">*</span>
                             </label>
-                            {{ form.location }}
-                            <p class="text-text-secondary text-xs mt-1">Select the village where the house is located</p>
-                            {% if form.location.errors %}
+                            {{ form.location_text }}
+                            <p class="text-text-secondary text-xs mt-1">Enter the location, village, or area where the house is located</p>
+                            {% if form.location_text.errors %}
                                 <p class="text-red-400 text-sm mt-1 flex items-center gap-1">
                                     <span class="material-symbols-outlined text-xs">error</span>
-                                    {{ form.location.errors.0 }}
+                                    {{ form.location_text.errors.0 }}
                                 </p>
                             {% endif %}
                         </div>

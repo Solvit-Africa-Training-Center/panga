@@ -1,11 +1,20 @@
 from django import forms
 from .models import House, ListingImage, Country, Province, District, Sector, Cell, Village
 
-class HouseForm(forms.ModelForm):
+class HouseForm(forms.ModelForm): 
+    location_text = forms.CharField(
+        required=True,
+        label='Location',
+        widget=forms.TextInput(attrs={
+            'class': 'w-full px-4 py-3 bg-background-dark border border-border-dark rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary text-white placeholder-text-secondary',
+            'placeholder': ' Kacyiru, Kigali or enter your village/area'
+        })
+    )
+    
     class Meta:
         model = House
         fields = ['name', 'type', 'status', 'monthly_rent', 'description', 
-                  'location', 'neighborhood', 'street_address', 'image', 'is_active']
+                  'neighborhood', 'street_address', 'image', 'is_active']
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': 'w-full px-4 py-3 bg-background-dark border border-border-dark rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary text-white placeholder-text-secondary',
@@ -13,7 +22,7 @@ class HouseForm(forms.ModelForm):
             }),
             'type': forms.Select(attrs={
                 'class': 'w-full px-4 py-3 bg-background-dark border border-border-dark rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary text-white',
-                'style': 'color-scheme: dark;'  # This helps with dropdown styling
+                'style': 'color-scheme: dark;'
             }),
             'status': forms.Select(attrs={
                 'class': 'w-full px-4 py-3 bg-background-dark border border-border-dark rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary text-white',
@@ -27,10 +36,6 @@ class HouseForm(forms.ModelForm):
                 'class': 'w-full px-4 py-3 bg-background-dark border border-border-dark rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary text-white placeholder-text-secondary',
                 'rows': 4,
                 'placeholder': 'Describe the property...'
-            }),
-            'location': forms.Select(attrs={
-                'class': 'w-full px-4 py-3 bg-background-dark border border-border-dark rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary text-white',
-                'style': 'color-scheme: dark;'
             }),
             'neighborhood': forms.TextInput(attrs={
                 'class': 'w-full px-4 py-3 bg-background-dark border border-border-dark rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary text-white placeholder-text-secondary',
@@ -48,13 +53,18 @@ class HouseForm(forms.ModelForm):
                 'class': 'w-5 h-5 text-primary bg-background-dark border-border-dark rounded focus:ring-2 focus:ring-primary/50'
             }),
         }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)     
+        if self.instance and self.instance.pk and hasattr(self.instance, 'location'):
+            if self.instance.location:
+                self.initial['location_text'] = str(self.instance.location)
 
-# THIS NAME MUST MATCH what's in views.py: ListingImageFormSet
 ListingImageFormSet = forms.inlineformset_factory(
     House,
     ListingImage,
     fields=['image', 'is_main'],
-    extra=3,
+    extra=6,
     can_delete=True,
     widgets={
         'image': forms.FileInput(attrs={
@@ -83,7 +93,7 @@ ListingImageFormSet = forms.inlineformset_factory(
     House,
     ListingImage,
     form=ListingImageForm,
-    extra=3,
+    extra=6,
     can_delete=True
 )
 

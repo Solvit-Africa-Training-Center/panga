@@ -58,8 +58,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'panga.urls'
-#LOGIN_URL = 'login'
-#LOGIN_REDIRECT_URL = 'home'
+#LOGIN_URL = '/auth/login'
+#LOGIN_REDIRECT_URL = 'properties:home'
+#LOGOUT_REDIRECT_URL = '/auth/login'
 
 TEMPLATES = [
     {
