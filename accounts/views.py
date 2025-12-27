@@ -27,7 +27,7 @@ def signup_view(request):
                 request,
                 "Form not valid."
             )
-            print("Form not valid")
+            print(form.errors)
 
     return render(request, "accounts/c_register.html", {"form": form})
 
@@ -73,7 +73,7 @@ def login_view(request):
         if form.is_valid():
             login(request, form.get_user())
             messages.success(request, "Welcome back!")
-            return redirect("home")
+            return redirect("properties:home")
 
     return render(request, "accounts/c_login.html", {"form": form})
 

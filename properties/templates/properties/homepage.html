@@ -1,0 +1,397 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="dark" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>GUKODESHA - Housing &amp; Community</title>
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com" rel="preconnect" />
+        <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet" />
+        <!-- Material Icons -->
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+        <!-- Tailwind CSS -->
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <!-- Theme Configuration -->
+        <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#38e07b",
+                        "primary-hover": "#2ccb69",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#122017",
+                        "surface-dark": "#1c2620",
+                        "border-dark": "#3d5245",
+                        "text-secondary": "#9eb7a8"
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+        </script>
+    </head>
+    <body class="bg-background-light dark:bg-background-dark text-[#111714] dark:text-white font-display overflow-x-hidden antialiased selection:bg-primary selection:text-background-dark flex flex-col min-h-screen">
+        <!-- Top Navigation -->
+        <header class="sticky top-0 z-50 w-full border-b border-border-dark bg-background-dark/95 backdrop-blur-md">
+            <div class="px-4 md:px-10 py-3 flex items-center justify-between mx-auto max-w-[1440px]">
+                <div class="flex items-center gap-3 text-white cursor-pointer">
+                    <a href="{% url 'properties:home' %}" class="flex items-center gap-3 text-white">
+                        <span class="material-symbols-outlined text-primary text-4xl">roofing</span>
+                        <h2 class="text-2xl font-bold tracking-tight">GUKODESHA</h2>
+                    </a>
+                </div>
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex flex-1 justify-end gap-8 items-center">
+                    <nav class="flex items-center gap-8">
+                        <a class="text-white hover:text-primary transition-colors text-sm font-medium leading-normal" href="{% url 'properties:house_list' %}">Rentals</a>
+                        <a class="text-white hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Services</a>
+                        <a class="text-white hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Community</a>
+                        <a class="text-white hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Alerts</a>
+                    </nav>
+                    <div class="h-6 w-px bg-border-dark"></div>
+                    <div class="flex items-center gap-4 text-text-secondary text-sm font-bold">
+                        <button class="hover:text-white transition-colors">EN</button>
+                        <button class="hover:text-white transition-colors">FR</button>
+                        <button class="hover:text-white transition-colors">SW</button>
+                    </div>
+                    <div class="flex gap-3">
+                        <a href="{% url 'properties:house_create' %}" class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary-hover text-background-dark text-sm font-bold shadow-[0_0_15px_rgba(56,224,123,0.3)] transition-all">
+                            <span class="truncate">List Property</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- Mobile Menu Icon -->
+                <button class="md:hidden text-white">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </div>
+        </header>
+        <main class="flex-grow">
+            <!-- Hero Section with Search Module -->
+            <section class="relative flex flex-col items-center justify-center min-h-[600px] md:min-h-[700px] w-full p-4">
+                <!-- Background Image -->
+                <div class="absolute inset-0 z-0">
+                    <img class="w-full h-full object-cover opacity-40"
+                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuAn9cUV-1YcU-O7XDaiJbHJ0kBPTh6DiRx_T3OfhAMHrVoSGoRKjI1-dOvr4LW-eZSIgXOATRgFnESsiQMHujDldw-57JFh5fFbybZ53zLmxNh9D3Ekaw8xaqKgJtcuemwkN8ZuPoTZEtYFwQGTyFqEGGQnHm2gJZTE8rH7liM0zk0iV8xdG_mC8IsE3T8knT5SRWIXu7edxGawhazI3vOnUBpWbW0uU53_0AA1KFxORPi4VhzYnR785fia0rUfxCTv6FWenerVH1k"
+                         alt="Modern African city residential area" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/80 to-transparent"></div>
+                </div>
+                <div class="relative z-10 w-full max-w-4xl flex flex-col items-center text-center gap-8 mt-10">
+                    <div class="flex flex-col gap-4 px-4">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-wider mx-auto">
+                            <span class="material-symbols-outlined text-sm">public</span>
+                            Connecting the Great Lakes
+                        </div>
+                        <h1 class="text-white text-4xl md:text-6xl font-black leading-tight tracking-tight drop-shadow-lg">
+                            Living Better in the Great Lakes
+                        </h1>
+                        <p class="text-gray-300 text-lg md:text-xl font-medium max-w-2xl mx-auto drop-shadow-md">
+                            Connect with verified landlords, trusted service providers, and your community.
+                        </p>
+                    </div>
+                    <!-- Search Module -->
+                    <div class="w-full max-w-3xl bg-surface-dark/90 backdrop-blur-sm border border-border-dark rounded-xl p-2 shadow-2xl mt-4">
+                        <!-- Tabs -->
+                        <div class="flex gap-1 overflow-x-auto pb-2 md:pb-0 scrollbar-hide mb-4 px-2 pt-2">
+                            <button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-background-dark font-bold text-sm whitespace-nowrap transition-colors">
+                                <span class="material-symbols-outlined text-[20px]">home</span>
+                                Rent a House
+                            </button>
+                            <button class="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-white/5 text-text-secondary hover:text-white font-bold text-sm whitespace-nowrap transition-colors">
+                                <span class="material-symbols-outlined text-[20px]">handyman</span>
+                                Find Services
+                            </button>
+                            <button class="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-white/5 text-text-secondary hover:text-white font-bold text-sm whitespace-nowrap transition-colors">
+                                <span class="material-symbols-outlined text-[20px]">notifications_active</span>
+                                Community Alerts
+                            </button>
+                        </div>
+                        <!-- Search Form -->
+                        <form action="{% url 'properties:house_list' %}" method="GET" class="bg-background-dark rounded-lg p-3 md:p-4 flex flex-col md:flex-row gap-3 border border-border-dark">
+                            <div class="flex-1 flex items-center gap-3 border-b md:border-b-0 md:border-r border-border-dark pb-3 md:pb-0 md:pr-4">
+                                <span class="material-symbols-outlined text-text-secondary">search</span>
+                                <input name="query" class="bg-transparent border-none text-white placeholder-text-secondary focus:ring-0 w-full text-base"
+                                       placeholder="Neighborhood, City..." type="text" />
+                            </div>
+                            <div class="flex-1 flex items-center gap-3 border-b md:border-b-0 md:border-r border-border-dark pb-3 md:pb-0 md:pr-4">
+                                <span class="material-symbols-outlined text-text-secondary">tune</span>
+                                <select name="type" class="bg-transparent border-none text-white focus:ring-0 w-full text-base cursor-pointer [&>option]:bg-background-dark">
+                                    <option value="">Any Type</option>
+                                    <option value="Apartment">Apartment</option>
+                                    <option value="House">House</option>
+                                    <option value="Villa">Villa</option>
+                                    <option value="Studio">Studio</option>
+                                    <option value="House">House</option>
+                                    <option value="Condo">Condo</option>
+                                    <option value="Single Room">Single Room</option>
+                                    <option value="Duplex">Duplex</option>
+                                    <option value="Townhouse">Townhouse</option>
+                                    <option value="Other">Other</option>
+
+                                </select>
+                            </div>
+                            <button type="submit" class="bg-primary hover:bg-primary-hover text-background-dark font-bold px-8 py-3 rounded-lg transition-colors">
+                                Search
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Stats / Trust Indicators -->
+            <section class="border-y border-border-dark bg-surface-dark py-8">
+                <div class="layout-content-container max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div class="flex flex-col items-center md:items-start text-center md:text-left">
+                        <span class="text-3xl font-black text-white">{{ total_properties }}+</span>
+                        <span class="text-text-secondary text-sm">Verified Listings</span>
+                    </div>
+                    <div class="flex flex-col items-center md:items-start text-center md:text-left">
+                        <span class="text-3xl font-black text-white">{{ available_count }}+</span>
+                        <span class="text-text-secondary text-sm">Available Now</span>
+                    </div>
+                    <div class="flex flex-col items-center md:items-start text-center md:text-left">
+                        <span class="text-3xl font-black text-white">3</span>
+                        <span class="text-text-secondary text-sm">Countries Covered</span>
+                    </div>
+                    <div class="flex flex-col items-center md:items-start text-center md:text-left">
+                        <span class="text-3xl font-black text-white">24/7</span>
+                        <span class="text-text-secondary text-sm">Community Support</span>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Featured Rentals -->
+            {% if featured_properties %}
+            <section class="py-16 px-4 md:px-10 max-w-[1440px] mx-auto w-full">
+                <div class="flex justify-between items-end mb-8">
+                    <div>
+                        <h2 class="text-white text-3xl font-bold leading-tight tracking-tight mb-2">Featured Rentals</h2>
+                        <p class="text-text-secondary">Explore top-rated verified homes in your area</p>
+                    </div>
+                    <a class="hidden md:flex items-center gap-1 text-primary font-bold hover:underline" href="{% url 'properties:house_list' %}">
+                        View all <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </a>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {% for house in featured_properties %}
+                    <a href="{% url 'properties:house_create' house.pk %}" class="group bg-surface-dark border border-border-dark rounded-xl overflow-hidden hover:border-primary/50 transition-all cursor-pointer">
+                        <div class="relative h-60 overflow-hidden">
+                            {% if house.image %}
+                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                 src="{{ house.image.url }}"
+                                 alt="{{ house.name }}" />
+                            {% else %}
+                            <div class="w-full h-full bg-surface-dark flex items-center justify-center">
+                                <span class="material-symbols-outlined text-text-secondary text-6xl">home</span>
+                            </div>
+                            {% endif %}
+                            <div class="absolute top-3 left-3 bg-primary text-background-dark text-xs font-bold px-2 py-1 rounded flex items-center gap-1">
+                                <span class="material-symbols-outlined text-sm">verified</span> {{ house.status }}
+                            </div>
+                            <div class="absolute bottom-3 right-3 bg-black/70 backdrop-blur-md text-white text-sm font-bold px-3 py-1 rounded-lg">
+                                {{ house.monthly_rent|floatformat:0 }} RWF/mo
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-white font-bold text-lg">{{ house.name|default:"Property" }}</h3>
+                                <div class="flex items-center gap-1 text-yellow-400 text-sm">
+                                    <span class="material-symbols-outlined text-sm fill-current">star</span>
+                                    4.9
+                                </div>
+                            </div>
+                            <p class="text-text-secondary text-sm flex items-center gap-1 mb-4">
+                                <span class="material-symbols-outlined text-sm">location_on</span> 
+                                {{ house.location.name }}, {{ house.location.cell.sector.district.name }}
+                            </p>
+                            <div class="flex gap-4 border-t border-border-dark pt-4">
+                                <div class="flex items-center gap-2 text-text-secondary text-sm">
+                                    <span class="material-symbols-outlined text-lg">home</span> {{ house.type }}
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+                <div class="mt-8 md:hidden flex justify-center">
+                    <a class="w-full text-center py-3 border border-border-dark rounded-lg text-primary font-bold hover:bg-surface-dark" href="{% url 'properties:house_list' %}">
+                        View all Rentals
+                    </a>
+                </div>
+            </section>
+            {% endif %}
+
+            <!-- Recent Properties -->
+            {% if recent_properties %}
+            <section class="py-16 px-4 md:px-10 max-w-[1440px] mx-auto w-full bg-surface-dark/50">
+                <div class="flex justify-between items-end mb-8">
+                    <div>
+                        <h2 class="text-white text-3xl font-bold leading-tight tracking-tight mb-2">Recently Added</h2>
+                        <p class="text-text-secondary">Latest properties on the market</p>
+                    </div>
+                    <a class="hidden md:flex items-center gap-1 text-primary font-bold hover:underline" href="{% url 'properties:house_list' %}">
+                        View all <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </a>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {% for house in recent_properties %}
+                    <a href="{% url 'properties:house_create' house.pk %}" class="group bg-surface-dark border border-border-dark rounded-xl overflow-hidden hover:border-primary/50 transition-all cursor-pointer">
+                        <div class="relative h-48 overflow-hidden">
+                            {% if house.image %}
+                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                 src="{{ house.image.url }}"
+                                 alt="{{ house.name }}" />
+                            {% else %}
+                            <div class="w-full h-full bg-surface-dark flex items-center justify-center">
+                                <span class="material-symbols-outlined text-text-secondary text-5xl">home</span>
+                            </div>
+                            {% endif %}
+                            <div class="absolute top-3 right-3 bg-black/70 backdrop-blur-md text-white text-xs font-bold px-2 py-1 rounded-lg">
+                                {{ house.monthly_rent|floatformat:0 }} RWF
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="text-white font-bold mb-1">{{ house.name|default:"Property"|truncatewords:3 }}</h3>
+                            <p class="text-text-secondary text-xs flex items-center gap-1 mb-2">
+                                <span class="material-symbols-outlined text-xs">location_on</span> 
+                                {{ house.location.name }}
+                            </p>
+                            <span class="inline-block text-xs px-2 py-1 rounded {% if house.status == 'Available' %}bg-primary/20 text-primary{% else %}bg-red-500/20 text-red-400{% endif %}">
+                                {{ house.status }}
+                            </span>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+
+            <!-- Available Properties -->
+            {% if available_properties %}
+            <section class="py-16 px-4 md:px-10 max-w-[1440px] mx-auto w-full">
+                <div class="flex justify-between items-end mb-8">
+                    <div>
+                        <h2 class="text-white text-3xl font-bold leading-tight tracking-tight mb-2">Available Properties</h2>
+                        <p class="text-text-secondary">Ready to move in today</p>
+                    </div>
+                    <a class="hidden md:flex items-center gap-1 text-primary font-bold hover:underline" href="{% url 'properties:available_properties' %}">
+                        View all <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </a>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {% for house in available_properties %}
+                    <a href="{% url 'properties:house_create' house.pk %}" class="group bg-surface-dark border border-border-dark rounded-xl overflow-hidden hover:border-primary/50 transition-all cursor-pointer">
+                        <div class="relative h-60 overflow-hidden">
+                            {% if house.image %}
+                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                 src="{{ house.image.url }}"
+                                 alt="{{ house.name }}" />
+                            {% else %}
+                            <div class="w-full h-full bg-surface-dark flex items-center justify-center">
+                                <span class="material-symbols-outlined text-text-secondary text-6xl">home</span>
+                            </div>
+                            {% endif %}
+                            <div class="absolute top-3 left-3 bg-primary text-background-dark text-xs font-bold px-2 py-1 rounded flex items-center gap-1">
+                                <span class="material-symbols-outlined text-sm">check_circle</span> Available
+                            </div>
+                            <div class="absolute bottom-3 right-3 bg-black/70 backdrop-blur-md text-white text-sm font-bold px-3 py-1 rounded-lg">
+                                {{ house.monthly_rent|floatformat:0 }} RWF/mo
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="text-white font-bold text-lg mb-2">{{ house.name|default:"Property" }}</h3>
+                            <p class="text-text-secondary text-sm flex items-center gap-1 mb-3">
+                                <span class="material-symbols-outlined text-sm">location_on</span> 
+                                {{ house.location.name }}, {{ house.location.cell.sector.district.name }}
+                            </p>
+                            <p class="text-text-secondary text-xs mb-3">{{ house.description|truncatewords:15 }}</p>
+                            <div class="flex items-center gap-2 text-text-secondary text-sm">
+                                <span class="material-symbols-outlined text-lg">home</span> {{ house.type }}
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+            
+            <!-- CTA Section -->
+            <section class="py-10 px-4">
+                <div class="max-w-5xl mx-auto bg-gradient-to-r from-primary/20 to-surface-dark border border-border-dark rounded-2xl p-8 md:p-12 text-center relative overflow-hidden">
+                    <div class="relative z-10 flex flex-col items-center gap-6">
+                        <h2 class="text-white text-3xl md:text-4xl font-black">Are you a Landlord or Service Provider?</h2>
+                        <p class="text-text-secondary text-lg max-w-2xl">
+                            Join thousands of others growing their business on GUKODESHA. List your property or offer your services today.
+                        </p>
+                        <div class="flex gap-4">
+                            <a href="{% url 'properties:house_create' %}" class="bg-primary hover:bg-primary-hover text-background-dark font-bold px-6 py-3 rounded-lg transition-colors">
+                                List Your Property
+                            </a>
+                            <button class="bg-surface-dark border border-border-dark hover:bg-border-dark text-white font-bold px-6 py-3 rounded-lg transition-colors">
+                                Register as Pro
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- Footer -->
+        <footer class="bg-background-dark border-t border-border-dark pt-16 pb-8">
+            <div class="max-w-[1440px] mx-auto px-4 md:px-10">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                    <div class="flex flex-col gap-4">
+                        <div class="flex items-center gap-3 text-white">
+                            <span class="material-symbols-outlined text-primary text-2xl">roofing</span>
+                            <h2 class="text-white text-lg font-bold">GUKODESHA</h2>
+                        </div>
+                        <p class="text-text-secondary text-sm leading-relaxed">
+                            The leading housing and community platform for the Great Lakes region. Connecting people, homes, and services with trust.
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-bold mb-4">Company</h3>
+                        <ul class="flex flex-col gap-3 text-sm text-text-secondary">
+                            <li><a class="hover:text-primary transition-colors" href="#">About Us</a></li>
+                            <li><a class="hover:text-primary transition-colors" href="#">Careers</a></li>
+                            <li><a class="hover:text-primary transition-colors" href="#">Press</a></li>
+                            <li><a class="hover:text-primary transition-colors" href="#">Blog</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-bold mb-4">Support</h3>
+                        <ul class="flex flex-col gap-3 text-sm text-text-secondary">
+                            <li><a class="hover:text-primary transition-colors" href="#">Help Center</a></li>
+                            <li><a class="hover:text-primary transition-colors" href="#">Safety Information</a></li>
+                            <li><a class="hover:text-primary transition-colors" href="{% url 'properties:house_list' %}">Browse Houses</a></li>
+                            <li><a class="hover:text-primary transition-colors" href="#">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-bold mb-4">Quick Links</h3>
+                        <ul class="flex flex-col gap-3 text-sm text-text-secondary">
+                            <li><a class="hover:text-primary transition-colors" href="{% url 'properties:house_list' %}">All Properties</a></li>
+                            <li><a class="hover:text-primary transition-colors" href="{% url 'properties:available_house' %}">Available properties</a></li>
+                            <li><a class="hover:text-primary transition-colors" href="{% url 'properties:house_search' %}">Search</a></li>
+                            <li><a class="hover:text-primary transition-colors" href="{% url 'properties:house_create' %}">List  House</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="border-t border-border-dark pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <p class="text-text-secondary text-sm">© 2025 GUKODESHA. All rights reserved.</p>
+                    <div class="flex gap-6 text-sm text-text-secondary">
+                        <a class="hover:text-white" href="#">Privacy Policy</a>
+                        <a class="hover:text-white" href="#">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

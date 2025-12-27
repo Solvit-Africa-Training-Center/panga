@@ -1,0 +1,177 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>{% block title %}GUKODESHA - Housing & Community{% endblock %}</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Theme Configuration -->
+    <script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "primary": "#38e07b",
+                    "primary-hover": "#2ccb69",
+                    "background-light": "#f6f8f7",
+                    "background-dark": "#122017",
+                    "surface-dark": "#1c2620",
+                    "border-dark": "#3d5245",
+                    "text-secondary": "#9eb7a8"
+                },
+                fontFamily: {
+                    "display": ["Manrope", "sans-serif"]
+                },
+                borderRadius: { 
+                    "DEFAULT": "0.25rem", 
+                    "lg": "0.5rem", 
+                    "xl": "0.75rem", 
+                    "full": "9999px" 
+                },
+            },
+        },
+    }
+    </script>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-background-dark text-white font-display overflow-x-hidden antialiased selection:bg-primary selection:text-background-dark flex flex-col min-h-screen">
+    <!-- Top Navigation -->
+    <header class="sticky top-0 z-50 w-full border-b border-border-dark bg-background-dark/95 backdrop-blur-md">
+        <div class="px-4 md:px-10 py-3 flex items-center justify-between mx-auto max-w-[1440px]">
+            <div class="flex items-center gap-3 text-white cursor-pointer">
+                <a href="{% url 'properties:home' %}" class="flex items-center gap-3 text-white">
+                    <span class="material-symbols-outlined text-primary text-4xl">roofing</span>
+                    <h2 class="text-2xl font-bold tracking-tight">GUKODESHA</h2>
+                </a>
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex flex-1 justify-end gap-8 items-center">
+                <nav class="flex items-center gap-8">
+                    <a class="text-white hover:text-primary transition-colors text-sm font-medium leading-normal" href="{% url 'properties:house_list' %}">All Houses</a>
+                    <a class="text-white hover:text-primary transition-colors text-sm font-medium leading-normal" href="{% url 'properties:available_house' %}">Available</a>
+                    <a class="text-white hover:text-primary transition-colors text-sm font-medium leading-normal" href="{% url 'properties:house_search' %}">Search</a>
+                </nav>
+                <div class="h-6 w-px bg-border-dark"></div>
+                <div class="flex gap-3">
+                    <a href="{% url 'properties:house_create' %}" class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary-hover text-background-dark text-sm font-bold shadow-[0_0_15px_rgba(56,224,123,0.3)] transition-all">
+                        <span class="truncate">List Property</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu Icon -->
+            <button id="mobile-menu-btn" class="md:hidden text-white">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-border-dark bg-surface-dark">
+            <nav class="flex flex-col p-4 space-y-2">
+                <a class="text-white hover:text-primary transition-colors py-2 px-3 rounded hover:bg-background-dark" href="{% url 'properties:house_list' %}">All Houses</a>
+                <a class="text-white hover:text-primary transition-colors py-2 px-3 rounded hover:bg-background-dark" href="{% url 'properties:available_house' %}">Available</a>
+                <a class="text-white hover:text-primary transition-colors py-2 px-3 rounded hover:bg-background-dark" href="{% url 'properties:house_search' %}">Search</a>
+                <a href="{% url 'properties:house_create' %}" class="bg-primary hover:bg-primary-hover text-background-dark text-sm font-bold py-2 px-3 rounded transition-all mt-2 text-center">
+                    List Property
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Messages -->
+    {% if messages %}
+    <div class="container mx-auto px-4 mt-4 max-w-[1440px]">
+        {% for message in messages %}
+        <div class="{% if message.tags == 'error' %}bg-red-500/20 border-red-500/50 text-red-400{% elif message.tags == 'success' %}bg-primary/20 border-primary/50 text-primary{% elif message.tags == 'warning' %}bg-yellow-500/20 border-yellow-500/50 text-yellow-400{% else %}bg-blue-500/20 border-blue-500/50 text-blue-400{% endif %} border px-4 py-3 rounded-lg mb-4 flex items-center justify-between backdrop-blur-sm">
+            <span>{{ message }}</span>
+            <button onclick="this.parentElement.remove()" class="ml-4 hover:opacity-70">
+                <span class="material-symbols-outlined text-sm">close</span>
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-background-dark border-t border-border-dark pt-16 pb-8">
+        <div class="max-w-[1440px] mx-auto px-4 md:px-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div class="flex flex-col gap-4">
+                    <div class="flex items-center gap-3 text-white">
+                        <span class="material-symbols-outlined text-primary text-2xl">roofing</span>
+                        <h2 class="text-white text-lg font-bold">GUKODESHA</h2>
+                    </div>
+                    <p class="text-text-secondary text-sm leading-relaxed">
+                        The leading housing and community platform for the Great Lakes region. Connecting people, homes, and services with trust.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-white font-bold mb-4">Company</h3>
+                    <ul class="flex flex-col gap-3 text-sm text-text-secondary">
+                        <li><a class="hover:text-primary transition-colors" href="#">About Us</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Careers</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Press</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-white font-bold mb-4">Support</h3>
+                    <ul class="flex flex-col gap-3 text-sm text-text-secondary">
+                        <li><a class="hover:text-primary transition-colors" href="#">Help Center</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Safety Information</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="{% url 'properties:house_list' %}">Browse Houses</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-white font-bold mb-4">Quick Links</h3>
+                    <ul class="flex flex-col gap-3 text-sm text-text-secondary">
+                        <li><a class="hover:text-primary transition-colors" href="{% url 'properties:house_list' %}">All Properties</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="{% url 'properties:available_house' %}">Available Properties</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="{% url 'properties:house_search' %}">Search</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="{% url 'properties:house_create' %}">List House</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-border-dark pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-text-secondary text-sm">© 2025 GUKODESHA. All rights reserved.</p>
+                <div class="flex gap-6 text-sm text-text-secondary">
+                    <a class="hover:text-white transition-colors" href="#">Privacy Policy</a>
+                    <a class="hover:text-white transition-colors" href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Toggle Script -->
+    <script>
+        document.getElementById('mobile-menu-btn')?.addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

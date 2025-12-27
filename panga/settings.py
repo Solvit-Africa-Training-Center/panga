@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-&unojz)@8tlu3##fwnhkc5af0m6v^z2ad51_faaxx5d^77bkaa
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
-    'properties'
+    'properties',
+    'widget_tweaks'
 ]
 
 MIDDLEWARE = [
@@ -136,6 +137,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'feedyopc@gmail.com'
+EMAIL_HOST_USER = "feedyopc@gmail.com"
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
-DEFAULT_FROM_EMAIL = 'feedyopc@gmail.com'
+DEFAULT_FROM_EMAIL = "feedyopc@gmail.com"
