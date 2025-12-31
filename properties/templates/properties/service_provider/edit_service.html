@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>Edit Service Profile - GUKODESHA</title>
+        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+              rel="stylesheet" />
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#36e27b",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#112117",
+                        "surface-dark": "#1c2620",
+                        "border-dark": "#29382f",
+                        "input-border": "#3d5245",
+                        "text-secondary": "#9eb7a8",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+        </script>
+        <style>
+        /* Custom scrollbar for dark theme */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #112117; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #29382f; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3d5245; 
+        }
+        .form-input-base {
+            @apply flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-1 focus:ring-primary border border-input-border bg-surface-dark focus:border-primary placeholder:text-text-secondary p-[15px] text-base font-normal leading-normal;
+        }
+        </style>
+    </head>
+    <body class="bg-background-light dark:bg-background-dark font-display text-white overflow-x-hidden antialiased">
+        <!-- Top Navigation -->
+        {% include 'partial/header.html' %}
+        <div class="flex flex-col lg:flex-row h-full min-h-[calc(100vh-65px)] max-w-[1440px] mx-auto">
+            <!-- Sidebar Navigation (Desktop) -->
+            <aside class="hidden lg:flex w-72 flex-col gap-6 border-r border-border-dark p-6 sticky top-[65px] h-[calc(100vh-65px)] overflow-y-auto">
+                <div class="flex gap-4 items-center mb-4">
+                    <div class="bg-center bg-no-repeat bg-cover rounded-full size-12 shadow-inner"
+                         data-alt="John's Plumbing business logo"
+                         style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDelJU5nv5QG6vmiRTj0J4XtxcySEiQJ20ZhLev2maFAzowY3bFs5M6WIwkc61wicmbbf09cKl5oOKBE-dmd4QHjXa_bsDdOowfxqAm9jvh62QYnww12zi01UwBFPRSMIUT1Q71TY66emBu8eI9OyouhiLHRB37E3kEDUws9cflfe24Gfhe5PC-Tfggj8NDGQSukB5L9r1MishLzFROy9ZocV4tJTuT_YYaW96IwxtIgrTuo6ya47TZsFjqVaIaHyRMTGXmwve1EOs")'>
+                    </div>
+                    <div class="flex flex-col">
+                        <h1 class="text-white text-lg font-bold leading-tight">John's Plumbing</h1>
+                        <p class="text-text-secondary text-xs font-medium uppercase tracking-wider">Service Provider</p>
+                    </div>
+                </div>
+                <nav class="flex flex-col gap-2">
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-surface-dark border border-input-border text-primary shadow-sm"
+                       href="#basic-info">
+                        <span class="material-symbols-outlined">info</span>
+                        <p class="text-sm font-bold">Basic Info</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-text-secondary hover:text-white hover:bg-surface-dark/50 transition-colors"
+                       href="#media">
+                        <span class="material-symbols-outlined">image</span>
+                        <p class="text-sm font-medium">Media</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-text-secondary hover:text-white hover:bg-surface-dark/50 transition-colors"
+                       href="#service-details">
+                        <span class="material-symbols-outlined">description</span>
+                        <p class="text-sm font-medium">Service Details</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-text-secondary hover:text-white hover:bg-surface-dark/50 transition-colors"
+                       href="#pricing">
+                        <span class="material-symbols-outlined">payments</span>
+                        <p class="text-sm font-medium">Pricing &amp; Rates</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-text-secondary hover:text-white hover:bg-surface-dark/50 transition-colors"
+                       href="#availability">
+                        <span class="material-symbols-outlined">calendar_month</span>
+                        <p class="text-sm font-medium">Availability</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-text-secondary hover:text-white hover:bg-surface-dark/50 transition-colors"
+                       href="#contact">
+                        <span class="material-symbols-outlined">location_on</span>
+                        <p class="text-sm font-medium">Contact &amp; Location</p>
+                    </a>
+                </nav>
+                <div class="mt-auto pt-6 border-t border-border-dark">
+                    <div class="p-4 rounded-xl bg-gradient-to-br from-surface-dark to-transparent border border-border-dark">
+                        <div class="flex items-center gap-2 mb-2 text-text-secondary">
+                            <span class="material-symbols-outlined text-sm">help</span>
+                            <span class="text-xs font-bold uppercase">Need Help?</span>
+                        </div>
+                        <p class="text-xs text-text-secondary mb-3">Contact support for verification issues.</p>
+                        <button class="text-xs text-primary font-bold hover:underline">Contact Support</button>
+                    </div>
+                </div>
+            </aside>
+            <!-- Main Content Area -->
+            <main class="flex-1 p-4 md:p-8 lg:p-12 flex flex-col gap-8 pb-32">
+                <!-- Page Header -->
+                <div class="flex flex-col gap-2">
+                    <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Edit Service Profile</h1>
+                    <p class="text-text-secondary text-lg max-w-2xl">
+                        Update your public service details, pricing, and availability. Changes will be reviewed before going live.
+                    </p>
+                </div>
+                <!-- Basic Info Section -->
+                <section class="scroll-mt-24 space-y-6" id="basic-info">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="material-symbols-outlined text-primary">info</span>
+                        <h2 class="text-xl font-bold text-white">Basic Information</h2>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 rounded-xl border border-border-dark bg-[#141b16]">
+                        <div class="flex flex-col gap-2">
+                            <label class="text-sm font-bold text-white">Service Name</label>
+                            <input class="form-input-base h-12"
+                                   placeholder="e.g. Acme Security"
+                                   type="text"
+                                   value="John's Plumbing Services" />
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-sm font-bold text-white">Service Category</label>
+                            <div class="relative">
+                                <select class="form-input-base h-12 appearance-none cursor-pointer">
+                                    <option>Plumbing &amp; Water</option>
+                                    <option>Electrical</option>
+                                    <option>Security Guard</option>
+                                    <option>House Cleaning</option>
+                                    <option>Landscaping</option>
+                                </select>
+                                <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-text-secondary">expand_more</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2 md:col-span-2">
+                            <label class="text-sm font-bold text-white">Tagline / Short Bio</label>
+                            <input class="form-input-base h-12"
+                                   placeholder="Briefly describe what you do"
+                                   type="text"
+                                   value="Expert plumbing solutions for residential and commercial properties in Kigali." />
+                            <p class="text-xs text-text-secondary">Appears in search results (Max 120 chars)</p>
+                        </div>
+                    </div>
+                </section>
+                <!-- Media Section -->
+                <section class="scroll-mt-24 space-y-6" id="media">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="material-symbols-outlined text-primary">image</span>
+                        <h2 class="text-xl font-bold text-white">Profile Media</h2>
+                    </div>
+                    <div class="p-6 rounded-xl border border-border-dark bg-[#141b16]">
+                        <div class="bg-cover bg-center flex flex-col items-stretch justify-end rounded-lg min-h-[200px] shadow-lg relative overflow-hidden group"
+                             data-alt="Abstract dark gradient placeholder for cover image"
+                             style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuA5Uakj4NWy-FNkdXGUKPo61xh0qwdSZoIsap0LbfEvrcP-0AxPqcB9a630DsVh_lIPv-YMUBKrH14XLltauEjq3C_XXrsTOC7PK6ar456apbmBGEBn2HO0hCfYH76VSOnQ1YfjvtfGMGVHTwDazFgGAFdTuBqe5TpixQAQbeLROdnWtOi0_kH-ggFyd1MtfC1agmJtNqrc4w1QrRhC4U5tBfzznXNgeYy0X8emVxSr2xxch_ONMdoIBKnbZ5upSXAWVghmiQ9E4BA")'>
+                            <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-300"></div>
+                            <div class="relative z-10 flex w-full items-end justify-between gap-4 p-6">
+                                <div class="flex flex-col gap-1">
+                                    <p class="text-white text-xl font-bold leading-tight">Cover Photo</p>
+                                    <p class="text-gray-300 text-sm">Recommended size: 1200x400px</p>
+                                </div>
+                                <button class="flex items-center gap-2 bg-surface-dark/80 backdrop-blur hover:bg-white hover:text-black text-white px-4 py-2 rounded-lg text-sm font-bold transition-colors">
+                                    <span class="material-symbols-outlined text-[18px]">upload</span>
+                                    Change Cover
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mt-8 flex flex-col md:flex-row gap-8 items-start">
+                            <div class="flex flex-col items-center gap-4">
+                                <div class="relative size-32 group cursor-pointer">
+                                    <div class="size-32 rounded-full overflow-hidden border-4 border-surface-dark bg-surface-dark">
+                                        <img alt="Service provider logo"
+                                             class="w-full h-full object-cover"
+                                             data-alt="Service provider profile logo"
+                                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbd6P7ww7mxa4L2dfBYnlf8JY8DaHUHolDjcqqbn4cIYypIpXFOfDnjpau0o8CPR3BrSr8pEdJIjzecmw3u4PXr65vadnrUXlH7aoK2P0churY4AC0B42oUbtMKliCkA9HP2dLGLqNCXbxCO-1ydabVeQWhuednOMgv_KF5OvZOMKIkANAb5hy9ABfYkZgdV58dyzIpZ91mE3UnICHqFlnF3lvPXlNnjWghEKRDIvjQllVXBgusC-A_Ja5KZYxR-iwktoaiTq3Bts" />
+                                    </div>
+                                    <div class="absolute inset-0 rounded-full bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <span class="material-symbols-outlined text-white">edit</span>
+                                    </div>
+                                </div>
+                                <p class="text-sm font-medium text-text-secondary">Profile Logo</p>
+                            </div>
+                            <div class="flex-1 w-full">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 class="text-base font-bold text-white">Portfolio Gallery</h3>
+                                    <button class="text-primary text-sm font-bold hover:underline flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[16px]">add</span> Add Image
+                                    </button>
+                                </div>
+                                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                                    <div class="aspect-square rounded-lg bg-surface-dark border border-border-dark flex items-center justify-center relative group overflow-hidden">
+                                        <img class="w-full h-full object-cover"
+                                             data-alt="Gallery image 1 placeholder"
+                                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuCu0ia7OlICXilUWawsMtKnKHRRHzCBG5ssbe3DHEVDHBYoByGLjzOoVEL1JwIzjNRVw2fyfPq1zr1LUroaXMNfQyL-kHw6Q6d3SkmhuAlx333ZmXY4bBpinoH6OnOcjeYJj6CZhO1rUR83eGdlemP5GDc8rMVQlsnaiY943FXXq60G5N5jNZZV66vzkNy45nP__Lxi8YUJKtJvJczeBuR4yH-fQVbAjwKJJnzNlHLHpcN6zeXwXQlvMAFuutrdg6KafffQZBJqGGQ" />
+                                        <button class="absolute top-2 right-2 p-1 bg-red-500/80 rounded text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <span class="material-symbols-outlined text-[16px]">delete</span>
+                                        </button>
+                                    </div>
+                                    <div class="aspect-square rounded-lg bg-surface-dark border border-border-dark flex items-center justify-center relative group overflow-hidden">
+                                        <img class="w-full h-full object-cover"
+                                             data-alt="Gallery image 2 placeholder"
+                                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcw9gqFaaqyCWIZ_8iTY1saqlXGESNUCNR7CtLzBKk6eQlQsZ0s7hEbQYDbdFFuKbUojFpKwk7ypf2JEuZuppHeRt4DgmUqDP3hlo6EkjgPU1Ad_-K2iIK8zKM3ildv-zLIojAj-MpJ6d6BiHXwP_3LlxJnoby3EH-vUippxoDvcGxdGH21R7R-fYlOmZsSPkIukUuLfAtLz0a2N1bDNj8gP0Yy0qCkL8C7DWWMscU6Sx3hiQyXWrOV9rGN-Vl7-wdXKRABlXZlog" />
+                                        <button class="absolute top-2 right-2 p-1 bg-red-500/80 rounded text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <span class="material-symbols-outlined text-[16px]">delete</span>
+                                        </button>
+                                    </div>
+                                    <label class="aspect-square rounded-lg border-2 border-dashed border-input-border hover:border-primary/50 hover:bg-surface-dark transition-all cursor-pointer flex flex-col items-center justify-center gap-2 text-text-secondary hover:text-white">
+                                        <span class="material-symbols-outlined text-3xl">add_photo_alternate</span>
+                                        <span class="text-xs font-bold">Upload</span>
+                                        <input class="hidden" type="file" />
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Service Details Section -->
+                <section class="scroll-mt-24 space-y-6" id="service-details">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="material-symbols-outlined text-primary">description</span>
+                        <h2 class="text-xl font-bold text-white">Service Details</h2>
+                    </div>
+                    <div class="p-6 rounded-xl border border-border-dark bg-[#141b16] space-y-6">
+                        <div class="flex flex-col gap-2">
+                            <label class="text-sm font-bold text-white">Full Description</label>
+                            <div class="rounded-lg border border-input-border overflow-hidden bg-surface-dark">
+                                <div class="flex items-center gap-2 p-2 border-b border-input-border bg-[#111714]">
+                                    <button class="p-1.5 text-text-secondary hover:text-white hover:bg-white/10 rounded">
+                                        <span class="material-symbols-outlined text-[18px]">format_bold</span>
+                                    </button>
+                                    <button class="p-1.5 text-text-secondary hover:text-white hover:bg-white/10 rounded">
+                                        <span class="material-symbols-outlined text-[18px]">format_italic</span>
+                                    </button>
+                                    <button class="p-1.5 text-text-secondary hover:text-white hover:bg-white/10 rounded">
+                                        <span class="material-symbols-outlined text-[18px]">format_list_bulleted</span>
+                                    </button>
+                                    <div class="w-px h-4 bg-input-border mx-1"></div>
+                                    <button class="p-1.5 text-text-secondary hover:text-white hover:bg-white/10 rounded">
+                                        <span class="material-symbols-outlined text-[18px]">link</span>
+                                    </button>
+                                </div>
+                                <textarea class="w-full bg-surface-dark text-white p-4 h-32 focus:outline-none resize-y border-none"
+                                          placeholder="Detailed description of your services, methods, and equipment..."></textarea>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-6">
+                            <div class="flex-1 min-w-[200px] flex flex-col gap-2">
+                                <label class="text-sm font-bold text-white">Years of Experience</label>
+                                <input class="form-input-base h-12" type="number" value="5" />
+                            </div>
+                            <div class="flex-1 min-w-[200px] flex flex-col gap-2">
+                                <label class="text-sm font-bold text-white">Number of Employees</label>
+                                <select class="form-input-base h-12">
+                                    <option>1 (Self-employed)</option>
+                                    <option>2-5</option>
+                                    <option>6-10</option>
+                                    <option>10+</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Pricing Section -->
+                <section class="scroll-mt-24 space-y-6" id="pricing">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="material-symbols-outlined text-primary">payments</span>
+                        <h2 class="text-xl font-bold text-white">Pricing &amp; Rates</h2>
+                    </div>
+                    <div class="p-6 rounded-xl border border-border-dark bg-[#141b16] space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-bold text-white">Currency</label>
+                                <select class="form-input-base h-12">
+                                    <option>RWF (Rwandan Franc)</option>
+                                    <option>KES (Kenyan Shilling)</option>
+                                    <option>RWF (Ugandan Shilling)</option>
+                                    <option>USD (US Dollar)</option>
+                                </select>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-bold text-white">Base Rate</label>
+                                <input class="form-input-base h-12" type="number" value="5000" />
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-bold text-white">Rate Type</label>
+                                <select class="form-input-base h-12">
+                                    <option>Per Hour</option>
+                                    <option>Per Day</option>
+                                    <option>Fixed Project Fee</option>
+                                    <option>Contact for Quote</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="p-4 rounded-lg bg-surface-dark border border-input-border flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary mt-1">lightbulb</span>
+                            <div>
+                                <p class="text-sm font-bold text-white mb-1">Pricing Tip</p>
+                                <p class="text-xs text-text-secondary">
+                                    Providing a clear base rate increases profile engagement by 30%. You can always negotiate the final price with the customer.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Availability Section -->
+                <section class="scroll-mt-24 space-y-6" id="availability">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="material-symbols-outlined text-primary">calendar_month</span>
+                        <h2 class="text-xl font-bold text-white">Availability</h2>
+                    </div>
+                    <div class="p-6 rounded-xl border border-border-dark bg-[#141b16] space-y-6">
+                        <div class="flex items-center justify-between pb-4 border-b border-border-dark">
+                            <div>
+                                <p class="text-base font-bold text-white">Emergency Services</p>
+                                <p class="text-sm text-text-secondary">Available 24/7 for urgent calls</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input checked="" class="sr-only peer" type="checkbox" value="" />
+                                <div class="w-11 h-6 bg-surface-dark peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/50 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary">
+                                </div>
+                            </label>
+                        </div>
+                        <div class="space-y-4">
+                            <p class="text-sm font-bold text-white mb-2">Weekly Schedule</p>
+                            <!-- Monday -->
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-4 p-3 rounded-lg bg-surface-dark/50 border border-transparent hover:border-input-border transition-colors">
+                                <div class="min-w-[100px] flex items-center gap-3">
+                                    <input checked=""
+                                           class="rounded border-input-border bg-surface-dark text-primary focus:ring-offset-background-dark focus:ring-primary size-5"
+                                           type="checkbox" />
+                                    <span class="font-medium">Monday</span>
+                                </div>
+                                <div class="flex items-center gap-2 flex-1">
+                                    <input class="bg-[#111714] border border-input-border rounded px-2 py-1 text-sm text-white focus:border-primary focus:ring-0"
+                                           type="time"
+                                           value="08:00" />
+                                    <span class="text-text-secondary text-sm">to</span>
+                                    <input class="bg-[#111714] border border-input-border rounded px-2 py-1 text-sm text-white focus:border-primary focus:ring-0"
+                                           type="time"
+                                           value="18:00" />
+                                </div>
+                            </div>
+                            <!-- Tuesday -->
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-4 p-3 rounded-lg bg-surface-dark/50 border border-transparent hover:border-input-border transition-colors">
+                                <div class="min-w-[100px] flex items-center gap-3">
+                                    <input checked=""
+                                           class="rounded border-input-border bg-surface-dark text-primary focus:ring-offset-background-dark focus:ring-primary size-5"
+                                           type="checkbox" />
+                                    <span class="font-medium">Tuesday</span>
+                                </div>
+                                <div class="flex items-center gap-2 flex-1">
+                                    <input class="bg-[#111714] border border-input-border rounded px-2 py-1 text-sm text-white focus:border-primary focus:ring-0"
+                                           type="time"
+                                           value="08:00" />
+                                    <span class="text-text-secondary text-sm">to</span>
+                                    <input class="bg-[#111714] border border-input-border rounded px-2 py-1 text-sm text-white focus:border-primary focus:ring-0"
+                                           type="time"
+                                           value="18:00" />
+                                </div>
+                            </div>
+                            <!-- Sunday (Closed) -->
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-4 p-3 rounded-lg bg-surface-dark/50 border border-transparent hover:border-input-border transition-colors opacity-60">
+                                <div class="min-w-[100px] flex items-center gap-3">
+                                    <input class="rounded border-input-border bg-surface-dark text-primary focus:ring-offset-background-dark focus:ring-primary size-5"
+                                           type="checkbox" />
+                                    <span class="font-medium text-text-secondary">Sunday</span>
+                                </div>
+                                <div class="flex items-center gap-2 flex-1">
+                                    <span class="text-sm font-bold text-text-secondary uppercase tracking-wider">Closed</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Contact Section -->
+                <section class="scroll-mt-24 space-y-6" id="contact">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="material-symbols-outlined text-primary">location_on</span>
+                        <h2 class="text-xl font-bold text-white">Contact &amp; Location</h2>
+                    </div>
+                    <div class="p-6 rounded-xl border border-border-dark bg-[#141b16] space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-bold text-white">Primary Phone</label>
+                                <div class="flex">
+                                    <select class="rounded-l-lg border-y border-l border-input-border bg-surface-dark text-text-secondary text-sm px-2 focus:ring-0 focus:border-primary">
+                                        <option>+250 (RW)</option>
+                                        <option>+254 (KE)</option>
+                                        <option>+255 (TZ)</option>
+                                        <option>+256 (UG)</option>
+                                    </select>
+                                    <input class="form-input-base rounded-l-none h-12"
+                                           type="tel"
+                                           value="788 123 456" />
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-bold text-white flex items-center gap-2">
+                                    WhatsApp Number
+                                    <span class="material-symbols-outlined text-green-500 text-[16px]">chat</span>
+                                </label>
+                                <div class="flex">
+                                    <select class="rounded-l-lg border-y border-l border-input-border bg-surface-dark text-text-secondary text-sm px-2 focus:ring-0 focus:border-primary">
+                                        <option>+250 (RW)</option>
+                                        <option>+254 (KE)</option>
+                                        <option>+255 (TZ)</option>
+                                        <option>+256 (UG)</option>
+                                    </select>
+                                    <input class="form-input-base rounded-l-none h-12"
+                                           type="tel"
+                                           value="788 123 456" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-sm font-bold text-white">Service Areas (Districts)</label>
+                            <div class="form-input-base min-h-[56px] h-auto flex flex-wrap gap-2 items-center">
+                                <span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-primary/20 text-primary text-sm font-medium border border-primary/30">
+                                    Kicukiro
+                                    <button class="hover:text-white">
+                                        <span class="material-symbols-outlined text-[14px]">close</span>
+                                    </button>
+                                </span>
+                                <span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-primary/20 text-primary text-sm font-medium border border-primary/30">
+                                    Gasabo
+                                    <button class="hover:text-white">
+                                        <span class="material-symbols-outlined text-[14px]">close</span>
+                                    </button>
+                                </span>
+                                <span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-primary/20 text-primary text-sm font-medium border border-primary/30">
+                                    Nyarugenge
+                                    <button class="hover:text-white">
+                                        <span class="material-symbols-outlined text-[14px]">close</span>
+                                    </button>
+                                </span>
+                                <input class="bg-transparent border-none outline-none text-white placeholder:text-text-secondary text-sm min-w-[120px] focus:ring-0 p-0"
+                                       placeholder="Add district..."
+                                       type="text" />
+                            </div>
+                            <p class="text-xs text-text-secondary">Type and press enter to add new areas.</p>
+                        </div>
+                        <div class="h-48 w-full rounded-lg overflow-hidden relative">
+                            <img class="w-full h-full object-cover opacity-60 grayscale hover:grayscale-0 transition-all"
+                                 data-alt="Map view of Kigali service area"
+                                 data-location="Kigali, Rwanda"
+                                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuAB-ROsgvwwYQcSg7igr5I1rE1xe4UXpqX1PxeyDkztFm4Mb4Xz3iDxhbw0zHQ-Cdxko3xPjRUWjG9eYXMwV4d7DFqkg_M5AMGfy40vMWg_HEOClSdrwEyd5oTstmDdTwfDat1NCW2Hdq5lq0784AxhN054Rb9S9QP1pLE9sJYVoVhqKkGe4oONvfZXoqB7iXGVJbDhci-0iSL6V05Jo_bO0Z1cpmxFRzWttcMFnH3DqJtC6g6nNMA9yyp3208OeMF2tQPyGtfX21o" />
+                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                <button class="pointer-events-auto bg-surface-dark/90 backdrop-blur text-white px-4 py-2 rounded-lg text-sm font-bold shadow-lg border border-border-dark flex items-center gap-2 hover:bg-primary hover:text-black hover:border-primary transition-colors">
+                                    <span class="material-symbols-outlined text-[18px]">edit_location</span>
+                                    Set Pin Location
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>Service Provider Profile - GUKODESHA</title>
+        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+              rel="stylesheet" />
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#38e07b",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#122017",
+                        "surface-dark": "#1a2c22", // A slightly lighter dark for cards
+                        "surface-border": "#29382f"
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+        </script>
+    </head>
+    <body class="bg-background-light dark:bg-background-dark font-display min-h-screen flex flex-col text-[#111714] dark:text-white">
+        <!-- TopNavBar -->
+        {% include 'partial/header.html' %}
+        <main class="flex-1 flex justify-center py-8 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-[1200px] w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Left Column: Main Content -->
+                <div class="lg:col-span-8 flex flex-col gap-8">
+                    <!-- Profile Header Card -->
+                    <div class="rounded-xl overflow-hidden bg-white dark:bg-surface-dark border border-[#e5e7eb] dark:border-surface-border shadow-sm">
+                        <!-- Cover Image -->
+                        <div class="h-48 w-full bg-cover bg-center relative"
+                             data-alt="industrial plumbing pipes background texture"
+                             style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAqEDlwOUfjTAh3B6vzpOo9okzFVSPA3BPA_sranqWcfIKj63xWQfYo8jDTVI7by8SZU_H_lNt5MkRK5eRrwPdK7NEJBnE9kkIfyHKbEmzJQ_6blHcZGYkohRwLHECL7v6rUtlr9nlcRcfmeuwuU6IjbcFbc5Sb0ynQlzxdgBTrlbQAuQprdNlsySlb8MFv76Y2S3oiP-wK4EXmKByddiIKoBZNJtJdUMYpaHl8cHyw1lVV-uXFguBvjI4udL9o6sNnOKrI88uyxC4')">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        </div>
+                        <div class="px-6 pb-6 relative">
+                            <!-- Profile Image & Basic Info -->
+                            <div class="flex flex-col sm:flex-row gap-6 -mt-12 items-start sm:items-end mb-4">
+                                <div class="relative shrink-0">
+                                    <div class="h-32 w-32 rounded-full border-4 border-white dark:border-surface-dark bg-cover bg-center shadow-lg"
+                                         data-alt="portrait of a smiling male service provider"
+                                         style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA_4xN4h8CMbb2C_DXRqmG6GjHRpAZ_4g9S-qiS7oV-VnuVJBsN6eJj3MJdHNpErPLhfhikG_BEXNa5phEZkIuUOjgoJ6QbRxmYnMmc3H2vV12NB9l0GyzPDLTvDLELNQLoHFQKJyG3MuuahOmtVc2qz4hLiRWngcv2s1JEdrUMbuxo5nEuHetkJz4b_4KQFTm1Y1s7BJ5DX5Bm9rPTSfikHGdNU9HBZlqcJ1mSDAUoCetTFCh3BWGnyTEPRN02CwD0SBcvf5OImwg')">
+                                    </div>
+                                    <div class="absolute bottom-2 right-2 bg-primary text-[#111714] rounded-full p-1 border-2 border-white dark:border-surface-dark flex items-center justify-center"
+                                         title="Available Now">
+                                        <span class="material-symbols-outlined text-[16px] font-bold">bolt</span>
+                                    </div>
+                                </div>
+                                <div class="flex-1 min-w-0 pb-1">
+                                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
+                                        <div>
+                                            <h1 class="text-2xl sm:text-3xl font-bold leading-tight">John Doe Plumbing</h1>
+                                            <div class="flex items-center gap-2 mt-1 text-[#5c7265] dark:text-[#9eb7a8]">
+                                                <span class="material-symbols-outlined text-[18px]">location_on</span>
+                                                <span class="text-sm">Kigali, Rwanda • Residential &amp; Commercial</span>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-col items-start md:items-end">
+                                            <div class="flex items-center gap-1 bg-primary/10 px-2 py-1 rounded text-primary font-bold">
+                                                <span class="text-lg">4.8</span>
+                                                <span class="material-symbols-outlined text-[18px] fill-current">star</span>
+                                                <span class="text-xs font-normal text-[#5c7265] dark:text-[#9eb7a8] ml-1">(120 Reviews)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Verification Chips -->
+                            <div class="flex gap-3 flex-wrap border-t border-[#e5e7eb] dark:border-surface-border pt-4 mt-4">
+                                <div class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary/10 border border-primary/20 pl-2 pr-4">
+                                    <span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+                                    <p class="text-[#111714] dark:text-white text-xs font-bold uppercase tracking-wider">Verified ID</p>
+                                </div>
+                                <div class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-black/5 dark:bg-surface-border pl-2 pr-4">
+                                    <span class="material-symbols-outlined text-[#9eb7a8] text-[18px]">shield</span>
+                                    <p class="text-[#5c7265] dark:text-[#9eb7a8] text-sm font-medium">Background Checked</p>
+                                </div>
+                                <div class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-black/5 dark:bg-surface-border pl-2 pr-4">
+                                    <span class="material-symbols-outlined text-[#9eb7a8] text-[18px]">badge</span>
+                                    <p class="text-[#5c7265] dark:text-[#9eb7a8] text-sm font-medium">Licensed Pro</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Stats Section -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-white dark:bg-surface-dark p-4 rounded-xl border border-[#e5e7eb] dark:border-surface-border flex flex-col items-center justify-center text-center">
+                            <p class="text-primary text-2xl font-bold">10+</p>
+                            <p class="text-sm text-[#5c7265] dark:text-[#9eb7a8]">Years Experience</p>
+                        </div>
+                        <div class="bg-white dark:bg-surface-dark p-4 rounded-xl border border-[#e5e7eb] dark:border-surface-border flex flex-col items-center justify-center text-center">
+                            <p class="text-primary text-2xl font-bold">150+</p>
+                            <p class="text-sm text-[#5c7265] dark:text-[#9eb7a8]">Jobs Completed</p>
+                        </div>
+                        <div class="bg-white dark:bg-surface-dark p-4 rounded-xl border border-[#e5e7eb] dark:border-surface-border flex flex-col items-center justify-center text-center">
+                            <p class="text-primary text-2xl font-bold">98%</p>
+                            <p class="text-sm text-[#5c7265] dark:text-[#9eb7a8]">Response Rate</p>
+                        </div>
+                        <div class="bg-white dark:bg-surface-dark p-4 rounded-xl border border-[#e5e7eb] dark:border-surface-border flex flex-col items-center justify-center text-center">
+                            <p class="text-primary text-2xl font-bold">1hr</p>
+                            <p class="text-sm text-[#5c7265] dark:text-[#9eb7a8]">Avg. Response</p>
+                        </div>
+                    </div>
+                    <!-- About Section -->
+                    <div class="bg-white dark:bg-surface-dark p-6 rounded-xl border border-[#e5e7eb] dark:border-surface-border">
+                        <h3 class="text-xl font-bold mb-4">About Me</h3>
+                        <p class="text-[#5c7265] dark:text-[#9eb7a8] leading-relaxed mb-4">
+                            Professional plumber with over 10 years of experience serving the greater Kigali area. I specialize in both residential and commercial plumbing maintenance, including leak detection, pipe repair, and full system installations. My team is dedicated to providing quick, reliable, and affordable service.
+                        </p>
+                        <p class="text-[#5c7265] dark:text-[#9eb7a8] leading-relaxed">
+                            We are equipped with modern tools to handle emergencies 24/7. Whether it's a small faucet leak or a major tank installation, we treat every job with the highest level of professionalism.
+                        </p>
+                    </div>
+                    <!-- Services Grid -->
+                    <div>
+                        <h3 class="text-xl font-bold mb-4 px-1">Services Offered</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Service Card 1 -->
+                            <div class="bg-white dark:bg-surface-dark p-5 rounded-xl border border-[#e5e7eb] dark:border-surface-border hover:border-primary/50 transition-colors group">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h4 class="font-bold text-lg group-hover:text-primary transition-colors">Emergency Leak Fix</h4>
+                                    <span class="bg-primary/10 text-primary text-xs font-bold px-2 py-1 rounded">Starting 20k RWF</span>
+                                </div>
+                                <p class="text-sm text-[#5c7265] dark:text-[#9eb7a8] mb-4">
+                                    Rapid response for burst pipes, leaking faucets, and water damage mitigation.
+                                </p>
+                                <button class="w-full py-2 rounded-lg border border-[#e5e7eb] dark:border-surface-border text-sm font-bold hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+                                    Request Quote
+                                </button>
+                            </div>
+                            <!-- Service Card 2 -->
+                            <div class="bg-white dark:bg-surface-dark p-5 rounded-xl border border-[#e5e7eb] dark:border-surface-border hover:border-primary/50 transition-colors group">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h4 class="font-bold text-lg group-hover:text-primary transition-colors">Water Tank Installation</h4>
+                                    <span class="bg-black/5 dark:bg-white/10 text-[#5c7265] dark:text-[#9eb7a8] text-xs font-bold px-2 py-1 rounded">Quote Required</span>
+                                </div>
+                                <p class="text-sm text-[#5c7265] dark:text-[#9eb7a8] mb-4">
+                                    Full installation of elevated or ground water storage tanks with pump systems.
+                                </p>
+                                <button class="w-full py-2 rounded-lg border border-[#e5e7eb] dark:border-surface-border text-sm font-bold hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+                                    Request Quote
+                                </button>
+                            </div>
+                            <!-- Service Card 3 -->
+                            <div class="bg-white dark:bg-surface-dark p-5 rounded-xl border border-[#e5e7eb] dark:border-surface-border hover:border-primary/50 transition-colors group">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h4 class="font-bold text-lg group-hover:text-primary transition-colors">Drain Cleaning</h4>
+                                    <span class="bg-primary/10 text-primary text-xs font-bold px-2 py-1 rounded">Starting 15k RWF</span>
+                                </div>
+                                <p class="text-sm text-[#5c7265] dark:text-[#9eb7a8] mb-4">
+                                    Unclogging of kitchen sinks, bathroom drains, and main sewer lines.
+                                </p>
+                                <button class="w-full py-2 rounded-lg border border-[#e5e7eb] dark:border-surface-border text-sm font-bold hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+                                    Request Quote
+                                </button>
+                            </div>
+                            <!-- Service Card 4 -->
+                            <div class="bg-white dark:bg-surface-dark p-5 rounded-xl border border-[#e5e7eb] dark:border-surface-border hover:border-primary/50 transition-colors group">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h4 class="font-bold text-lg group-hover:text-primary transition-colors">Maintenance Check</h4>
+                                    <span class="bg-primary/10 text-primary text-xs font-bold px-2 py-1 rounded">Fixed 30k RWF</span>
+                                </div>
+                                <p class="text-sm text-[#5c7265] dark:text-[#9eb7a8] mb-4">
+                                    Comprehensive plumbing system audit for homes and small businesses.
+                                </p>
+                                <button class="w-full py-2 rounded-lg border border-[#e5e7eb] dark:border-surface-border text-sm font-bold hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+                                    Request Quote
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Portfolio Gallery -->
+                    <div>
+                        <h3 class="text-xl font-bold mb-4 px-1">Recent Work</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                            <div class="group relative aspect-square rounded-lg overflow-hidden bg-gray-800 cursor-pointer">
+                                <img class="object-cover w-full h-full group-hover:scale-110 transition-transform duration-300"
+                                     data-alt="Modern bathroom sink installation closeup"
+                                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZfOgw9kXxr5Pg0S6D-SrWNXRGu8WjOJssA1RJf8LaYFWKZXbLWY11GHVJdMyaMd71WLWzj8NXF_e_HOIFLzm5RuosboAyus3r3kBtmRAbDNDmIsYZqUVQUj8gI_eMQm8GqwpJ_JwhwffcdxE4ma4dCLIDyX2mE7fMHpsB0rWg1LJMM8n0lQZUyjTE0LHDqkLqVgsBu6UzeuvhvfaXH8FXN34mDX2nLAs8LNKiifLTljevg9gZOxUnZQ3iU2TU8qyUviugTJfN1pE" />
+                                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-white text-3xl">visibility</span>
+                                </div>
+                            </div>
+                            <div class="group relative aspect-square rounded-lg overflow-hidden bg-gray-800 cursor-pointer">
+                                <img class="object-cover w-full h-full group-hover:scale-110 transition-transform duration-300"
+                                     data-alt="Industrial piping system repair"
+                                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuDR5XjcHGxEiuHJi8Uzev3P52GpOrcH2qIc8zFQ3c5le18rVSb_vEwBM7Ov8UYAHBfBrSHC3f-P-pZpNpxWphDlVz5tadV0AXYR6fCfpTaQ6huc1XFHKqNTiaYOEbMhc4QjJSmvy2Dt36py0YWiPbykelC4ql2lBt2Z0iLCWqViZ_KUk5NMhQ0SLQkyqfE9y65iPHQc-vmpkpkle6kdRfdLXKAUuP3Q9hTLmLVjlOKT7OsQe2s-18yzMyOiuo7WDzFrWNhcYVJs3VU" />
+                                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-white text-3xl">visibility</span>
+                                </div>
+                            </div>
+                            <div class="group relative aspect-square rounded-lg overflow-hidden bg-gray-800 cursor-pointer">
+                                <img class="object-cover w-full h-full group-hover:scale-110 transition-transform duration-300"
+                                     data-alt="Kitchen faucet replacement finished work"
+                                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSv8IQtaa2eUx3ngW8mfnPAveJF-ei4Ffd_l-ZWs3O-gLBVIPuFWNxFHgkkYsYLDT4RtSRoxjAnd8MDwABSMKxIIS7hOg1BBChdOordbY5LDEPTzxYXc4lEAbnIRG8Or4BMEKGt_F6gasFuJtBqVIicerCz5gxaobVs8z6dpwdOQt0U8-kV1EKjiLWzuCjJL1DiTGtAenOqJIpBZ1N-RUTIj_862k648tZeHo6yQMt5cu_FMbPU8aqA8CYVolWpgxi1I8ozDLOoeg" />
+                                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-white text-3xl">visibility</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Reviews Section -->
+                    <div class="bg-white dark:bg-surface-dark p-6 rounded-xl border border-[#e5e7eb] dark:border-surface-border">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-xl font-bold">Client Reviews</h3>
+                            <a class="text-primary text-sm font-bold hover:underline" href="#">View all 120</a>
+                        </div>
+                        <div class="flex flex-col gap-6">
+                            <!-- Review Item 1 -->
+                            <div class="border-b border-[#e5e7eb] dark:border-surface-border pb-6 last:border-0 last:pb-0">
+                                <div class="flex justify-between mb-2">
+                                    <div class="flex items-center gap-2">
+                                        <div class="h-8 w-8 rounded-full bg-gray-300 bg-cover bg-center"
+                                             data-alt="Reviewer profile picture"
+                                             style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBYDlc3XMuYhMDDUHIRxcVpT5Nk8XbgrSYiFqBrYHIQSMbY4QuS_-2AOs6GfiE0FPfCdoJ6co6nDxU2AArjdCbu_v9ntrC03DcK2gGqWchuWWW3O5RMbB481ggkG6tiFhPNvRO-EWJZSM7CcytXxqO0Zsu50dvmBV3LRQISZPGYzaf5xI9akRV2cEaVcJ-sCofbjMORs-wSvZQ3OBArDAhoS1d1j6PPjX0HzvraXWOLtEsS3tnfemIG-175aX462CkCB_n1SDBrE_c')">
+                                        </div>
+                                        <span class="font-bold text-sm">Sarah K.</span>
+                                    </div>
+                                    <span class="text-xs text-[#5c7265] dark:text-[#9eb7a8]">2 days ago</span>
+                                </div>
+                                <div class="flex text-primary mb-2">
+                                    <span class="material-symbols-outlined text-[16px] fill-current">star</span>
+                                    <span class="material-symbols-outlined text-[16px] fill-current">star</span>
+                                    <span class="material-symbols-outlined text-[16px] fill-current">star</span>
+                                    <span class="material-symbols-outlined text-[16px] fill-current">star</span>
+                                    <span class="material-symbols-outlined text-[16px] fill-current">star</span>
+                                </div>
+                                <p class="text-sm text-[#5c7265] dark:text-[#9eb7a8]">
+                                    "John was incredibly professional. He arrived on time and fixed our leak in under an hour. Highly recommended for anyone in Kigali!"
+                                </p>
+                            </div>
+                            <!-- Review Item 2 -->
+                            <div class="border-b border-[#e5e7eb] dark:border-surface-border pb-6 last:border-0 last:pb-0">
+                                <div class="flex justify-between mb-2">
+                                    <div class="flex items-center gap-2">
+                                        <div class="h-8 w-8 rounded-full bg-gray-300 bg-cover bg-center"
+                                             data-alt="Reviewer profile picture"
+                                             style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCoqXa9KFYUR_kZ-Zwe7lDTGvg5ewp6uMUJ-pxe6rw0HCYJ4EAmBglksndTZdXStNY8DhyXhVUurnSkLr1urpVQTmRyXaRaZcrMrwNUhlzsTe1Mdk6-L-hZ2OSCRVZjV1mgJJepvub2tyDWvA63FZGuG3pt0R1s7gbB5yzUDkRpS7717KTtOKbKhB0ZQsOKiH8N93EH4mBl6wAAGyxN6eiV_jZqD-LEIiN9LwRc4pcVGZn-mgvcwkCpt6iKh6nr1SgxK-txGO8Vxb0')">
+                                        </div>
+                                        <span class="font-bold text-sm">David M.</span>
+                                    </div>
+                                    <span class="text-xs text-[#5c7265] dark:text-[#9eb7a8]">1 week ago</span>
+                                </div>
+                                <div class="flex text-primary mb-2">
+                                    <span class="material-symbols-outlined text-[16px] fill-current">star</span>
+                                    <span class="material-symbols-outlined text-[16px] fill-current">star</span>
+                                    <span class="material-symbols-outlined text-[16px] fill-current">star</span>
+                                    <span class="material-symbols-outlined text-[16px] fill-current">star</span>
+                                    <span class="material-symbols-outlined text-[16px]">star</span>
+                                </div>
+                                <p class="text-sm text-[#5c7265] dark:text-[#9eb7a8]">
+                                    "Great service but a bit pricey compared to others. However, the quality of work was top notch."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Right Column: Sticky Sidebar -->
+                <div class="lg:col-span-4 relative">
+                    <div class="sticky top-28 flex flex-col gap-4">
+                        <!-- Action Card -->
+                        <div class="bg-white dark:bg-surface-dark p-6 rounded-xl border border-[#e5e7eb] dark:border-surface-border shadow-lg">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="font-bold text-lg">Contact Provider</h3>
+                                <span class="inline-flex items-center gap-1 rounded-full bg-green-900/30 px-2 py-1 text-xs font-semibold text-primary">
+                                    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>
+                                    Online
+                                </span>
+                            </div>
+                            <div class="flex flex-col gap-3">
+                                <button class="flex items-center justify-center gap-2 w-full h-12 rounded-lg bg-primary text-[#111714] text-base font-bold hover:bg-opacity-90 transition-opacity shadow-md shadow-primary/20">
+                                    <span class="material-symbols-outlined">calendar_month</span>
+                                    Book Appointment
+                                </button>
+                                <button class="flex items-center justify-center gap-2 w-full h-12 rounded-lg bg-[#25D366] text-white text-base font-bold hover:bg-opacity-90 transition-opacity">
+                                    <span class="material-symbols-outlined">chat</span>
+                                    Chat on WhatsApp
+                                </button>
+                                <button class="flex items-center justify-center gap-2 w-full h-12 rounded-lg bg-black/5 dark:bg-surface-border text-[#111714] dark:text-white text-base font-bold hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
+                                    <span class="material-symbols-outlined">call</span>
+                                    Show Number
+                                </button>
+                            </div>
+                            <div class="mt-6 pt-6 border-t border-[#e5e7eb] dark:border-surface-border">
+                                <p class="text-xs font-bold text-[#5c7265] dark:text-[#9eb7a8] uppercase tracking-wider mb-3">Business Hours</p>
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-[#111714] dark:text-white">Mon - Fri</span>
+                                        <span class="text-[#5c7265] dark:text-[#9eb7a8]">8:00 AM - 6:00 PM</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-[#111714] dark:text-white">Saturday</span>
+                                        <span class="text-[#5c7265] dark:text-[#9eb7a8]">9:00 AM - 4:00 PM</span>
+                                    </div>
+                                    <div class="flex justify-between text-red-400">
+                                        <span>Sunday</span>
+                                        <span>Emergency Only</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Safety Tip Card -->
+                        <div class="bg-primary/5 p-4 rounded-xl border border-primary/20">
+                            <div class="flex gap-3">
+                                <div class="mt-1">
+                                    <span class="material-symbols-outlined text-primary">security</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm mb-1 text-primary">Safety First</h4>
+                                    <p class="text-xs text-[#5c7265] dark:text-[#9eb7a8] leading-normal">
+                                        Always pay through GUKODESHA to ensure you are protected by our satisfaction guarantee. Never transfer money directly.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Location Map Preview -->
+                        <div class="rounded-xl overflow-hidden border border-[#e5e7eb] dark:border-surface-border h-48 relative">
+                            <img class="w-full h-full object-cover opacity-60"
+                                 data-alt="Map view of Kigali area"
+                                 data-location="Kigali, Rwanda"
+                                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnOn5WHjCSHqR3-BaiKUFu1EfWD1YLwroY1RmjNhWPlgqpNHs5MMKs1vAjNSqCc7Tdp1UmQiSd68CBmFrYzKddY_3tI4IMeb3GYZGBciE2zB66WgIEQqzstsHsShvhIid2iIMIWNy3hTNI89WprRhYRGvlvCK6DQgdEE1i__R2cioB4WCSbryih45-nXKyBe8LpOytW7Y-tQclci30nNmzltIolb0twV8QS-SHzynaHb5xnTPPI1oDn0s-IsG0Sby9fE_CTpsAxb4" />
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <button class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-white/20 transition-colors">
+                                    View on Map
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- Simple Footer for Context -->
+        {% include 'partial/footer.html' %}
+    </body>
+</html>

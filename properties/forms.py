@@ -1,4 +1,4 @@
-from django import forms
+"""from django import forms
 from .models import House, ListingImage, Country, Province, District, Sector, Cell, Village
 
 class HouseForm(forms.ModelForm): 
@@ -78,7 +78,7 @@ ListingImageFormSet = forms.inlineformset_factory(
 )
 
 class ListingImageForm(forms.ModelForm):
-    """Form for adding additional images to a house listing"""
+    #Form for adding additional images to a house listing
     
     class Meta:
         model = ListingImage
@@ -99,7 +99,7 @@ ListingImageFormSet = forms.inlineformset_factory(
 
 
 class HouseSearchForm(forms.Form):
-    """Form for searching and filtering house listings"""
+    #Form for searching and filtering house listings
     
     query = forms.CharField(
         required=False,
@@ -162,7 +162,7 @@ class HouseSearchForm(forms.Form):
 
 
 class LocationForm(forms.Form):
-    """Form for cascading location selection"""
+    #Form for cascading location selection
     
     country = forms.ModelChoiceField(
         queryset=Country.objects.all(),
@@ -244,4 +244,4 @@ class LocationForm(forms.Form):
                 cell_id = int(self.data.get('cell'))
                 self.fields['village'].queryset = Village.objects.filter(cell_id=cell_id)
             except (ValueError, TypeError):
-                pass
+                pass"""

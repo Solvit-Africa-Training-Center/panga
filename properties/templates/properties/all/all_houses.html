@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>Browse Houses - GUKODESHA</title>
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+              rel="stylesheet" />
+        <script>
+            tailwind.config = {
+                darkMode: "class",
+                theme: {
+                    extend: {
+                        colors: {
+                            "primary": "#38e07b",
+                            "background-light": "#f6f8f7",
+                            "background-dark": "#111714",
+                            "surface-dark": "#1c2620",
+                            "border-dark": "#29382f",
+                            "text-secondary": "#9eb7a8",
+                        },
+                        fontFamily: {
+                            "display": ["Manrope", "Noto Sans", "sans-serif"]
+                        },
+                    },
+                },
+            }
+        </script>
+        <style>
+            ::-webkit-scrollbar { width: 8px; }
+            ::-webkit-scrollbar-track { background: #111714; }
+            ::-webkit-scrollbar-thumb { background: #29382f; border-radius: 4px; }
+            ::-webkit-scrollbar-thumb:hover { background: #38e07b; }
+        </style>
+    </head>
+    <body class="bg-background-dark text-white font-display overflow-x-hidden min-h-screen flex flex-col">
+        <!-- Top Navigation Bar -->
+        {% include 'partial/header.html' %}
+        <div class="flex flex-1 w-full max-w-[1440px] mx-auto">
+            <!-- Left Sidebar: Filters -->
+            <aside class="hidden lg:flex flex-col w-72 border-r border-border-dark bg-[#111714] p-6 gap-8 sticky top-[73px] h-[calc(100vh-73px)] overflow-y-auto">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-bold text-white">Filters</h3>
+                    <button id="resetFilters"
+                            class="text-text-secondary text-sm font-medium hover:text-white transition-colors">
+                        Reset
+                    </button>
+                </div>
+                <form id="filterForm" method="GET">
+                    <!-- Location Filter -->
+                    <div class="flex flex-col gap-3 mb-8">
+                        <label class="text-white text-sm font-medium">Location</label>
+                        <div class="relative">
+                            <select name="district"
+                                    id="districtFilter"
+                                    class="w-full appearance-none rounded-lg border border-border-dark bg-surface-dark py-3 px-4 text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+                                <option value="">All Districts</option>
+                                {% for district in districts %}
+                                    <option value="{{ district.id }}"
+                                            {% if request.GET.district == district.id|stringformat:"s" %}selected{% endif %}>
+                                        {{ district.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-text-secondary">
+                                <span class="material-symbols-outlined">expand_more</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Property Type -->
+                    <div class="flex flex-col gap-3 mb-8">
+                        <label class="text-white text-sm font-medium">Property Type</label>
+                        <div class="relative">
+                            <select name="type"
+                                    id="typeFilter"
+                                    class="w-full appearance-none rounded-lg border border-border-dark bg-surface-dark py-3 px-4 text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+                                <option value="">All Types</option>
+                                <option value="Apartment"
+                                        {% if request.GET.type == "Apartment" %}selected{% endif %}>Apartment</option>
+                                <option value="House" {% if request.GET.type == "House" %}selected{% endif %}>House / Villa</option>
+                                <option value="Studio"
+                                        {% if request.GET.type == "Studio" %}selected{% endif %}>Studio</option>
+                                <option value="Guest House"
+                                        {% if request.GET.type == "Guest House" %}selected{% endif %}>
+                                    Guest House
+                                </option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-text-secondary">
+                                <span class="material-symbols-outlined">expand_more</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Price Range Slider -->
+                    <div class="flex flex-col gap-4 mb-8">
+                        <div class="flex justify-between items-center">
+                            <label class="text-white text-sm font-medium">Price Range (RWF)</label>
+                        </div>
+                        <div class="space-y-4">
+                            <input type="range"
+                                   name="min_price"
+                                   id="minPrice"
+                                   min="0"
+                                   max="2000000"
+                                   step="50000"
+                                   value="{{ request.GET.min_price|default:'200000' }}"
+                                   class="w-full h-1 bg-border-dark rounded-sm appearance-none cursor-pointer accent-primary">
+                            <input type="range"
+                                   name="max_price"
+                                   id="maxPrice"
+                                   min="0"
+                                   max="2000000"
+                                   step="50000"
+                                   value="{{ request.GET.max_price|default:'1500000' }}"
+                                   class="w-full h-1 bg-border-dark rounded-sm appearance-none cursor-pointer accent-primary">
+                            <div class="flex justify-between text-xs text-text-secondary">
+                                <span id="minPriceLabel">200k</span>
+                                <span id="maxPriceLabel">1.5M</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Bedrooms -->
+                    <div class="flex flex-col gap-3 mb-8">
+                        <label class="text-white text-sm font-medium">Bedrooms</label>
+                        <input type="hidden"
+                               name="bedrooms"
+                               id="bedroomsInput"
+                               value="{{ request.GET.bedrooms }}">
+                        <div class="flex gap-2">
+                            <button type="button"
+                                    data-bedroom=""
+                                    class="bedroom-btn flex-1 rounded-lg border border-border-dark bg-surface-dark py-2 text-sm text-white hover:border-primary hover:text-primary transition-colors">
+                                Any
+                            </button>
+                            <button type="button"
+                                    data-bedroom="1"
+                                    class="bedroom-btn flex-1 rounded-lg border border-border-dark bg-surface-dark py-2 text-sm text-white hover:border-primary hover:text-primary transition-colors">
+                                1
+                            </button>
+                            <button type="button"
+                                    data-bedroom="2"
+                                    class="bedroom-btn flex-1 rounded-lg border border-border-dark bg-surface-dark py-2 text-sm text-white hover:border-primary hover:text-primary transition-colors">
+                                2
+                            </button>
+                            <button type="button"
+                                    data-bedroom="3+"
+                                    class="bedroom-btn flex-1 rounded-lg border border-border-dark bg-surface-dark py-2 text-sm text-white hover:border-primary hover:text-primary transition-colors">
+                                3+
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Amenities Checkboxes -->
+                    <div class="flex flex-col gap-3 mb-8">
+                        <label class="text-white text-sm font-medium">Amenities</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <div class="relative flex items-center">
+                                    <input name="available"
+                                           type="checkbox"
+                                           value="true"
+                                           {% if request.GET.available %}checked{% endif %}
+                                           class="peer size-5 appearance-none rounded border border-border-dark bg-surface-dark checked:border-primary checked:bg-primary transition-all" />
+                                    <span class="material-symbols-outlined absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[16px] text-[#111714] opacity-0 peer-checked:opacity-100 font-bold">check</span>
+                                </div>
+                                <span class="text-text-secondary text-sm group-hover:text-white transition-colors">Available</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <div class="relative flex items-center">
+                                    <input name="parking"
+                                           type="checkbox"
+                                           value="true"
+                                           {% if request.GET.parking %}checked{% endif %}
+                                           class="peer size-5 appearance-none rounded border border-border-dark bg-surface-dark checked:border-primary checked:bg-primary transition-all" />
+                                    <span class="material-symbols-outlined absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[16px] text-[#111714] opacity-0 peer-checked:opacity-100 font-bold">check</span>
+                                </div>
+                                <span class="text-text-secondary text-sm group-hover:text-white transition-colors">Parking</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <div class="relative flex items-center">
+                                    <input name="wifi"
+                                           type="checkbox"
+                                           value="true"
+                                           {% if request.GET.wifi %}checked{% endif %}
+                                           class="peer size-5 appearance-none rounded border border-border-dark bg-surface-dark checked:border-primary checked:bg-primary transition-all" />
+                                    <span class="material-symbols-outlined absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[16px] text-[#111714] opacity-0 peer-checked:opacity-100 font-bold">check</span>
+                                </div>
+                                <span class="text-text-secondary text-sm group-hover:text-white transition-colors">Wi-Fi</span>
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit"
+                            class="flex w-full items-center justify-center rounded-lg bg-primary py-3 text-[#111714] font-bold hover:bg-opacity-90 transition-opacity">
+                        Apply Filters
+                    </button>
+                </form>
+            </aside>
+            <!-- Main Content -->
+            <main class="flex-1 flex flex-col min-w-0">
+                <!-- Breadcrumbs -->
+                <div class="px-6 pt-6 pb-2">
+                    <div class="flex flex-wrap gap-2 items-center text-sm">
+                        <a class="text-text-secondary hover:text-primary transition-colors"
+                           href="{% url 'home' %}">Home</a>
+                        <span class="text-text-secondary">/</span>
+                        <a class="text-text-secondary hover:text-primary transition-colors"
+                           href="{% url 'all_houses' %}">Rentals</a>
+                        <span class="text-text-secondary">/</span>
+                        <span class="text-white font-medium">Great Lake Region</span>
+                    </div>
+                </div>
+                <!-- Page Header & Sorting -->
+                <div class="px-6 py-4">
+                    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+                        <div>
+                            <h1 class="text-white text-3xl md:text-4xl font-extrabold leading-tight tracking-[-0.033em] mb-2">
+                                Properties for Rent in Kigali
+                            </h1>
+                            <p class="text-text-secondary text-base">{{ number }} listing{{ number|pluralize }} found</p>
+                        </div>
+                        <button class="lg:hidden flex items-center gap-2 rounded-lg border border-border-dark bg-surface-dark px-4 py-2.5 text-white">
+                            <span class="material-symbols-outlined">filter_list</span>
+                            <span>Filters</span>
+                        </button>
+                    </div>
+                    <div class="flex flex-wrap items-center justify-between gap-4 border-y border-border-dark py-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-text-secondary text-sm hidden sm:inline">Sort by:</span>
+                            <div class="relative">
+                                <select id="sortSelect"
+                                        class="appearance-none bg-transparent text-white font-medium pr-8 pl-2 py-1 focus:outline-none cursor-pointer">
+                                    <option value="newest"
+                                            {% if request.GET.sort == "newest" or not request.GET.sort %}selected{% endif %}>
+                                        Newest First
+                                    </option>
+                                    <option value="price_low"
+                                            {% if request.GET.sort == "price_low" %}selected{% endif %}>
+                                        Price: Low to High
+                                    </option>
+                                    <option value="price_high"
+                                            {% if request.GET.sort == "price_high" %}selected{% endif %}>
+                                        Price: High to Low
+                                    </option>
+                                </select>
+                                <span class="material-symbols-outlined absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none text-text-secondary text-lg">expand_more</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button class="p-2 text-primary bg-surface-dark rounded border border-border-dark">
+                                <span class="material-symbols-outlined block">grid_view</span>
+                            </button>
+                            <button class="p-2 text-text-secondary hover:text-white transition-colors">
+                                <span class="material-symbols-outlined block">view_list</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Listings Grid -->
+                <div class="flex-1 p-6 pt-2">
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                        {% for house in houses %}
+                            <article class="group relative flex flex-col overflow-hidden rounded-xl bg-surface-dark border border-border-dark hover:border-primary/50 transition-colors duration-300">
+                                <div class="relative aspect-[4/3] w-full overflow-hidden bg-gray-800">
+                                    <img alt="{{ house.label }}"
+                                         class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                         src="{{ house.main_image.url }}" />
+                                    <a href="{% url 'house_detail' house.id %}">
+                                        <div class="absolute top-3 left-3 flex gap-2">
+                                            <span class="bg-primary text-[#111714] text-xs font-bold px-2 py-1 rounded shadow-sm flex items-center gap-1">
+                                                <span class="material-symbols-outlined text-[14px]">visibility</span> Details
+                                            </span>
+                                        </div>
+                                    </a>
+                                    <button class="absolute top-3 right-3 p-2 rounded-full bg-black/40 text-white hover:bg-black/60 hover:text-red-400 transition-all backdrop-blur-sm">
+                                        <span class="material-symbols-outlined block text-[20px]">favorite</span>
+                                    </button>
+                                </div>
+                                <div class="flex flex-col gap-2 p-4">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <h3 class="text-xl font-bold text-white group-hover:text-primary transition-colors">
+                                                {{ house.label|default:house.type }}
+                                            </h3>
+                                            <p class="text-text-secondary text-sm flex items-center gap-1 mt-1">
+                                                <span class="material-symbols-outlined text-[16px]">location_on</span>
+                                                {{ house.location.cell.sector.district.name }}, {{ house.location.cell.sector.district.city.province.name }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-4 py-3 border-b border-border-dark">
+                                        <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                                            <span class="material-symbols-outlined text-text-secondary text-[18px]">bed</span>
+                                            <span>{{ house.n_bed_rooms }}</span>
+                                        </div>
+                                        <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                                            <span class="material-symbols-outlined text-text-secondary text-[18px]">bathtub</span>
+                                            <span>{{ house.n_bath_rooms }}</span>
+                                        </div>
+                                        <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                                            <span class="material-symbols-outlined text-text-secondary text-[18px]">square_foot</span>
+                                            <span>{{ house.surface }}m²</span>
+                                        </div>
+                                        {% if house.has_wifi %}
+                                            <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                                                <span class="material-symbols-outlined text-text-secondary text-[18px]">wifi</span>
+                                            </div>
+                                        {% endif %}
+                                        {% if house.parkings %}
+                                            <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                                                <span class="material-symbols-outlined text-text-secondary text-[18px]">local_parking</span>
+                                                <span>{{ house.parkings }}</span>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="flex items-center justify-between pt-2">
+                                        <p class="text-primary text-lg font-bold">
+                                            {{ house.monthly_rent|floatformat:0 }} RWF<span class="text-sm font-normal text-text-secondary">/month</span>
+                                        </p>
+                                        <a href="{% url 'house_detail' house.id %}"
+                                           class="text-sm font-bold text-white bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded transition-colors border border-border-dark">
+                                            Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </article>
+                        {% empty %}
+                            <div class="col-span-full flex flex-col items-center justify-center py-16 text-center">
+                                <span class="material-symbols-outlined text-6xl text-text-secondary mb-4">home_work</span>
+                                <h3 class="text-white text-xl font-bold mb-2">No properties found</h3>
+                                <p class="text-text-secondary mb-6">Try adjusting your filters or search criteria</p>
+                                <button onclick="document.getElementById('resetFilters').click()"
+                                        class="px-6 py-2 bg-primary text-[#111714] font-bold rounded-lg hover:bg-opacity-90 transition-opacity">
+                                    Reset Filters
+                                </button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <!-- Pagination -->
+                    {% if houses.paginator.num_pages > 1 %}
+                        <div class="flex items-center justify-center gap-2 mt-12 mb-8">
+                            {% if houses.has_previous %}
+                                <a href="?page={{ houses.previous_page_number }}&{{ request.GET.urlencode }}"
+                                   class="flex h-10 w-10 items-center justify-center rounded-lg border border-border-dark bg-surface-dark text-white hover:border-primary hover:text-primary transition-all">
+                                    <span class="material-symbols-outlined text-lg">chevron_left</span>
+                                </a>
+                            {% else %}
+                                <button disabled
+                                        class="flex h-10 w-10 items-center justify-center rounded-lg border border-border-dark bg-surface-dark text-white opacity-50">
+                                    <span class="material-symbols-outlined text-lg">chevron_left</span>
+                                </button>
+                            {% endif %}
+                            {% for num in houses.paginator.page_range %}
+                                {% if num == houses.number %}
+                                    <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-[#111714] font-bold">{{ num }}</span>
+                                {% elif num > houses.number|add:'-3' and num < houses.number|add:'3' %}
+                                    <a href="?page={{ num }}&{{ request.GET.urlencode }}"
+                                       class="flex h-10 w-10 items-center justify-center rounded-lg border border-border-dark bg-surface-dark text-white hover:border-primary hover:text-primary transition-all">{{ num }}</a>
+                                {% endif %}
+                            {% endfor %}
+                            {% if houses.has_next %}
+                                <a href="?page={{ houses.next_page_number }}&{{ request.GET.urlencode }}"
+                                   class="flex h-10 w-10 items-center justify-center rounded-lg border border-border-dark bg-surface-dark text-white hover:border-primary hover:text-primary transition-all">
+                                    <span class="material-symbols-outlined text-lg">chevron_right</span>
+                                </a>
+                            {% else %}
+                                <button disabled
+                                        class="flex h-10 w-10 items-center justify-center rounded-lg border border-border-dark bg-surface-dark text-white opacity-50">
+                                    <span class="material-symbols-outlined text-lg">chevron_right</span>
+                                </button>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            </main>
+        </div>
+        <script>
+            // Price Range Sliders
+            const minPrice = document.getElementById('minPrice');
+            const maxPrice = document.getElementById('maxPrice');
+            const minLabel = document.getElementById('minPriceLabel');
+            const maxLabel = document.getElementById('maxPriceLabel');
+
+            function formatPrice(value) {
+                if (value >= 1000000) return (value / 1000000).toFixed(1) + 'M';
+                return (value / 1000).toFixed(0) + 'k';
+            }
+
+            minPrice.addEventListener('input', () => {
+                if (parseInt(minPrice.value) > parseInt(maxPrice.value)) {
+                    minPrice.value = maxPrice.value;
+                }
+                minLabel.textContent = formatPrice(minPrice.value);
+            });
+
+            maxPrice.addEventListener('input', () => {
+                if (parseInt(maxPrice.value) < parseInt(minPrice.value)) {
+                    maxPrice.value = minPrice.value;
+                }
+                maxLabel.textContent = formatPrice(maxPrice.value);
+            });
+
+            // Bedroom Buttons
+            const bedroomBtns = document.querySelectorAll('.bedroom-btn');
+            const bedroomsInput = document.getElementById('bedroomsInput');
+            
+            bedroomBtns.forEach(btn => {
+                if (btn.dataset.bedroom === bedroomsInput.value) {
+                    btn.classList.add('border-primary', 'bg-primary/20', 'text-primary', 'font-bold');
+                    btn.classList.remove('border-border-dark', 'bg-surface-dark', 'text-white');
+                }
+                
+                btn.addEventListener('click', () => {
+                    bedroomBtns.forEach(b => {
+                        b.classList.remove('border-primary', 'bg-primary/20', 'text-primary', 'font-bold');
+                        b.classList.add('border-border-dark', 'bg-surface-dark', 'text-white');
+                    });
+                    btn.classList.add('border-primary', 'bg-primary/20', 'text-primary', 'font-bold');
+                    btn.classList.remove('border-border-dark', 'bg-surface-dark', 'text-white');
+                    bedroomsInput.value = btn.dataset.bedroom;
+                });
+            });
+
+            // Sort Select
+            document.getElementById('sortSelect').addEventListener('change', (e) => {
+                const url = new URL(window.location);
+                url.searchParams.set('sort', e.target.value);
+                window.location.href = url.toString();
+            });
+
+            // Reset Filters
+            document.getElementById('resetFilters').addEventListener('click', () => {
+                window.location.href = window.location.pathname;
+            });
+        </script>
+    </body>
+</html>

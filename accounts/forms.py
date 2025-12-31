@@ -4,16 +4,54 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 
-from .models import Profile, VerificationCode
+from .models import VerificationCode, User
 from utils.send_email import send_email_custom
 from utils.code_generator import random_with_N_digits
+from django.contrib.auth.forms import ReadOnlyPasswordHashField
+
+
+class UserAdminCreationForm(forms.ModelForm):
+    """
+    A form for creating new users. Includes all the required
+    fields, plus a repeated password.
+    """
+
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'password')
+
+    def save(self, commit=True):
+        # Save the provided password in hashed format
+        user = super(UserAdminCreationForm, self).save(commit=False)
+        if commit:
+            user.save()
+        return user
+
+
+class UserAdminChangeForm(forms.ModelForm):
+    """A form for updating users. Includes all the fields on
+    the user, but replaces the password field with admin's
+    password hash display field.
+    """
+    password = ReadOnlyPasswordHashField()
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password', 'is_active')
+
+    # def clean_password(self):
+    #     # Regardless of what the user provides, return the initial value.
+    #     # This is done here, rather than on the field, because the
+    #     # field does not have access to the initial value
+    #     return self.initial["password"]
 
 
 class SignupForm(forms.ModelForm):
-    full_name = forms.CharField(max_length=150)
+    first_name = forms.CharField(max_length=150)
+    last_name = forms.CharField(max_length=150)
     country_code = forms.CharField(max_length=5)
     phone = forms.CharField(max_length=20)
-    role = forms.ChoiceField(choices=Profile.ROLE_CHOICES)
+    role = forms.ChoiceField(choices=User.ROLE_CHOICES)
 
     password = forms.CharField(widget=forms.PasswordInput)
     re_password = forms.CharField(widget=forms.PasswordInput)
@@ -29,6 +67,7 @@ class SignupForm(forms.ModelForm):
         return email
 
     def clean(self):
+        phone = self.cleaned_data.get("phone")
         cleaned_data = super().clean()
         password = cleaned_data.get("password")
         re_password = cleaned_data.get("re_password")
@@ -37,16 +76,22 @@ class SignupForm(forms.ModelForm):
 
         if country_code and phonee:
             phone_number = country_code + phonee
+            if len(phone_number) >= 16:
+                raise ValidationError("Phone number is too long.")
+            if User.objects.filter(phone=phone_number).exists():
+                raise ValidationError("Phone already exists")
             cleaned_data["phone"] = phone_number
         elif not country_code:
             raise ValidationError("Country code is required.")
         elif not phonee:
             raise ValidationError("Phone number is required.")
 
-        print("Password:", password)
-        print("Re-password:", re_password)
+        # print("Password:", password)
+        # print("Re-password:", re_password)
         if password != re_password:
             raise ValidationError("Passwords do not match")
+        if User.objects.filter(phone=phone).exists():
+            raise ValidationError("Phone already exists")
 
         validate_password(password)
         return cleaned_data
@@ -57,14 +102,12 @@ class SignupForm(forms.ModelForm):
             username=self.cleaned_data["email"],
             email=self.cleaned_data["email"],
             password=self.cleaned_data["password"],
-            is_active=False
+            is_active=False,
+            phone=self.cleaned_data["phone"],
+            first_name=self.cleaned_data["first_name"],
+            last_name=self.cleaned_data["last_name"],
+            role=self.cleaned_data["role"]
         )
-
-        profile = user.profile
-        profile.full_name = self.cleaned_data["full_name"]
-        profile.phone = self.cleaned_data["phone"]
-        profile.role = self.cleaned_data["role"]
-        profile.save()
 
         code = random_with_N_digits(6)
         VerificationCode.objects.create(
@@ -94,16 +137,22 @@ class VerificationCodeForm(forms.Form):
 
 
 class CustomLoginForm(AuthenticationForm):
-    username = forms.EmailField(label="Email")
+    username = forms.CharField(max_length=50)
 
     def clean(self):
-        email = self.cleaned_data.get("username")
+        identify = self.cleaned_data.get("username")
         password = self.cleaned_data.get("password")
 
         try:
-            user = User.objects.get(email=email)
+            user = User.objects.get(username=identify)
         except User.DoesNotExist:
-            raise ValidationError("Invalid email or password")
+            try:
+                user = User.objects.get(phone=identify)
+            except User.DoesNotExist:
+                try:
+                    user = User.objects.get(email=identify)
+                except User.DoesNotExist:
+                    raise ValidationError("Invalid email phone or password")
 
         if not user.is_active:
             raise ValidationError("Account is not activated")

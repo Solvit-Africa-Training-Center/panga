@@ -52,6 +52,23 @@
                     <div class="flex flex-col gap-2 text-left mb-10">
                         <h1 class="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">Welcome back</h1>
                         <p class="text-slate-500 dark:text-text-muted text-base">Manage your property and community services securely.</p>
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message.tags == "success" %}
+                                    <div class="bg-green-100 border border-green-300 text-green-800 p-4 rounded-md shadow-lg">
+                                        <p>{{ message }}</p>
+                                    </div>
+                                {% elif message.tags == "error" %}
+                                    <div class="bg-red-100 border border-red-300 text-red-800 p-4 rounded-md shadow-lg">
+                                        <p>{{ message }}</p>
+                                    </div>
+                                {% elif message.tags == "info" %}
+                                    <div class="bg-blue-100 border border-blue-300 text-blue-800 p-4 rounded-md shadow-lg">
+                                        <p>{{ message }}</p>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                     </div>
                     {% if form.non_field_errors %}
                         <div class="mb-4 rounded-lg bg-red-100 text-red-700 px-4 py-3 text-sm">{{ form.non_field_errors }}</div>
@@ -59,13 +76,13 @@
                     <form method="POST" action="{% url 'login' %}" class="space-y-6">
                         {% csrf_token %}
                         <div>
-                            <label class="block text-sm font-medium leading-6 mb-2" for="email">Email</label>
+                            <label class="block text-sm font-medium leading-6 mb-2" for="email">Email/Phone</label>
                             <div class="relative rounded-lg shadow-sm">
                                 <input class="block w-full rounded-lg border-0 py-3.5 pl-4 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-primary dark:bg-surface-dark dark:text-white dark:ring-border-dark dark:placeholder:text-text-muted sm:text-sm sm:leading-6 transition-colors"
                                        id="email"
                                        name="username"
-                                       placeholder="theo@example.com"
-                                       type="email" />
+                                       placeholder="your unique credential"
+                                       type="text" />
                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                                     <span class="material-symbols-outlined text-slate-400 dark:text-text-muted"
                                           style="font-size: 20px">person</span>
@@ -96,7 +113,7 @@
                         </div>
                     </form>
                     <!-- Divider -->
-                    <div class="relative mt-8">
+                    <div class="hidden relative mt-8">
                         <div aria-hidden="true" class="absolute inset-0 flex items-center">
                             <div class="w-full border-t border-slate-200 dark:border-border-dark"></div>
                         </div>

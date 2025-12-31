@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>About GUKODESHA - Building Better Communities</title>
+        <!-- Tailwind CSS -->
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <!-- Google Fonts: Manrope -->
+        <link href="https://fonts.googleapis.com" rel="preconnect" />
+        <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap"
+              rel="stylesheet" />
+        <!-- Material Symbols -->
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+              rel="stylesheet" />
+        <!-- Theme Configuration -->
+        <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#38e07b",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#111714",
+                        "surface-dark": "#1c2620",
+                        "border-dark": "#29382f",
+                        "text-subtle": "#9eb7a8",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+        </script>
+        <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-primary {
+            color: #38e07b;
+        }
+        </style>
+    </head>
+    <body class="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-white antialiased overflow-x-hidden">
+        <!-- Top Navigation -->
+        <div class="relative flex w-full flex-col">{% include 'partial/header.html' %}</div>
+        <!-- Hero Section -->
+        <div class="relative flex flex-col w-full">
+            <div class="layout-container flex grow flex-col">
+                <div class="flex flex-1 justify-center py-5 px-4 md:px-40">
+                    <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+                        <div class="@container">
+                            <div class="@[480px]:p-4">
+                                <div class="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[480px]:gap-8 @[480px]:rounded-lg items-center justify-center p-8 text-center"
+                                     data-alt="Aerial view of a vibrant African city near a lake at dusk"
+                                     style='background-image: linear-gradient(rgba(17, 23, 20, 0.7), rgba(17, 23, 20, 0.9)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDPxu9x47-nf6g14i__1z1eYTe1OjXdMcznCIDvkYq-fHlwRYIsyRkUvk9uSM91ORUAFV1a0N4Tw2NMLyKNlicPtbHjPrpZbLRUjivvd0sgWx-p7RapL4LN_5sgIeknC8vZuWLc1l_Phuai8PfdhqtYvBC4zKK0RIYaa3o1F6uYUPP2BczNWWCRsEhuoh--Bhnal-1_Bu1s8hYlrkk2YT68ye8BOIFZBKhHsxI0j8RPTtnMnGuDIcmD2gPOPWP3mKHr4QdMX2LHj8I")'>
+                                    <div class="flex flex-col gap-4 max-w-[800px]">
+                                        <h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl lg:text-6xl">
+                                            Building Better Communities in the Great Lakes
+                                        </h1>
+                                        <h2 class="text-gray-200 text-base font-normal leading-relaxed @[480px]:text-lg max-w-[600px] mx-auto">
+                                            We are the bridge connecting tenants, landlords, and service providers for a safer, more integrated living experience across the region.
+                                        </h2>
+                                    </div>
+                                    <div class="flex gap-4 flex-wrap justify-center mt-4">
+                                        <button class="flex min-w-[140px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary text-[#111714] text-base font-bold leading-normal tracking-[0.015em] hover:bg-opacity-90 transition-all shadow-lg shadow-primary/20">
+                                            <span class="truncate">Join the Community</span>
+                                        </button>
+                                        <button class="flex min-w-[140px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-transparent border border-white text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-white/10 transition-all">
+                                            <span class="truncate">View Our Services</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Mission & Vision Split Cards -->
+        <div class="relative flex flex-col w-full py-10">
+            <div class="flex flex-1 justify-center px-4 md:px-40">
+                <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+                    <div class="flex flex-col gap-6 px-4">
+                        <div class="flex flex-col gap-4 mb-4">
+                            <h2 class="text-white text-3xl font-bold leading-tight tracking-[-0.015em]">Our Purpose</h2>
+                            <p class="text-text-subtle text-base font-normal max-w-[720px]">
+                                At GUKODESHA, we are more than just a platform; we are a bridge to better living standards and community security.
+                            </p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Mission Card -->
+                            <div class="flex flex-col gap-4 rounded-xl border border-[#3d5245] bg-surface-dark p-8 hover:border-primary/50 transition-colors group">
+                                <div class="size-12 rounded-full bg-[#29382f] flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-background-dark transition-colors">
+                                    <span class="material-symbols-outlined">flag</span>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <h3 class="text-white text-xl font-bold leading-tight">Our Mission</h3>
+                                    <p class="text-text-subtle text-base font-normal leading-relaxed">
+                                        To simplify housing and enhance security for every resident through technology and trust. We strive to create a platform where verification is standard and safety is prioritized.
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- Vision Card -->
+                            <div class="flex flex-col gap-4 rounded-xl border border-[#3d5245] bg-surface-dark p-8 hover:border-primary/50 transition-colors group">
+                                <div class="size-12 rounded-full bg-[#29382f] flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-background-dark transition-colors">
+                                    <span class="material-symbols-outlined">visibility</span>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <h3 class="text-white text-xl font-bold leading-tight">Our Vision</h3>
+                                    <p class="text-text-subtle text-base font-normal leading-relaxed">
+                                        A connected ecosystem across the Great Lakes where finding a home and trusted services is seamless, safe, and dignified for everyone involved.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Core Values Section -->
+        <div class="relative flex flex-col w-full py-10 bg-[#151d19]">
+            <div class="flex flex-1 justify-center px-4 md:px-40">
+                <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+                    <div class="px-4 pb-3 pt-5 mb-6">
+                        <h2 class="text-white text-3xl font-bold leading-tight tracking-[-0.015em]">Our Core Values</h2>
+                        <p class="text-text-subtle mt-2">The principles that guide every decision we make.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
+                        <!-- Value 1 -->
+                        <div class="flex flex-1 gap-4 rounded-lg bg-surface-dark p-6 flex-col border-t-4 border-primary shadow-lg">
+                            <div class="text-primary mb-2">
+                                <span class="material-symbols-outlined" style="font-size: 36px;">verified_user</span>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <h3 class="text-white text-lg font-bold leading-tight">Transparency</h3>
+                                <p class="text-text-subtle text-sm font-normal leading-relaxed">
+                                    We believe in clear, honest processes for tenants and landlords. No hidden fees, no ambiguous terms—just straightforward interactions.
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Value 2 -->
+                        <div class="flex flex-1 gap-4 rounded-lg bg-surface-dark p-6 flex-col border-t-4 border-primary shadow-lg">
+                            <div class="text-primary mb-2">
+                                <span class="material-symbols-outlined" style="font-size: 36px;">groups</span>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <h3 class="text-white text-lg font-bold leading-tight">Community Safety</h3>
+                                <p class="text-text-subtle text-sm font-normal leading-relaxed">
+                                    Security isn't an afterthought; it's our foundation. We prioritize safety in every listing and service provider verification.
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Value 3 -->
+                        <div class="flex flex-1 gap-4 rounded-lg bg-surface-dark p-6 flex-col border-t-4 border-primary shadow-lg">
+                            <div class="text-primary mb-2">
+                                <span class="material-symbols-outlined" style="font-size: 36px;">trending_up</span>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <h3 class="text-white text-lg font-bold leading-tight">Local Empowerment</h3>
+                                <p class="text-text-subtle text-sm font-normal leading-relaxed">
+                                    We support local service providers and businesses, giving them the tools and visibility they need to grow within their communities.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Who We Serve Section -->
+        <div class="relative flex flex-col w-full py-16">
+            <div class="flex flex-1 justify-center px-4 md:px-40">
+                <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+                    <div class="flex flex-col items-center text-center gap-4 mb-12 px-4">
+                        <h2 class="text-white text-3xl font-bold leading-tight tracking-[-0.015em]">Who We Serve</h2>
+                        <p class="text-text-subtle text-base max-w-[600px]">GUKODESHA connects the three pillars of the housing ecosystem.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
+                        <!-- Tenants -->
+                        <div class="relative group overflow-hidden rounded-xl bg-surface-dark border border-[#3d5245]">
+                            <div class="h-48 bg-cover bg-center"
+                                 data-alt="Young couple smiling while looking at a tablet in a modern apartment"
+                                 style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuADpFRUdKCtPtHJ4Tf1B2689M46kLk_B8ZV-S-mgU_k87n09eUQFHJZcXrKMWJtA-fVneAgPutSUaAlvp3b5M_knYsJsm4SCQypRWFHHUWQDsAtke-pvE-vllCY_y7BSgIhkndAvY1tf3VSiGQj7Ki5wn0BPBRvTDJuMA8oUu9gKTUEBb_YVPErzuiZLuHm6B-K0lgL7yW5mSujgTgUXhxyZTONZO-gODNeRlESbiHqx5b9IqgUcQS0tv4yDQnOzU73a_feQ7SN0rQ")'>
+                                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all"></div>
+                            </div>
+                            <div class="p-6 relative">
+                                <div class="absolute -top-8 left-6 bg-primary text-background-dark p-3 rounded-lg shadow-lg">
+                                    <span class="material-symbols-outlined">person</span>
+                                </div>
+                                <div class="pt-4">
+                                    <h3 class="text-white text-xl font-bold mb-2">Tenants</h3>
+                                    <p class="text-text-subtle text-sm mb-4">Find your next home safely with verified listings and secure contracts.</p>
+                                    <a class="text-primary text-sm font-bold flex items-center gap-1 hover:gap-2 transition-all"
+                                       href="#">
+                                        Start Searching <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Landlords -->
+                        <div class="relative group overflow-hidden rounded-xl bg-surface-dark border border-[#3d5245]">
+                            <div class="h-48 bg-cover bg-center"
+                                 data-alt="Property owner handing keys to a new tenant"
+                                 style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCLT1ZGWRhFAaC9WQO9LnlriCBujhpbWocdhuDV1lFqnaN2aPPNT3VidIuPl4x-pcFME7NrtWY2rWP150OHkajglTxoBeGk_PYZxlgEuLDTlmFhhtszui_0s6yaBjoVgzoH6qL0TMpGlcmlT52mSLuFTTa-Q7kRdjs1N2OrJA3Mpd9gn3ap_nbli48L58UNNhvuMX0nbvFAaQruK5AmGhQeiGT7-6zNC0EJXRXyiqDYh50VdPH7YJg4QC4pQ8hQUvrLa1UgehhmBBM")'>
+                                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all"></div>
+                            </div>
+                            <div class="p-6 relative">
+                                <div class="absolute -top-8 left-6 bg-white text-background-dark p-3 rounded-lg shadow-lg">
+                                    <span class="material-symbols-outlined">real_estate_agent</span>
+                                </div>
+                                <div class="pt-4">
+                                    <h3 class="text-white text-xl font-bold mb-2">Landlords</h3>
+                                    <p class="text-text-subtle text-sm mb-4">
+                                        Manage properties with ease, screen tenants, and collect payments securely.
+                                    </p>
+                                    <a class="text-primary text-sm font-bold flex items-center gap-1 hover:gap-2 transition-all"
+                                       href="#">
+                                        List Property <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Service Providers -->
+                        <div class="relative group overflow-hidden rounded-xl bg-surface-dark border border-[#3d5245]">
+                            <div class="h-48 bg-cover bg-center"
+                                 data-alt="Electrician working on a fuse box"
+                                 style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA-myp5eORlG_GX-spKvFbCtN3IG_0rIH3_LX_OmJlYH-zRU4_ua_WxrQ-ItRyvZ4tM6YlFL8V8MBiw-5pJpXeRsytjOrzz6ibUjXoR5Pzs9Ac5mGlD2gWzB0A81_4_61d1Yq4q3xva354SWHaHIb4TnLuM1w8IMwU9Vz2Ir825JBOGvwR0RKiqYUGkuYrOl5X_1XqoYyVqxJSVw6jSYgQ29h_r62s4ERaJrgLGuoATnZGI9aPxlo8DnJy_ynNiLyghLOnYfwOxcmc")'>
+                                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all"></div>
+                            </div>
+                            <div class="p-6 relative">
+                                <div class="absolute -top-8 left-6 bg-primary text-background-dark p-3 rounded-lg shadow-lg">
+                                    <span class="material-symbols-outlined">plumbing</span>
+                                </div>
+                                <div class="pt-4">
+                                    <h3 class="text-white text-xl font-bold mb-2">Service Providers</h3>
+                                    <p class="text-text-subtle text-sm mb-4">
+                                        Grow your local business by connecting with residents who need your skills.
+                                    </p>
+                                    <a class="text-primary text-sm font-bold flex items-center gap-1 hover:gap-2 transition-all"
+                                       href="#">
+                                        Join as Pro <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Team / Leadership Strip (Simplified) -->
+        <div class="relative flex flex-col w-full py-10 bg-[#151d19] border-t border-[#29382f]">
+            <div class="flex flex-1 justify-center px-4 md:px-40">
+                <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-8 px-4">
+                        <div class="flex flex-col gap-2 max-w-md">
+                            <h2 class="text-white text-2xl font-bold">Driven by Impact</h2>
+                            <p class="text-text-subtle">
+                                Our team combines deep local knowledge with world-class technology expertise to solve real housing challenges in Africa.
+                            </p>
+                        </div>
+                        <div class="flex -space-x-4">
+                            <div class="size-14 rounded-full border-2 border-background-dark bg-gray-700 bg-cover bg-center"
+                                 data-alt="Portrait of African male executive smiling"
+                                 style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAHD9mkAg0kIswN4iO2brpvTJvxHes4smlLXOT9ZNHYh2nQhy4mpQwtsRMwbpBWspm1fUJffl8qh2D8NSnWkewEd7SexAWiZRbTadyJzTSRY9_ZFMzIczIcsDa2udRgXjOEL5ZWAky6xxyN1-BmZRxYyaAYFAwS4uECBwfwR7EOESX1_SIvO24qyArzbeYXhstEfi-KXd21qcUGU7XgbnnVgXAAxM0CkVF4koNNDzfLy4-kURyaiXzDQ9ZfnA9zym2O4YsIAroAY2A")'>
+                            </div>
+                            <div class="size-14 rounded-full border-2 border-background-dark bg-gray-700 bg-cover bg-center"
+                                 data-alt="Portrait of African female executive smiling"
+                                 style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDy7Ag7JENmJvrh6WcKYOdM8ATO1XeaEgeW4rPy5SSCQRXa8hYd01dm4cYmmCHy4l14CESoNpJ-FZDp8tr5J4L1kjk7wwAoYV8i6lH2FefqQwTUojKZBfGvEgJrEE0WtzdcSCRwAODJ7fQiBW03bpkiup7cGcn2jQ3b-R1nttPWzfiPzhQfX-4DmqS1pTERzExgIfV2XITfiDtHFkgKes8NskjQ5fQrbY5W2DCFnnEOCXEZc19QdnCTEC3bNnQFD6GJTza0BSm6zF4")'>
+                            </div>
+                            <div class="size-14 rounded-full border-2 border-background-dark bg-gray-700 bg-cover bg-center"
+                                 data-alt="Portrait of African male engineer smiling"
+                                 style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBmxrnJ8XJXBVrp6DcC5Oco76-hhuv-ElIAfnS5p6DG3XoPh_oFdVQefPSkFzsHCrz5q2YHfGdJrW0pJNV2iwlYQW7sUnxn3AX0bmdl3qhFkGPGSjOVgSIJzyp2OLtvH7VWjoi-HVXEkiaH_MHJD-1-hlo7Cqmu3T50qDAF41OPw0T_QCt8s-KDOa_d08w_NcfCjRqUEBFIBrClzzh4t_1dTSUPAs6Dk3VKr2OXxil1RO4zKUKxTB8PQ0WOVKE_gFcAaC059Qe27t8")'>
+                            </div>
+                            <div class="flex items-center justify-center size-14 rounded-full border-2 border-background-dark bg-surface-dark text-white text-xs font-bold">
+                                +12
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer Area -->
+        {% include 'partial/footer.html' %}
+    </body>
+</html>
