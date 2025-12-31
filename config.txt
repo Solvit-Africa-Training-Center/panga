@@ -1,0 +1,52 @@
+our configurations
+
+1. For Theo
+
+-- git clone https://github.com/Solvit-Africa-Training-Center/panga
+-- cd panga
+
+Then we check the branch we are in with
+-- git branch
+( normally *  main will be displayed)
+
+Then put main up to date
+-- git pull origin main
+
+Then you create you branch "theo"
+-- git checkout -b theo
+
+Then you push your branch to gihub
+-- git push -u origin theo
+
+The normal work now:
+git add .
+git commit -m "add feature X"
+
+BUT ATTENTION: BEFORE YOU PUSH YOUR CHANGES ALWAYS --> RESPECT THE COMMANDS ORDERS
+1. You go to branch main
+-- git checkout main 
+2. You take the changes that are on github and add them to your local branch
+-- git pull origin main
+3. You go back to your local branch
+-- git checkout theo
+4. Add every change main to local branch "theo"
+-- git merge main
+
+NOW , AND ONLY NOW: YOU CAN PUSH
+git push origin theo
+
+2. For Arnold: same process but local branch is "arnold"
+
+IN THE END WE DO PULL REQUESTS TO UPDATE THE MAIN BRANCH WHICH IS MAIN, WE DO IT DIRECTLY ON GITHUB THIS WAY:
+
+On GitHub (clic only, no commandes)
+GitHub has a part called PULL REQUESTS, then "Compare & Pull Request"
+
+Choose :
+base : main
+compare : arnold or theo
+
+Clic Create Pull Request
+we valid and choose what to keep if any conflict appears
+
+
