@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>GUKODESHA - FAQ</title>
+        <!-- Fonts -->
+        <link href="https://fonts.googleapis.com" rel="preconnect" />
+        <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;family=Noto+Sans:wght@300..800&amp;display=swap"
+              rel="stylesheet" />
+        <!-- Material Symbols -->
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+              rel="stylesheet" />
+        <!-- Tailwind CSS -->
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#38e07b",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#111714",
+                        "surface-dark": "#1c2620",
+                        "border-dark": "#29382f",
+                        "text-secondary": "#9eb7a8"
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+        </script>
+        <style>
+        /* Custom scrollbar for better aesthetic in dark mode */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111714; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #29382f; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3d5245; 
+        }
+        
+        details > summary {
+            list-style: none;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+        </style>
+    </head>
+    <body class="bg-background-light dark:bg-background-dark font-display text-white overflow-x-hidden antialiased selection:bg-primary selection:text-background-dark">
+        <div class="flex min-h-screen flex-col">
+            <!-- Top Navigation -->
+            {% include 'partial/header.html' %}
+            <!-- Main Layout -->
+            <main class="flex-1 flex flex-col">
+                <!-- Hero Search Section -->
+                <div class="@container w-full border-b border-border-dark">
+                    <div class="relative flex min-h-[320px] flex-col gap-6 bg-cover bg-center bg-no-repeat items-center justify-center p-6 lg:p-12"
+                         data-alt="Abstract dark gradient background representing modern digital services"
+                         style='background-image: linear-gradient(rgba(17, 23, 20, 0.8) 0%, rgba(17, 23, 20, 0.95) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuByfXnfPjwzRxuCsfAvH64OXHj0AsiCC9skeisHyw4InLiLbmix5obEC076q0TX7CKfRLSgygZ2Rs5ClZxtwy7UoY33lDWi9vcmhPjRQUPawrA3HqZy4wWQvRaB132JbjYGP-lcCSj-6h6yFV-3F6UvIsi-oQUOj06ALy8RRtAYAOBdcnYNzNoeb-7MJJNl8dJivvKRzIOnG2iUNbhHwH0u4ZthlEZVMV3jXfzXAXhPoyWvBkckVkEsZD-YXEWNsVsgE-x_eDulEmY")'>
+                        <div class="flex flex-col gap-3 text-center max-w-2xl animate-fade-in-up">
+                            <h1 class="text-white text-3xl md:text-5xl font-black leading-tight tracking-tight">How can we help you?</h1>
+                            <p class="text-text-secondary text-base md:text-lg font-normal leading-relaxed">
+                                Find answers to your questions about renting, listing properties, payments, and security services in the Great Lakes region.
+                            </p>
+                        </div>
+                        <label class="flex flex-col h-14 w-full max-w-[560px] relative z-10 shadow-xl shadow-black/20">
+                            <div class="flex w-full flex-1 items-stretch rounded-xl h-full overflow-hidden border border-[#3d5245] bg-surface-dark focus-within:border-primary transition-colors">
+                                <div class="text-text-secondary flex items-center justify-center pl-4 bg-surface-dark">
+                                    <span class="material-symbols-outlined text-[24px]">search</span>
+                                </div>
+                                <input class="flex w-full min-w-0 flex-1 resize-none bg-transparent text-white focus:outline-none h-full placeholder:text-[#5f7366] px-4 text-base font-normal leading-normal"
+                                       placeholder="Search for answers (e.g., 'payment methods')..."
+                                       value="" />
+                                <div class="flex items-center justify-center bg-surface-dark pr-1.5">
+                                    <button class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-11 px-5 bg-primary text-[#111714] text-sm font-bold leading-normal hover:bg-[#2bc466] transition-colors">
+                                        Search
+                                    </button>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <!-- Content Area: Split View -->
+                <div class="flex flex-col lg:flex-row flex-1 max-w-[1440px] mx-auto w-full">
+                    <!-- Sidebar Navigation -->
+                    <aside class="w-full lg:w-[280px] lg:min-h-[600px] border-b lg:border-b-0 lg:border-r border-border-dark bg-background-dark p-6 lg:py-10">
+                        <div class="sticky top-24 flex flex-col gap-8">
+                            <div class="flex flex-col">
+                                <h2 class="text-white text-lg font-bold leading-normal mb-1">Categories</h2>
+                                <p class="text-text-secondary text-sm font-normal">Browse by topic</p>
+                            </div>
+                            <nav class="flex flex-row lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 scrollbar-hide">
+                                <a class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-surface-dark text-text-secondary hover:text-white transition-all whitespace-nowrap group"
+                                   href="#">
+                                    <span class="material-symbols-outlined group-hover:text-primary transition-colors">info</span>
+                                    <span class="text-sm font-medium">General</span>
+                                </a>
+                                <a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-[#29382f] text-white whitespace-nowrap shadow-sm border border-[#3d5245]"
+                                   href="#">
+                                    <span class="material-symbols-outlined text-primary">house</span>
+                                    <span class="text-sm font-bold">For Tenants</span>
+                                </a>
+                                <a class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-surface-dark text-text-secondary hover:text-white transition-all whitespace-nowrap group"
+                                   href="#">
+                                    <span class="material-symbols-outlined group-hover:text-primary transition-colors">vpn_key</span>
+                                    <span class="text-sm font-medium">For Landlords</span>
+                                </a>
+                                <a class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-surface-dark text-text-secondary hover:text-white transition-all whitespace-nowrap group"
+                                   href="#">
+                                    <span class="material-symbols-outlined group-hover:text-primary transition-colors">credit_card</span>
+                                    <span class="text-sm font-medium">Payments</span>
+                                </a>
+                                <a class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-surface-dark text-text-secondary hover:text-white transition-all whitespace-nowrap group"
+                                   href="#">
+                                    <span class="material-symbols-outlined group-hover:text-primary transition-colors">security</span>
+                                    <span class="text-sm font-medium">Security Services</span>
+                                </a>
+                                <a class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-surface-dark text-text-secondary hover:text-white transition-all whitespace-nowrap group"
+                                   href="#">
+                                    <span class="material-symbols-outlined group-hover:text-primary transition-colors">person</span>
+                                    <span class="text-sm font-medium">Account</span>
+                                </a>
+                            </nav>
+                        </div>
+                    </aside>
+                    <!-- FAQ Accordion Content -->
+                    <div class="flex-1 p-6 lg:p-10 lg:pl-16 max-w-4xl">
+                        <div class="mb-8">
+                            <h2 class="text-white text-3xl font-bold leading-tight mb-2">For Tenants</h2>
+                            <p class="text-text-secondary">Everything you need to know about finding and renting a home.</p>
+                        </div>
+                        <div class="flex flex-col gap-4">
+                            <!-- Accordion Item 1 -->
+                            <details class="group flex flex-col rounded-xl border border-border-dark bg-surface-dark open:bg-[#1f2b24] transition-colors duration-300">
+                                <summary class="flex cursor-pointer items-center justify-between gap-6 p-5">
+                                    <h3 class="text-white text-base font-semibold leading-normal group-hover:text-primary transition-colors">
+                                        How do I search for a rental property?
+                                    </h3>
+                                    <span class="material-symbols-outlined text-text-secondary group-open:rotate-180 transition-transform duration-300">keyboard_arrow_down</span>
+                                </summary>
+                                <div class="px-5 pb-5 pt-0">
+                                    <p class="text-text-secondary text-sm md:text-base leading-relaxed">
+                                        You can use the search bar on the homepage to filter properties by location, price, and amenities. We currently list properties across major cities in the Great Lakes region. Use the map view to see listings in specific neighborhoods.
+                                    </p>
+                                </div>
+                            </details>
+                            <!-- Accordion Item 2 -->
+                            <details class="group flex flex-col rounded-xl border border-border-dark bg-surface-dark open:bg-[#1f2b24] transition-colors duration-300"
+                                     open="">
+                                <summary class="flex cursor-pointer items-center justify-between gap-6 p-5">
+                                    <h3 class="text-white text-base font-semibold leading-normal group-hover:text-primary transition-colors">
+                                        How do I pay my rent securely?
+                                    </h3>
+                                    <span class="material-symbols-outlined text-text-secondary group-open:rotate-180 transition-transform duration-300">keyboard_arrow_down</span>
+                                </summary>
+                                <div class="px-5 pb-5 pt-0">
+                                    <p class="text-text-secondary text-sm md:text-base leading-relaxed mb-4">
+                                        GUKODESHA integrates with major mobile money providers in the Great Lakes region (like M-Pesa and Airtel Money) to ensure secure and instant transactions directly to your landlord.
+                                    </p>
+                                    <div class="flex gap-2 text-xs font-bold uppercase tracking-wider text-text-secondary">
+                                        <span class="px-2 py-1 rounded bg-black/30 border border-border-dark">M-Pesa</span>
+                                        <span class="px-2 py-1 rounded bg-black/30 border border-border-dark">Airtel Money</span>
+                                        <span class="px-2 py-1 rounded bg-black/30 border border-border-dark">MTN MoMo</span>
+                                    </div>
+                                </div>
+                            </details>
+                            <!-- Accordion Item 3 -->
+                            <details class="group flex flex-col rounded-xl border border-border-dark bg-surface-dark open:bg-[#1f2b24] transition-colors duration-300">
+                                <summary class="flex cursor-pointer items-center justify-between gap-6 p-5">
+                                    <h3 class="text-white text-base font-semibold leading-normal group-hover:text-primary transition-colors">
+                                        What fees are involved in booking?
+                                    </h3>
+                                    <span class="material-symbols-outlined text-text-secondary group-open:rotate-180 transition-transform duration-300">keyboard_arrow_down</span>
+                                </summary>
+                                <div class="px-5 pb-5 pt-0">
+                                    <p class="text-text-secondary text-sm md:text-base leading-relaxed">
+                                        Tenants pay a small service fee upon confirming a rental agreement. This fee covers the cost of identity verification and secure payment processing. The exact amount will be displayed before you confirm any payment.
+                                    </p>
+                                </div>
+                            </details>
+                            <!-- Accordion Item 4 -->
+                            <details class="group flex flex-col rounded-xl border border-border-dark bg-surface-dark open:bg-[#1f2b24] transition-colors duration-300">
+                                <summary class="flex cursor-pointer items-center justify-between gap-6 p-5">
+                                    <h3 class="text-white text-base font-semibold leading-normal group-hover:text-primary transition-colors">
+                                        How do I report a maintenance issue?
+                                    </h3>
+                                    <span class="material-symbols-outlined text-text-secondary group-open:rotate-180 transition-transform duration-300">keyboard_arrow_down</span>
+                                </summary>
+                                <div class="px-5 pb-5 pt-0">
+                                    <p class="text-text-secondary text-sm md:text-base leading-relaxed">
+                                        Log in to your tenant dashboard, select "My Rentals," and click on "Report Issue." You can upload photos and describe the problem. Your landlord will be notified immediately via SMS and email.
+                                    </p>
+                                </div>
+                            </details>
+                            <!-- Accordion Item 5 -->
+                            <details class="group flex flex-col rounded-xl border border-border-dark bg-surface-dark open:bg-[#1f2b24] transition-colors duration-300">
+                                <summary class="flex cursor-pointer items-center justify-between gap-6 p-5">
+                                    <h3 class="text-white text-base font-semibold leading-normal group-hover:text-primary transition-colors">
+                                        Can I cancel a viewing request?
+                                    </h3>
+                                    <span class="material-symbols-outlined text-text-secondary group-open:rotate-180 transition-transform duration-300">keyboard_arrow_down</span>
+                                </summary>
+                                <div class="px-5 pb-5 pt-0">
+                                    <p class="text-text-secondary text-sm md:text-base leading-relaxed">
+                                        Yes, you can cancel up to 1 hour before the scheduled time without any penalty. Go to your "Scheduled Viewings" tab and select cancel.
+                                    </p>
+                                </div>
+                            </details>
+                        </div>
+                        <!-- Contact Support CTA -->
+                        <div class="mt-12 rounded-2xl bg-[#1c2620] border border-border-dark p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+                            <!-- Decorative glow -->
+                            <div class="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+                            <div class="flex flex-col gap-2 relative z-10">
+                                <h3 class="text-white text-xl font-bold">Still have questions?</h3>
+                                <p class="text-text-secondary text-sm max-w-md">
+                                    Can't find the answer you're looking for? Our support team is here to help you with any inquiries.
+                                </p>
+                            </div>
+                            <div class="flex gap-3 relative z-10 w-full md:w-auto">
+                                <button class="flex-1 md:flex-none cursor-pointer items-center justify-center rounded-lg h-10 px-6 bg-primary text-[#111714] text-sm font-bold hover:bg-[#2bc466] transition-colors">
+                                    Chat with us
+                                </button>
+                                <button class="flex-1 md:flex-none cursor-pointer items-center justify-center rounded-lg h-10 px-6 border border-border-dark text-white text-sm font-bold hover:bg-white/5 transition-colors">
+                                    Email Support
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <!-- Simple Footer -->
+            {% include 'partial/footer.html' %}
+        </div>
+    </body>
+</html>

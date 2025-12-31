@@ -1,16 +1,18 @@
 <header class="sticky top-0 z-50 w-full border-b border-border-dark bg-background-dark/95 backdrop-blur-md">
     <div class="px-4 md:px-10 py-3 flex items-center justify-between mx-auto max-w-[1440px]">
         <div class="flex items-center gap-3 text-white cursor-pointer">
-            <div class="flex items-center gap-3 text-white m-2">
-                <span class="material-symbols-outlined text-primary text-4xl">roofing</span>
-                <h2 class="text-2xl font-bold tracking-tight">GUKODESHA</h2>
-            </div> 
+            <a href="/">
+                <div class="flex items-center gap-3 text-white m-2">
+                    <span class="material-symbols-outlined text-primary text-4xl">roofing</span>
+                    <h2 class="text-2xl font-bold tracking-tight">GUKODESHA</h2>
+                </div>
+            </a>
         </div>
         <!-- Desktop Menu -->
         <div class="hidden md:flex flex-1 justify-end gap-8 items-center">
             <nav class="flex items-center gap-8">
                 <a class="text-white hover:text-primary transition-colors text-sm font-medium leading-normal"
-                   href="#">Rentals</a>
+                   href="/">Rentals</a>
                 <a class="text-white hover:text-primary transition-colors text-sm font-medium leading-normal"
                    href="{% url 'about' %}">Services</a>
                 <a class="text-white hover:text-primary transition-colors text-sm font-medium leading-normal"
@@ -26,19 +28,22 @@
             </div>
             <div class="flex gap-3">
                 {% if not request.user.is_authenticated %}
-                    <button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-transparent border border-border-dark hover:bg-surface-dark text-white text-sm font-bold transition-all">
-                        <span class="truncate"><a href="{% url 'login' %}">Log In</a></span>
-                    </button>
-                    <button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary-hover text-background-dark text-sm font-bold shadow-[0_0_15px_rgba(56,224,123,0.3)] transition-all">
-                        <span class="truncate"><a href="{% url 'signup' %}">Sign Up</a></span>
-                    </button>
+                    <a href="{% url 'login' %}"
+                       class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-transparent border border-border-dark hover:bg-surface-dark text-white text-sm font-bold transition-all">
+                        <span class="truncate">Log In</span>
+                    </a>
+                    <a href="{% url 'signup' %}"
+                       class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary-hover text-background-dark text-sm font-bold shadow-[0_0_15px_rgba(56,224,123,0.3)] transition-all">
+                        <span class="truncate">Sign Up</span>
+                    </a>
                 {% else %}
-                    <button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary-hover text-background-dark text-sm font-bold shadow-[0_0_15px_rgba(56,224,123,0.3)] transition-all">
-                        <span class="truncate">Hey {{ request.user.username }}</span>
-                    </button>
-                    <button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-transparent border border-border-dark hover:bg-surface-dark text-white text-sm font-bold transition-all">
-                        <span class="truncate"><a href="{% url 'logout' %}">Log Out</a></span>
-                    </button>
+                    <a class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary-hover text-background-dark text-sm font-bold shadow-[0_0_15px_rgba(56,224,123,0.3)] transition-all">
+                        <span class="truncate">Hey {{ request.user.get_full_name|default:request.user.username }}</span>
+                    </a>
+                    <a href="{% url 'logout' %}"
+                       class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-transparent border border-border-dark hover:bg-surface-dark text-white text-sm font-bold transition-all">
+                        <span class="truncate">Log Out</span>
+                    </a>
                 {% endif %}
             </div>
         </div>

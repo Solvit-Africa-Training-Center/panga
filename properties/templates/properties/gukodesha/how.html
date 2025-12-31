@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>GUKODESHA - How It Works</title>
+        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+              rel="stylesheet" />
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#38e07b",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#122017",
+                        "surface-dark": "#1c2620",
+                        "surface-light": "#ffffff",
+                        "border-dark": "#29382f",
+                        "border-light": "#e5e7eb",
+                        "muted-dark": "#9eb7a8",
+                        "muted-light": "#4b5563",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+        </script>
+        <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        </style>
+    </head>
+    <body class="bg-background-light dark:bg-background-dark text-gray-900 dark:text-white font-display overflow-x-hidden antialiased transition-colors duration-300">
+        <div class="relative flex h-auto min-h-screen w-full flex-col">
+            <!-- Navigation -->
+            {% include 'partial/header.html' %}
+            <!-- Hero Section -->
+            <section class="flex flex-col">
+                <div class="px-4 lg:px-40 flex flex-1 justify-center py-5">
+                    <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+                        <div class="@container">
+                            <div class="@[480px]:p-4">
+                                <div class="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[480px]:gap-8 @[480px]:rounded-xl items-center justify-center p-8 relative overflow-hidden group"
+                                     data-alt="Abstract aerial view of a modern African city with green spaces at dusk"
+                                     style='background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDysaC-UFcB-1JxlckJOutqlQxVGwehYMfGSR4zlHfn0ThMNCoFYTCmMuPPnfx9e9oXB_GEkGBIP5x9S26BmPzrFKH49G05wN1ddzprQ2pwYrMq9BrMR4VossunVjAejXBooCDMs60f0YIPHJxg1IarbHs9CD5ayvRUKh1nQWLXW1bY-1lyo9SRy7wu7Zz0MZ2T31Qxe15PtRZtnce9TzuGVheb6fwfKEtxy1DJo_0Xysu5UUw6rCzDX8dudrJ-cTyi0xtiL4xezso")'>
+                                    <div class="flex flex-col gap-4 text-center max-w-[700px] z-10">
+                                        <h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl lg:text-6xl">
+                                            How GUKODESHA Works for You
+                                        </h1>
+                                        <h2 class="text-gray-200 text-lg font-medium leading-relaxed">
+                                            Simplifying housing and community services in the Great Lakes region through technology and trust.
+                                        </h2>
+                                    </div>
+                                    <button class="z-10 flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-8 bg-primary hover:bg-primary/90 text-background-dark text-base font-bold tracking-[0.015em] transition-transform hover:scale-105">
+                                        <span class="truncate">Get Started</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Main Content Area -->
+            <main class="flex-grow">
+                <!-- Persona Switcher / Segmented Buttons -->
+                <div class="px-4 lg:px-40 flex justify-center py-8 sticky top-[73px] z-40 bg-background-light dark:bg-background-dark transition-colors duration-300">
+                    <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+                        <div class="flex justify-center">
+                            <div class="flex h-12 w-full max-w-[600px] items-center justify-center rounded-lg bg-gray-200 dark:bg-surface-dark p-1">
+                                <label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-md px-2 bg-white dark:bg-background-dark shadow-sm text-gray-900 dark:text-white transition-all duration-200">
+                                    <span class="truncate text-sm font-bold">For Tenants</span>
+                                    <input checked=""
+                                           class="invisible w-0"
+                                           name="user-type"
+                                           type="radio"
+                                           value="For Tenants" />
+                                </label>
+                                <label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-md px-2 text-muted-light dark:text-muted-dark hover:text-gray-900 dark:hover:text-white transition-all duration-200">
+                                    <span class="truncate text-sm font-medium">For Landlords</span>
+                                    <input class="invisible w-0"
+                                           name="user-type"
+                                           type="radio"
+                                           value="For Landlords" />
+                                </label>
+                                <label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-md px-2 text-muted-light dark:text-muted-dark hover:text-gray-900 dark:hover:text-white transition-all duration-200">
+                                    <span class="truncate text-sm font-medium">For Service Providers</span>
+                                    <input class="invisible w-0"
+                                           name="user-type"
+                                           type="radio"
+                                           value="For Service Providers" />
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tenant Timeline Section (Simulating active state) -->
+                <section class="px-4 lg:px-40 flex justify-center py-5">
+                    <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+                        <div class="mb-10 text-center">
+                            <h2 class="text-2xl font-bold mb-2">Find your next home with ease</h2>
+                            <p class="text-muted-light dark:text-muted-dark">Three simple steps to move into your new place securely.</p>
+                        </div>
+                        <!-- Timeline -->
+                        <div class="grid grid-cols-[40px_1fr] gap-x-6 px-4 max-w-[600px] mx-auto">
+                            <!-- Step 1 -->
+                            <div class="flex flex-col items-center gap-1 pt-3">
+                                <div class="flex items-center justify-center size-10 rounded-full bg-primary/20 text-primary">
+                                    <span class="material-symbols-outlined">search</span>
+                                </div>
+                                <div class="w-[2px] bg-border-light dark:bg-border-dark h-full grow my-2"></div>
+                            </div>
+                            <div class="flex flex-1 flex-col py-3 pb-12">
+                                <p class="text-primary text-sm font-bold uppercase tracking-wider mb-1">Step 1</p>
+                                <h3 class="text-xl font-bold leading-tight mb-2">Browse Listings</h3>
+                                <p class="text-muted-light dark:text-muted-dark text-base leading-relaxed">
+                                    Use our smart filters to find homes that match your budget and preferences. View verified photos and detailed amenities.
+                                </p>
+                            </div>
+                            <!-- Step 2 -->
+                            <div class="flex flex-col items-center gap-1">
+                                <div class="w-[2px] bg-border-light dark:bg-border-dark h-6"></div>
+                                <div class="flex items-center justify-center size-10 rounded-full bg-primary/20 text-primary">
+                                    <span class="material-symbols-outlined">calendar_month</span>
+                                </div>
+                                <div class="w-[2px] bg-border-light dark:bg-border-dark h-full grow my-2"></div>
+                            </div>
+                            <div class="flex flex-1 flex-col py-3 pb-12">
+                                <p class="text-primary text-sm font-bold uppercase tracking-wider mb-1">Step 2</p>
+                                <h3 class="text-xl font-bold leading-tight mb-2">Schedule Visits</h3>
+                                <p class="text-muted-light dark:text-muted-dark text-base leading-relaxed">
+                                    Book in-person or virtual tours directly through the app. Coordinate with landlords instantly without revealing your personal number.
+                                </p>
+                            </div>
+                            <!-- Step 3 -->
+                            <div class="flex flex-col items-center gap-1">
+                                <div class="w-[2px] bg-border-light dark:bg-border-dark h-6"></div>
+                                <div class="flex items-center justify-center size-10 rounded-full bg-primary/20 text-primary">
+                                    <span class="material-symbols-outlined">account_balance_wallet</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-1 flex-col py-3">
+                                <p class="text-primary text-sm font-bold uppercase tracking-wider mb-1">Step 3</p>
+                                <h3 class="text-xl font-bold leading-tight mb-2">Secure Payment</h3>
+                                <p class="text-muted-light dark:text-muted-dark text-base leading-relaxed">
+                                    Pay rent and deposits securely using Mobile Money integration. Get digital receipts instantly for your records.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Other Personas Summary (Grid) -->
+                <section class="px-4 lg:px-40 flex justify-center py-20 bg-gray-100 dark:bg-[#151d19]">
+                    <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+                        <!-- Landlord Section -->
+                        <div class="flex flex-col md:flex-row gap-10 items-start mb-20">
+                            <div class="md:w-1/3">
+                                <span class="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold mb-3">FOR LANDLORDS</span>
+                                <h2 class="text-3xl font-black leading-tight mb-4">Maximize your property's potential</h2>
+                                <p class="text-muted-light dark:text-muted-dark mb-6">
+                                    Manage your rentals efficiently with our suite of tools designed for the modern landlord.
+                                </p>
+                                <button class="text-primary font-bold flex items-center gap-2 hover:gap-3 transition-all">
+                                    Learn more <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                                </button>
+                            </div>
+                            <div class="md:w-2/3 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <!-- Card 1 -->
+                                <div class="flex flex-col gap-3 p-4 rounded-xl bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark">
+                                    <div class="size-10 rounded-lg bg-gray-100 dark:bg-background-dark flex items-center justify-center text-primary">
+                                        <span class="material-symbols-outlined">add_home_work</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-lg">List Property</h4>
+                                        <p class="text-sm text-muted-light dark:text-muted-dark mt-1">
+                                            Upload high-res photos and detailed descriptions easily.
+                                        </p>
+                                    </div>
+                                </div>
+                                <!-- Card 2 -->
+                                <div class="flex flex-col gap-3 p-4 rounded-xl bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark">
+                                    <div class="size-10 rounded-lg bg-gray-100 dark:bg-background-dark flex items-center justify-center text-primary">
+                                        <span class="material-symbols-outlined">verified_user</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-lg">Verify Tenant</h4>
+                                        <p class="text-sm text-muted-light dark:text-muted-dark mt-1">Access tenant history and background checks.</p>
+                                    </div>
+                                </div>
+                                <!-- Card 3 -->
+                                <div class="flex flex-col gap-3 p-4 rounded-xl bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark">
+                                    <div class="size-10 rounded-lg bg-gray-100 dark:bg-background-dark flex items-center justify-center text-primary">
+                                        <span class="material-symbols-outlined">payments</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-lg">Manage Rent</h4>
+                                        <p class="text-sm text-muted-light dark:text-muted-dark mt-1">Automated collection sent straight to your account.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Service Provider Section -->
+                        <div class="flex flex-col md:flex-row-reverse gap-10 items-start">
+                            <div class="md:w-1/3">
+                                <span class="inline-block px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold mb-3">FOR PROVIDERS</span>
+                                <h2 class="text-3xl font-black leading-tight mb-4">Grow your local business</h2>
+                                <p class="text-muted-light dark:text-muted-dark mb-6">
+                                    Connect with residents who need your skills. From plumbing to security, find work nearby.
+                                </p>
+                                <button class="text-blue-400 font-bold flex items-center gap-2 hover:gap-3 transition-all">
+                                    Join as Pro <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                                </button>
+                            </div>
+                            <div class="md:w-2/3 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <!-- Card 1 -->
+                                <div class="flex flex-col gap-3 p-4 rounded-xl bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark">
+                                    <div class="size-10 rounded-lg bg-gray-100 dark:bg-background-dark flex items-center justify-center text-blue-400">
+                                        <span class="material-symbols-outlined">person_add</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-lg">Create Profile</h4>
+                                        <p class="text-sm text-muted-light dark:text-muted-dark mt-1">
+                                            Showcase your skills, certifications, and past reviews.
+                                        </p>
+                                    </div>
+                                </div>
+                                <!-- Card 2 -->
+                                <div class="flex flex-col gap-3 p-4 rounded-xl bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark">
+                                    <div class="size-10 rounded-lg bg-gray-100 dark:bg-background-dark flex items-center justify-center text-blue-400">
+                                        <span class="material-symbols-outlined">work</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-lg">Receive Jobs</h4>
+                                        <p class="text-sm text-muted-light dark:text-muted-dark mt-1">Get notifications for jobs matching your expertise.</p>
+                                    </div>
+                                </div>
+                                <!-- Card 3 -->
+                                <div class="flex flex-col gap-3 p-4 rounded-xl bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark">
+                                    <div class="size-10 rounded-lg bg-gray-100 dark:bg-background-dark flex items-center justify-center text-blue-400">
+                                        <span class="material-symbols-outlined">account_balance</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-lg">Get Paid</h4>
+                                        <p class="text-sm text-muted-light dark:text-muted-dark mt-1">Secure wallet system ensures you get paid on time.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Trust / Features Section -->
+                <section class="px-4 lg:px-40 flex justify-center py-20">
+                    <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+                        <div class="flex flex-col gap-10 px-4 @container">
+                            <div class="flex flex-col gap-4 text-center items-center">
+                                <h2 class="text-3xl font-bold leading-tight max-w-[720px]">Why Trust GUKODESHA?</h2>
+                                <p class="text-muted-light dark:text-muted-dark text-base font-normal leading-normal max-w-[720px]">
+                                    We prioritize your safety and convenience with verified processes tailored for the region.
+                                </p>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-0">
+                                <div class="flex flex-1 gap-4 rounded-xl border border-border-light dark:border-border-dark bg-white dark:bg-surface-dark p-6 flex-col shadow-sm">
+                                    <div class="text-primary size-8">
+                                        <span class="material-symbols-outlined text-3xl">verified_user</span>
+                                    </div>
+                                    <div class="flex flex-col gap-2">
+                                        <h3 class="text-lg font-bold leading-tight">Verified Profiles</h3>
+                                        <p class="text-muted-light dark:text-muted-dark text-sm font-normal leading-normal">
+                                            Identity verification for all users to ensure you know exactly who you are dealing with.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-1 gap-4 rounded-xl border border-border-light dark:border-border-dark bg-white dark:bg-surface-dark p-6 flex-col shadow-sm">
+                                    <div class="text-primary size-8">
+                                        <span class="material-symbols-outlined text-3xl">lock</span>
+                                    </div>
+                                    <div class="flex flex-col gap-2">
+                                        <h3 class="text-lg font-bold leading-tight">Secure Payments</h3>
+                                        <p class="text-muted-light dark:text-muted-dark text-sm font-normal leading-normal">
+                                            Integrated Mobile Money solutions for safe, traceable, and instant transactions.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-1 gap-4 rounded-xl border border-border-light dark:border-border-dark bg-white dark:bg-surface-dark p-6 flex-col shadow-sm">
+                                    <div class="text-primary size-8">
+                                        <span class="material-symbols-outlined text-3xl">diversity_3</span>
+                                    </div>
+                                    <div class="flex flex-col gap-2">
+                                        <h3 class="text-lg font-bold leading-tight">Community Support</h3>
+                                        <p class="text-muted-light dark:text-muted-dark text-sm font-normal leading-normal">
+                                            Local support teams available 24/7 to assist with any housing disputes or service needs.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- CTA Section -->
+                <section class="px-4 lg:px-40 flex justify-center py-12 pb-20">
+                    <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+                        <div class="rounded-2xl bg-gradient-to-r from-primary/20 via-primary/10 to-transparent p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 border border-primary/20">
+                            <div class="flex flex-col gap-4 text-center md:text-left">
+                                <h2 class="text-3xl font-black">Ready to find your home?</h2>
+                                <p class="text-muted-light dark:text-muted-dark max-w-md">
+                                    Join thousands of users in the Great Lakes region simplifying their living experience today.
+                                </p>
+                            </div>
+                            <div class="flex gap-4 flex-col sm:flex-row w-full sm:w-auto">
+                                <button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary text-background-dark text-base font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-shadow">
+                                    <span class="truncate">Sign Up Now</span>
+                                </button>
+                                <button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-base font-bold hover:bg-gray-50 dark:hover:bg-[#25322a] transition-colors">
+                                    <span class="truncate">Contact Sales</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+            <!-- Simple Footer -->
+            {% include 'partial/footer.html' %}
+        </div>
+    </body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>GUKODESHA - Create Service Profile</title>
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com" rel="preconnect" />
+        <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap"
+              rel="stylesheet" />
+        <!-- Material Symbols -->
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+              rel="stylesheet" />
+        <!-- Tailwind CSS -->
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <!-- Tailwind Config -->
+        <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#36e27b",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#112117",
+                        "surface-dark": "#1c2620",
+                        "surface-border": "#3d5245",
+                        "text-secondary": "#9eb7a8",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+        </script>
+    </head>
+    <body class="bg-background-light dark:bg-background-dark font-display text-white min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-black">
+        <!-- Top Navigation -->
+        {% include 'partial/header.html' %}
+        <!-- Main Content -->
+        <main class="flex-1 w-full max-w-5xl mx-auto px-4 py-8 md:py-12 flex flex-col gap-8">
+            <!-- Header Section -->
+            <div class="flex flex-col gap-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+                    <div class="space-y-2">
+                        <h1 class="text-3xl md:text-4xl font-black leading-tight tracking-tight text-white">Create Service Profile</h1>
+                        <p class="text-text-secondary text-base md:text-lg">Set up your professional presence to start receiving requests.</p>
+                    </div>
+                    <button class="text-sm font-bold text-primary hover:text-white transition-colors">Save as Draft</button>
+                </div>
+                <!-- Progress Bar -->
+                <div class="w-full space-y-3">
+                    <div class="flex justify-between items-end">
+                        <span class="text-white text-sm font-bold uppercase tracking-wider">Step 2 of 4</span>
+                        <span class="text-primary text-sm font-medium">50% Completed</span>
+                    </div>
+                    <div class="h-2 w-full bg-surface-dark rounded-full overflow-hidden">
+                        <div class="h-full bg-primary w-1/2 rounded-full"></div>
+                    </div>
+                    <div class="flex justify-between text-xs text-text-secondary font-medium hidden md:flex">
+                        <span>Basic Info</span>
+                        <span class="text-primary">Service Details</span>
+                        <span>Portfolio</span>
+                        <span>Availability</span>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                <!-- Left Column: Form -->
+                <div class="lg:col-span-2 flex flex-col gap-8">
+                    <!-- Section: Category -->
+                    <div class="bg-surface-dark/50 border border-surface-border rounded-xl p-6 md:p-8 space-y-6">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="material-symbols-outlined text-primary">category</span>
+                            <h2 class="text-xl font-bold text-white">Service Category</h2>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            <!-- Active Card -->
+                            <label class="cursor-pointer group relative">
+                                <input checked="" class="peer sr-only" name="category" type="radio" />
+                                <div class="flex flex-col items-center justify-center gap-3 p-4 rounded-lg bg-surface-dark border-2 border-primary transition-all">
+                                    <span class="material-symbols-outlined text-3xl text-primary">plumbing</span>
+                                    <span class="text-sm font-bold text-white">Plumbing</span>
+                                </div>
+                                <div class="absolute top-2 right-2 text-primary opacity-100">
+                                    <span class="material-symbols-outlined text-lg filled">check_circle</span>
+                                </div>
+                            </label>
+                            <!-- Inactive Cards -->
+                            <label class="cursor-pointer group relative">
+                                <input class="peer sr-only" name="category" type="radio" />
+                                <div class="flex flex-col items-center justify-center gap-3 p-4 rounded-lg bg-surface-dark border border-surface-border hover:border-text-secondary transition-all peer-checked:border-primary peer-checked:bg-surface-dark">
+                                    <span class="material-symbols-outlined text-3xl text-text-secondary group-hover:text-white transition-colors">electrical_services</span>
+                                    <span class="text-sm font-medium text-text-secondary group-hover:text-white transition-colors">Electrical</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer group relative">
+                                <input class="peer sr-only" name="category" type="radio" />
+                                <div class="flex flex-col items-center justify-center gap-3 p-4 rounded-lg bg-surface-dark border border-surface-border hover:border-text-secondary transition-all peer-checked:border-primary peer-checked:bg-surface-dark">
+                                    <span class="material-symbols-outlined text-3xl text-text-secondary group-hover:text-white transition-colors">cleaning_services</span>
+                                    <span class="text-sm font-medium text-text-secondary group-hover:text-white transition-colors">Cleaning</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer group relative">
+                                <input class="peer sr-only" name="category" type="radio" />
+                                <div class="flex flex-col items-center justify-center gap-3 p-4 rounded-lg bg-surface-dark border border-surface-border hover:border-text-secondary transition-all peer-checked:border-primary peer-checked:bg-surface-dark">
+                                    <span class="material-symbols-outlined text-3xl text-text-secondary group-hover:text-white transition-colors">security</span>
+                                    <span class="text-sm font-medium text-text-secondary group-hover:text-white transition-colors">Security</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer group relative">
+                                <input class="peer sr-only" name="category" type="radio" />
+                                <div class="flex flex-col items-center justify-center gap-3 p-4 rounded-lg bg-surface-dark border border-surface-border hover:border-text-secondary transition-all peer-checked:border-primary peer-checked:bg-surface-dark">
+                                    <span class="material-symbols-outlined text-3xl text-text-secondary group-hover:text-white transition-colors">yard</span>
+                                    <span class="text-sm font-medium text-text-secondary group-hover:text-white transition-colors">Gardening</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer group relative">
+                                <input class="peer sr-only" name="category" type="radio" />
+                                <div class="flex flex-col items-center justify-center gap-3 p-4 rounded-lg bg-surface-dark border border-surface-border hover:border-text-secondary transition-all peer-checked:border-primary peer-checked:bg-surface-dark">
+                                    <span class="material-symbols-outlined text-3xl text-text-secondary group-hover:text-white transition-colors">grid_view</span>
+                                    <span class="text-sm font-medium text-text-secondary group-hover:text-white transition-colors">Other</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- Section: Description -->
+                    <div class="bg-surface-dark/50 border border-surface-border rounded-xl p-6 md:p-8 space-y-6">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="material-symbols-outlined text-primary">description</span>
+                            <h2 class="text-xl font-bold text-white">About the Service</h2>
+                        </div>
+                        <div class="space-y-4">
+                            <label class="block">
+                                <span class="text-white text-base font-medium mb-2 block">Service Title</span>
+                                <input class="w-full bg-surface-dark border border-surface-border rounded-lg px-4 py-3 text-white placeholder-text-secondary focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all"
+                                       placeholder="e.g. Kigali Home Repairs"
+                                       type="text"
+                                       value="Expert Residential Plumbing &amp; Repairs" />
+                            </label>
+                            <label class="block">
+                                <span class="text-white text-base font-medium mb-2 block">Description</span>
+                                <div class="relative">
+                                    <textarea class="w-full bg-surface-dark border border-surface-border rounded-lg px-4 py-3 text-white placeholder-text-secondary focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all resize-none"
+                                              placeholder="Describe your experience, specialties, and what makes your service unique..."
+                                              rows="6"></textarea>
+                                    <div class="absolute bottom-3 right-3 text-xs text-text-secondary">0/500</div>
+                                </div>
+                                <p class="mt-2 text-sm text-text-secondary">Tip: Mention your years of experience and specific tools you use.</p>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- Section: Pricing -->
+                    <div class="bg-surface-dark/50 border border-surface-border rounded-xl p-6 md:p-8 space-y-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary">payments</span>
+                                <h2 class="text-xl font-bold text-white">Pricing Packages</h2>
+                            </div>
+                            <button class="text-primary text-sm font-bold flex items-center gap-1 hover:text-white transition-colors">
+                                <span class="material-symbols-outlined text-lg">add</span> Add Package
+                            </button>
+                        </div>
+                        <div class="space-y-4">
+                            <!-- Pricing Item 1 -->
+                            <div class="p-4 rounded-lg bg-surface-dark border border-surface-border flex flex-col md:flex-row gap-4 items-start md:items-center justify-between group">
+                                <div class="flex-1">
+                                    <h3 class="font-bold text-white text-lg">Standard Leak Fix</h3>
+                                    <p class="text-text-secondary text-sm">Diagnosis and repair of minor pipe leaks.</p>
+                                </div>
+                                <div class="flex items-center gap-4 w-full md:w-auto">
+                                    <div class="bg-background-dark px-3 py-2 rounded border border-surface-border text-primary font-bold whitespace-nowrap">
+                                        RWF 15,000
+                                    </div>
+                                    <button class="p-2 text-text-secondary hover:text-white transition-colors">
+                                        <span class="material-symbols-outlined">edit</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Pricing Item 2 -->
+                            <div class="p-4 rounded-lg bg-surface-dark border border-surface-border flex flex-col md:flex-row gap-4 items-start md:items-center justify-between group">
+                                <div class="flex-1">
+                                    <h3 class="font-bold text-white text-lg">Full Installation</h3>
+                                    <p class="text-text-secondary text-sm">Installation of new sinks, toilets, or showers.</p>
+                                </div>
+                                <div class="flex items-center gap-4 w-full md:w-auto">
+                                    <div class="bg-background-dark px-3 py-2 rounded border border-surface-border text-primary font-bold whitespace-nowrap">
+                                        RWF 50,000
+                                    </div>
+                                    <button class="p-2 text-text-secondary hover:text-white transition-colors">
+                                        <span class="material-symbols-outlined">edit</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Section: Location & Map -->
+                    <div class="bg-surface-dark/50 border border-surface-border rounded-xl p-6 md:p-8 space-y-6">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="material-symbols-outlined text-primary">location_on</span>
+                            <h2 class="text-xl font-bold text-white">Service Location</h2>
+                        </div>
+                        <div class="grid gap-6">
+                            <label class="block">
+                                <span class="text-white text-base font-medium mb-2 block">Base of Operations</span>
+                                <div class="flex gap-2">
+                                    <input class="flex-1 bg-surface-dark border border-surface-border rounded-lg px-4 py-3 text-white placeholder-text-secondary focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all"
+                                           type="text"
+                                           value="Kigali, Rwanda" />
+                                    <button class="bg-surface-dark border border-surface-border hover:border-primary hover:text-primary text-white rounded-lg px-4 transition-colors">
+                                        <span class="material-symbols-outlined">my_location</span>
+                                    </button>
+                                </div>
+                            </label>
+                            <div class="rounded-lg overflow-hidden h-48 w-full bg-surface-dark relative border border-surface-border">
+                                <img class="w-full h-full object-cover opacity-60"
+                                     data-alt="Map of Kigali showing service radius"
+                                     data-location="Kigali"
+                                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfxZP_LFdjbwfX6wSq3dm0u7wGLaE33xsO-lALUZd0_u8WbPD9LT9rschx8Yxz5TVlSdWIajIHlcoawS_Oj68N74Yc7y8dDBJxGpzRLskXzjomPSj3B4uCSZ09-8ylTGtErIuEU2sTV4LD9EyoxedjwPY7yAhBGU9cIUe2g3hSd8kFcewDk2BdOT70yU96RRCMcuPSZBSQdCRS9Q66JhBkjh2ySB0L8jRnD4jUx2h__nKANr9fTfulAcI3cEUMf2KvgxfOzWiVBao" />
+                                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                    <div class="bg-primary/20 p-8 rounded-full border border-primary/50">
+                                        <div class="bg-primary p-2 rounded-full shadow-lg shadow-primary/40"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Right Column: Helper/Sidebar -->
+                <div class="lg:col-span-1 space-y-6">
+                    <!-- Tips Card -->
+                    <div class="bg-[#1E2D24] border border-primary/20 rounded-xl p-6 sticky top-28">
+                        <div class="flex items-start gap-3 mb-4">
+                            <span class="material-symbols-outlined text-primary text-3xl">lightbulb</span>
+                            <div>
+                                <h3 class="font-bold text-white text-lg">Pro Tip</h3>
+                                <p class="text-sm text-text-secondary mt-1">Detailed descriptions get 2x more inquiries.</p>
+                            </div>
+                        </div>
+                        <ul class="space-y-4 text-sm text-gray-300">
+                            <li class="flex gap-2 items-start">
+                                <span class="material-symbols-outlined text-primary text-sm mt-0.5">check</span>
+                                <span>List specific problems you can solve.</span>
+                            </li>
+                            <li class="flex gap-2 items-start">
+                                <span class="material-symbols-outlined text-primary text-sm mt-0.5">check</span>
+                                <span>Mention tools or brands you work with.</span>
+                            </li>
+                            <li class="flex gap-2 items-start">
+                                <span class="material-symbols-outlined text-primary text-sm mt-0.5">check</span>
+                                <span>State your warranty policy clearly.</span>
+                            </li>
+                        </ul>
+                        <div class="mt-6 pt-6 border-t border-surface-border">
+                            <h3 class="font-bold text-white text-sm mb-3">Profile Strength</h3>
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="flex-1 h-2 bg-surface-dark rounded-full overflow-hidden">
+                                    <div class="h-full bg-yellow-500 w-[60%] rounded-full"></div>
+                                </div>
+                                <span class="text-yellow-500 text-xs font-bold">Good</span>
+                            </div>
+                            <p class="text-xs text-text-secondary">Add at least 3 photos in the next step to reach "Excellent".</p>
+                        </div>
+                    </div>
+                    <!-- Preview Card (Mini) -->
+                    <div class="bg-surface-dark border border-surface-border rounded-xl p-4 opacity-75 grayscale hover:grayscale-0 transition-all cursor-not-allowed">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="size-10 rounded-full bg-gray-600"></div>
+                            <div class="h-3 w-24 bg-gray-600 rounded"></div>
+                        </div>
+                        <div class="h-24 w-full bg-gray-700 rounded mb-2"></div>
+                        <div class="h-2 w-full bg-gray-700 rounded mb-1"></div>
+                        <div class="h-2 w-2/3 bg-gray-700 rounded"></div>
+                        <div class="mt-4 text-center text-xs text-text-secondary uppercase tracking-widest">Client Preview</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- Bottom Actions Sticky Bar -->
+        <div class="sticky bottom-0 bg-background-dark/95 backdrop-blur border-t border-surface-border p-4 md:px-10 py-4 z-40">
+            <div class="max-w-7xl mx-auto flex justify-between items-center">
+                <button class="flex items-center gap-2 text-text-secondary hover:text-white font-bold px-4 py-2 rounded-lg transition-colors">
+                    <span class="material-symbols-outlined">arrow_back</span> Back
+                </button>
+                <button class="bg-primary hover:bg-primary/90 text-background-dark font-bold text-base px-8 py-3 rounded-lg shadow-lg shadow-primary/20 flex items-center gap-2 transition-all transform hover:-translate-y-0.5">
+                    Next Step <span class="material-symbols-outlined">arrow_forward</span>
+                </button>
+            </div>
+        </div>
+    </body>
+</html>

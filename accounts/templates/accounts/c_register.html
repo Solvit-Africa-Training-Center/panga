@@ -105,6 +105,23 @@
                             <h2 class="text-3xl font-bold text-slate-900 dark:text-white leading-tight">Create your account</h2>
                             <p class="text-slate-500 dark:text-text-muted">Enter your details to join the network.</p>
                         </div>
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message.tags == "success" %}
+                                    <div class="bg-green-100 border border-green-300 text-green-800 p-4 rounded-md shadow-lg">
+                                        <p>{{ message }}</p>
+                                    </div>
+                                {% elif message.tags == "error" %}
+                                    <div class="bg-red-100 border border-red-300 text-red-800 p-4 rounded-md shadow-lg">
+                                        <p>{{ message }}</p>
+                                    </div>
+                                {% elif message.tags == "info" %}
+                                    <div class="bg-blue-100 border border-blue-300 text-blue-800 p-4 rounded-md shadow-lg">
+                                        <p>{{ message }}</p>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                         <form method="post" action="{% url 'signup' %}" class="flex flex-col gap-6">
                             {% if form.non_field_errors %}
                                 <div class="rounded-lg bg-red-50 text-red-700 text-sm p-3">{{ form.non_field_errors }}</div>
@@ -150,13 +167,22 @@
                             </div>
                             <div class="flex flex-col gap-4">
                                 <div class="flex flex-col gap-1.5">
-                                    <label class="text-sm font-medium text-slate-700 dark:text-white">Full Name</label>
+                                    <label class="text-sm font-medium text-slate-700 dark:text-white">First Name</label>
                                     <input class="w-full rounded-lg border border-slate-200 dark:border-border-dark bg-white dark:bg-surface-dark px-4 h-12 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-text-muted focus:border-primary focus:ring-1 focus:ring-primary transition-colors text-base"
-                                           placeholder="e.g. Arnold Theogene"
+                                           placeholder="e.g. Theogene"
                                            type="text"
                                            required
-                                           name="full_name" />
-                                    {% if form.full_name.errors %}<p class="text-xs text-red-600">{{ form.full_name.errors.0 }}</p>{% endif %}
+                                           name="first_name" />
+                                    {% if form.first_name.errors %}<p class="text-xs text-red-600">{{ form.first_name.errors.0 }}</p>{% endif %}
+                                </div>
+                                <div class="flex flex-col gap-1.5">
+                                    <label class="text-sm font-medium text-slate-700 dark:text-white">Last Name</label>
+                                    <input class="w-full rounded-lg border border-slate-200 dark:border-border-dark bg-white dark:bg-surface-dark px-4 h-12 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-text-muted focus:border-primary focus:ring-1 focus:ring-primary transition-colors text-base"
+                                           placeholder="e.g. Arnold "
+                                           type="text"
+                                           required
+                                           name="last_name" />
+                                    {% if form.last_name.errors %}<p class="text-xs text-red-600">{{ form.last_name.errors.0 }}</p>{% endif %}
                                 </div>
                                 <div class="flex flex-col gap-1.5">
                                     <label class="text-sm font-medium text-slate-700 dark:text-white">Email Address</label>

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 
 from .forms import *
 from .models import VerificationCode
@@ -23,10 +23,6 @@ def signup_view(request):
             )
             return redirect("verify_account")
         else:
-            messages.error(
-                request,
-                "Form not valid."
-            )
             print(form.errors)
 
     return render(request, "accounts/c_register.html", {"form": form})
@@ -72,8 +68,8 @@ def login_view(request):
     if request.method == "POST":
         if form.is_valid():
             login(request, form.get_user())
-            messages.success(request, "Welcome back!")
-            return redirect("properties:home")
+            # messages.success(request, "Welcome to Gukodesha!")
+            return redirect("home")
 
     return render(request, "accounts/c_login.html", {"form": form})
 
@@ -193,5 +189,7 @@ def change_password_view(request):
 
             messages.success(request, "Password changed successfully.")
             return redirect("login")
+        else:
+            print(form.errors)
 
     return render(request, "accounts/c_reset_password.html", {"form": form})
