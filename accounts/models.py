@@ -13,7 +13,7 @@ from django.core.validators import MaxLengthValidator, MinLengthValidator
 
 class UserManager(BaseUserManager):
 
-    def create_user(self, username, first_name, last_name, password=None, **extra_fields):
+    def create_user(self, username, first_name, last_name, phone=None, password=None, **extra_fields):
         """
         Creates and saves a User with the given email and password.
         """
@@ -22,6 +22,7 @@ class UserManager(BaseUserManager):
             username=username,
             first_name=first_name,
             last_name=last_name,
+            phone=None,  
             **extra_fields,
         )
         user.set_password(password)
@@ -35,15 +36,15 @@ class UserManager(BaseUserManager):
         Creates and saves a admin with the given email and password.
         """
         user = self.create_user(
-            email=email,
             username=username,
             first_name=first_name,
             last_name=last_name,
-            role=User.ADMIN,
+            phone=None,  
             password=password,
+            email=email,
+            role=User.ADMIN,
             **extra_fields,
         )
-
         user.is_active = True
         user.is_staff = True
         user.is_admin = True
@@ -64,7 +65,7 @@ class User(AbstractUser, PermissionsMixin):
         (ADMIN, 'ADMIN'),
     ]
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    role = models.CharField(max_length=30, choices=ROLE_CHOICES)
+    role = models.CharField(max_length=30, choices=ROLE_CHOICES, blank=True, null=True) 
 
     email = models.EmailField(
         "email address", max_length=255, unique=True, blank=True, null=True)
@@ -73,8 +74,9 @@ class User(AbstractUser, PermissionsMixin):
     username = models.CharField(_("username"), max_length=100, unique=True)
 
     phone = models.CharField(
-        _("phone number"), max_length=255, unique=True, validators=[
-            MinLengthValidator(limit_value=15),
+        _("phone number"), max_length=255, unique=True, blank=True, null=True,  
+        validators=[
+            MinLengthValidator(limit_value=10),
             MaxLengthValidator(limit_value=15)
         ]
     )
@@ -84,14 +86,14 @@ class User(AbstractUser, PermissionsMixin):
     is_staff = models.BooleanField(_("staff"), default=False)
     is_first_login = models.BooleanField(_("staff"), default=True)
     is_admin = models.BooleanField(_("admin"), default=False)
-    USERNAME_FIELD = _("username")
+    USERNAME_FIELD = "username"  # Removed _() wrapper
     REQUIRED_FIELDS = ["email", "first_name", "last_name"]
 
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}"
 
     def get_short_name(self):
-        return self.email
+        return self.email or self.username  # Added fallback
 
     def __str__(self):
         return self.username
@@ -135,7 +137,8 @@ class VerificationCode(models.Model):
         unique_together = ('code', 'user')
 
     def __str__(self):
-        return f"{self.user.email} - {self.label} - {self.code}"
+        email = self.user.email if self.user else (self.email or "No email")  # Fixed None issue
+        return f"{email} - {self.label} - {self.code}"
 
     @property
     def is_valid(self):

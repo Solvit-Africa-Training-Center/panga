@@ -1,274 +1,368 @@
-{% extends './base.html' %}
-
-{% block title %}{{ title }} - GUKODESHA{% endblock %}
-
-{% block content %}
-<div class="py-8 px-4 md:px-10 max-w-[1440px] mx-auto">
-    <div class="max-w-4xl mx-auto">
-        <div class="bg-surface-dark rounded-xl overflow-hidden border border-border-dark shadow-2xl">
-            <!-- Header -->
-            <div class="bg-gradient-to-r from-primary/20 to-surface-dark border-b border-border-dark px-6 py-5">
-                <h3 class="text-white text-2xl font-bold flex items-center gap-3">
-                    <span class="material-symbols-outlined text-primary text-3xl">add_home</span>
-                    {{ title }}
-                </h3>
-                <p class="text-text-secondary text-sm mt-1">Fill in the details below to list your property</p>
-            </div>
-            
-            <!-- Form Body -->
-            <div class="p-6 md:p-8">
-                <form method="post" enctype="multipart/form-data" id="houseForm">
-                    {% csrf_token %}
-                    
-                    <!-- Basic Information -->
-                    <div class="mb-8">
-                        <h5 class="text-white text-lg font-bold mb-4 pb-2 border-b border-border-dark flex items-center gap-2">
-                            <span class="material-symbols-outlined text-primary">info</span>
-                            Basic Information
-                        </h5>
-                        
-                        <div class="mb-5">
-                            <label for="{{ form.name.id_for_label }}" class="block text-sm font-medium text-text-secondary mb-2">
-                                House Name
-                            </label>
-                            {{ form.name }}
-                            {% if form.name.errors %}
-                                <p class="text-red-400 text-sm mt-1 flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-xs">error</span>
-                                    {{ form.name.errors.0 }}
-                                </p>
-                            {% endif %}
+{% load static %}
+<!DOCTYPE html>
+<html class="dark" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>GUKODESHA - Housing &amp; Community</title>
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com" rel="preconnect" />
+        <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap"
+              rel="stylesheet" />
+        <!-- Material Icons -->
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+              rel="stylesheet" />
+        <!-- Tailwind CSS -->
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <!-- Theme Configuration -->
+        <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#38e07b",
+                        "primary-hover": "#2ccb69",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#122017",
+                        "surface-dark": "#1c2620",
+                        "border-dark": "#3d5245",
+                        "text-secondary": "#9eb7a8"
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+        </script>
+    </head>
+    <body class="bg-background-light dark:bg-background-dark text-[#111714] dark:text-white font-display overflow-x-hidden antialiased selection:bg-primary selection:text-background-dark flex flex-col min-h-screen">
+        <!-- Top Navigation -->
+        {% include 'partial/header.html' %}
+        <main class="flex-grow">
+            <!-- Hero Section with Search Module -->
+            <section class="relative flex flex-col items-center justify-center min-h-[600px] md:min-h-[700px] w-full p-4">
+                <!-- Background Image -->
+                <div class="absolute inset-0 z-0">
+                    <img class="w-full h-full object-cover opacity-40"
+                         data-alt="Modern African city residential area at dusk with warm lighting"
+                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuAn9cUV-1YcU-O7XDaiJbHJ0kBPTh6DiRx_T3OfhAMHrVoSGoRKjI1-dOvr4LW-eZSIgXOATRgFnESsiQMHujDldw-57JFh5fFbybZ53zLmxNh9D3Ekaw8xaqKgJtcuemwkN8ZuPoTZEtYFwQGTyFqEGGQnHm2gJZTE8rH7liM0zk0iV8xdG_mC8IsE3T8knT5SRWIXu7edxGawhazI3vOnUBpWbW0uU53_0AA1KFxORPi4VhzYnR785fia0rUfxCTv6FWenerVH1k" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/80 to-transparent"></div>
+                </div>
+                <div class="relative z-10 w-full max-w-4xl flex flex-col items-center text-center gap-8 mt-10 py-4">
+                    <div class="flex flex-col gap-4 px-4 ">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-wider mx-auto">
+                            <span class="material-symbols-outlined text-sm">public</span>
+                            Listing your house here 
                         </div>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
-                            <div>
-                                <label for="{{ form.type.id_for_label }}" class="block text-sm font-medium text-text-secondary mb-2">
-                                    House Type <span class="text-red-400">*</span>
-                                </label>
-                                {{ form.type }}
-                                {% if form.type.errors %}
-                                    <p class="text-red-400 text-sm mt-1 flex items-center gap-1">
-                                        <span class="material-symbols-outlined text-xs">error</span>
-                                        {{ form.type.errors.0 }}
-                                    </p>
-                                {% endif %}
-                            </div>
-                            
-                            <div>
-                                <label for="{{ form.status.id_for_label }}" class="block text-sm font-medium text-text-secondary mb-2">
-                                    Status <span class="text-red-400">*</span>
-                                </label>
-                                {{ form.status }}
-                                {% if form.status.errors %}
-                                    <p class="text-red-400 text-sm mt-1 flex items-center gap-1">
-                                        <span class="material-symbols-outlined text-xs">error</span>
-                                        {{ form.status.errors.0 }}
-                                    </p>
-                                {% endif %}
-                            </div>
-                        </div>
-                        
-                        <div class="mb-5">
-                            <label for="{{ form.monthly_rent.id_for_label }}" class="block text-sm font-medium text-text-secondary mb-2">
-                                Monthly Rent (RWF) <span class="text-red-400">*</span>
-                            </label>
-                            {{ form.monthly_rent }}
-                            {% if form.monthly_rent.errors %}
-                                <p class="text-red-400 text-sm mt-1 flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-xs">error</span>
-                                    {{ form.monthly_rent.errors.0 }}
-                                </p>
-                            {% endif %}
-                        </div>
-                        
-                        <div class="mb-5">
-                            <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-text-secondary mb-2">
-                                Description <span class="text-red-400">*</span>
-                            </label>
-                            {{ form.description }}
-                            {% if form.description.errors %}
-                                <p class="text-red-400 text-sm mt-1 flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-xs">error</span>
-                                    {{ form.description.errors.0 }}
-                                </p>
-                            {% endif %}
-                        </div>
+                        <p class="text-white text-4xl md:text-6xl font-black leading-tight tracking-tight drop-shadow-lg">
+                            Your Listings will be visible to all users across the great lakes region
+                        </p>
+                       
+                       
                     </div>
-                    
-                    <!-- Location Information -->
-                    <div class="mb-8">
-                        <h5 class="text-white text-lg font-bold mb-4 pb-2 border-b border-border-dark flex items-center gap-2">
-                            <span class="material-symbols-outlined text-primary">location_on</span>
-                            Location
-                        </h5>
-                        
-                        <div class="mb-5">
-                            <label for="{{ form.location_text.id_for_label }}" class="block text-sm font-medium text-text-secondary mb-2">
-                                Location / Village / Area <span class="text-red-400">*</span>
-                            </label>
-                            {{ form.location_text }}
-                            <p class="text-text-secondary text-xs mt-1">Enter the location, village, or area where the house is located</p>
-                            {% if form.location_text.errors %}
-                                <p class="text-red-400 text-sm mt-1 flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-xs">error</span>
-                                    {{ form.location_text.errors.0 }}
-                                </p>
-                            {% endif %}
-                        </div>
-                        
-                        <div class="mb-5">
-                            <label for="{{ form.neighborhood.id_for_label }}" class="block text-sm font-medium text-text-secondary mb-2">
-                                Neighborhood
-                            </label>
-                            {{ form.neighborhood }}
-                            {% if form.neighborhood.errors %}
-                                <p class="text-red-400 text-sm mt-1 flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-xs">error</span>
-                                    {{ form.neighborhood.errors.0 }}
-                                </p>
-                            {% endif %}
-                        </div>
-                        
-                        <div class="mb-5">
-                            <label for="{{ form.street_address.id_for_label }}" class="block text-sm font-medium text-text-secondary mb-2">
-                                Street Address
-                            </label>
-                            {{ form.street_address }}
-                            {% if form.street_address.errors %}
-                                <p class="text-red-400 text-sm mt-1 flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-xs">error</span>
-                                    {{ form.street_address.errors.0 }}
-                                </p>
-                            {% endif %}
-                        </div>
-                    </div>
-                    
-                    <!-- Images -->
-                    <div class="mb-8">
-                        <h5 class="text-white text-lg font-bold mb-4 pb-2 border-b border-border-dark flex items-center gap-2">
-                            <span class="material-symbols-outlined text-primary">photo_camera</span>
-                            Images
-                        </h5>
-                        
-                        <div class="mb-5">
-                            <label for="{{ form.image.id_for_label }}" class="block text-sm font-medium text-text-secondary mb-2">
-                                Main Image
-                            </label>
-                            {{ form.image }}
-                            {% if form.image.errors %}
-                                <p class="text-red-400 text-sm mt-1 flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-xs">error</span>
-                                    {{ form.image.errors.0 }}
-                                </p>
-                            {% endif %}
-                            {% if house.image %}
-                            <div class="mt-3">
-                                <img src="{{ house.image.url }}" alt="Current image" class="rounded-lg border border-border-dark max-w-xs shadow-lg">
-                            </div>
-                            {% endif %}
-                        </div>
-                        
-                        <!-- Additional Images Formset -->
-                        <div id="image-formset" class="space-y-4">
-                            <h6 class="text-text-secondary font-medium mb-3 flex items-center gap-2">
-                                <span class="material-symbols-outlined text-sm">collections</span>
-                                Additional Images
-                            </h6>
-                            {{ image_formset.management_form }}
+                    <!-- Form Body -->
+                    <div class="p-6 md:p-8">
+                        <form method="post" enctype="multipart/form-data" id="houseForm">
+                            {% csrf_token %}
                             
-                            {% for form in image_formset %}
-                            <div class="border border-border-dark rounded-lg p-4 bg-background-dark/50 hover:border-primary/30 transition-colors">
-                                {{ form.id }}
-                                <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
-                                    <div class="md:col-span-7">
-                                        <label class="block text-sm font-medium text-text-secondary mb-2">Image</label>
-                                        {{ form.image }}
+                            <!-- Basic Information -->
+                            <div class="mb-8">
+                                <h5 class="text-white text-lg font-bold mb-4 pb-2 border-b border-border-dark flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary">info</span>
+                                    Basic Information
+                                </h5>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                                <div>
+                                    <label for="label" class="block text-sm font-medium text-text-secondary mb-2">
+                                        House Label
+                                    </label>
+                                    <input type="text" name="label" id="label" class="w-full bg-background-dark border border-border-dark text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" placeholder="e.g., Modern Apartment in Kigali">
+                                </div>
+                                <div>
+                                    <label for="monthly_rent" class="block text-sm font-medium text-text-secondary mb-2">
+                                        Monthly Rent (RWF) <span class="text-red-400">*</span>
+                                    </label>
+                                    <input type="number" name="monthly_rent" id="monthly_rent" step="0.01" required class="w-full bg-background-dark border border-border-dark text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" placeholder="e.g., 150000">
+                                </div>
+                            </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                                    <div>
+                                        <label for="type" class="block text-sm font-medium text-text-secondary mb-2">
+                                            House Type <span class="text-red-400">*</span>
+                                        </label>
+                                        <select name="type" id="type" required class="w-full bg-background-dark border border-border-dark text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
+                                            <option value="">Select Type</option>
+                                            <option value="Single Room">Single Room</option>
+                                            <option value="Apartment">Apartment</option>
+                                            <option value="House">House</option>
+                                            <option value="Villa">Villa</option>
+                                            <option value="Studio">Studio</option>
+                                            <option value="Duplex">Duplex</option>
+                                            <option value="Condo">Condo</option>
+                                            <option value="Townhouse">Townhouse</option>
+                                            <option value="Office">Office</option>
+                                        </select>
                                     </div>
-                                    <div class="md:col-span-3">
-                                        <label class="block text-sm font-medium text-text-secondary mb-2">Main Image</label>
-                                        <div class="flex items-center h-10">
-                                            {{ form.is_main }}
-                                            <span class="ml-2 text-xs text-text-secondary">Set as main</span>
-                                        </div>
-                                    </div>
-                                    <div class="md:col-span-2">
-                                        {% if form.instance.pk %}
-                                        <label class="block text-sm font-medium text-text-secondary mb-2">Delete</label>
-                                        <div class="flex items-center h-10">
-                                            {{ form.DELETE }}
-                                            <span class="ml-2 text-xs text-red-400">Remove</span>
-                                        </div>
-                                        {% endif %}
+                                    
+                                    <div>
+                                        <label for="status" class="block text-sm font-medium text-text-secondary mb-2">
+                                            Status <span class="text-red-400">*</span>
+                                        </label>
+                                        <select name="status" id="status" required class="w-full bg-background-dark border border-border-dark text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
+                                            <option value="Available">Available</option>
+                                            <option value="Rented">Rented</option>
+                                            <option value="Under Maintenance">Under Maintenance</option>
+                                        </select>
                                     </div>
                                 </div>
-                                {% if form.instance.image %}
-                                <div class="mt-3">
-                                    <img src="{{ form.instance.image.url }}" alt="Image" class="rounded-lg border border-border-dark max-w-xs shadow-lg">
+                                
+                             
+                                
+                                <div class="mb-5">
+                                    <label for="description" class="block text-sm font-medium text-text-secondary mb-2">
+                                        Description <span class="text-red-400">*</span>
+                                    </label>
+                                    <textarea name="description" id="description" rows="4" required class="w-full bg-background-dark border border-border-dark text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" placeholder="Describe your property..."></textarea>
                                 </div>
-                                {% endif %}
                             </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    
-                    <!-- Active Status -->
-                    <div class="mb-6 p-4 bg-background-dark/50 rounded-lg border border-border-dark">
-                        <div class="flex items-start gap-3">
-                            {{ form.is_active }}
-                            <div>
-                                <label for="{{ form.is_active.id_for_label }}" class="text-sm font-medium text-white cursor-pointer">
-                                    Active Listing
-                                </label>
-                                <p class="text-xs text-text-secondary mt-1">Make this listing visible to the public</p>
+                            
+                            <!-- Location Information -->
+                            <div class="mb-8">
+                                <h5 class="text-white text-lg font-bold mb-4 pb-2 border-b border-border-dark flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary">location_on</span>
+                                    Location
+                                </h5>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                                    <div>
+                                        <label for="country" class="block text-sm font-medium text-text-secondary mb-2">
+                                            Country <span class="text-red-400">*</span>
+                                        </label>
+                                        <input type="text" name="country" id="country" required class="w-full bg-background-dark border border-border-dark text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" placeholder="e.g., Rwanda">
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="province" class="block text-sm font-medium text-text-secondary mb-2">
+                                            Province <span class="text-red-400"></span>
+                                        </label>
+                                        <input type="text" name="province" id="province" required class="w-full bg-background-dark border border-border-dark text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" placeholder="e.g., Kigali City">
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                                    <div>
+                                        <label for="city" class="block text-sm font-medium text-text-secondary mb-2">
+                                            City <span class="text-red-400">*</span>
+                                        </label>
+                                        <input type="text" name="city" id="city" required class="w-full bg-background-dark border border-border-dark text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" placeholder="e.g., Kigali">
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="district" class="block text-sm font-medium text-text-secondary mb-2">
+                                            District <span class="text-red-400">*</span>
+                                        </label>
+                                        <input type="text" name="district" id="district" required class="w-full bg-background-dark border border-border-dark text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" placeholder="e.g., Gasabo">
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                                    <div>
+                                        <label for="sector" class="block text-sm font-medium text-text-secondary mb-2">
+                                            Sector <span class="text-red-400">*</span>
+                                        </label>
+                                        <input type="text" name="sector" id="sector" required class="w-full bg-background-dark border border-border-dark text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" placeholder="e.g., Remera">
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="cell" class="block text-sm font-medium text-text-secondary mb-2">
+                                            Cell <span class="text-red-400">*</span>
+                                        </label>
+                                        <input type="text" name="cell" id="cell" required class="w-full bg-background-dark border border-border-dark text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" placeholder="e.g., Rukiri I">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                                <div>
+                                    <label for="village" class="block text-sm font-medium text-text-secondary mb-2">
+                                        Village <span class="text-red-400">*</span>
+                                    </label>
+                                    <input type="text" name="village" id="village" required class="w-full bg-background-dark border border-border-dark text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" placeholder="e.g., Gacuriro">
+                                </div>
+                                
+                                <div>
+                                    <label for="neighborhood" class="block text-sm font-medium text-text-secondary mb-2">
+                                        Neighborhood
+                                    </label>
+                                    <input type="text" name="neighborhood" id="neighborhood" class="w-full bg-background-dark border border-border-dark text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" placeholder="e.g., Near KBC">
+                                </div>
                             </div>
-                        </div>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                                    <div>
+                                    <label for="street_address" class="block text-sm font-medium text-text-secondary mb-2">
+                                        Street Address
+                                    </label>
+                                    <input type="text" name="street_address" id="street_address" class="w-full bg-background-dark border border-border-dark text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" placeholder="e.g., KG 702 St">
+                                </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Property Details -->
+                            <div class="mb-8">
+                                <h5 class="text-white text-lg font-bold mb-4 pb-2 border-b border-border-dark flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary">home</span>
+                                    Property Details
+                                </h5>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
+                                    <div>
+                                        <label for="n_bed_rooms" class="block text-sm font-medium text-text-secondary mb-2">
+                                            Bedrooms
+                                        </label>
+                                        <input type="number" name="n_bed_rooms" id="n_bed_rooms" value="1" min="0" class="w-full bg-background-dark border border-border-dark text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="n_bath_rooms" class="block text-sm font-medium text-text-secondary mb-2">
+                                            Bathrooms
+                                        </label>
+                                        <input type="number" name="n_bath_rooms" id="n_bath_rooms" value="1" min="0" class="w-full bg-background-dark border border-border-dark text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="surface" class="block text-sm font-medium text-text-secondary mb-2">
+                                            Area (m²)
+                                        </label>
+                                        <input type="number" name="surface" id="surface" value="1" min="0" class="w-full bg-background-dark border border-border-dark text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                                    <div>
+                                        <label for="parkings" class="block text-sm font-medium text-text-secondary mb-2">
+                                            Parking Spaces
+                                        </label>
+                                        <input type="number" name="parkings" id="parkings" value="0" min="0" class="w-full bg-background-dark border border-border-dark text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
+                                    </div>
+                                    
+                                    <div class="flex items-end">
+                                        <div class="flex items-center h-10">
+                                            <input type="checkbox" name="has_wifi" id="has_wifi" class="w-5 h-5 bg-background-dark border-border-dark rounded text-primary focus:ring-primary focus:ring-2">
+                                            <label for="has_wifi" class="ml-2 text-sm text-text-secondary cursor-pointer">Has WiFi</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-5">
+                                    <label for="on_map" class="block text-sm font-medium text-text-secondary mb-2">
+                                        Map Location (embed code or coordinates)
+                                    </label>
+                                    <textarea name="on_map" id="on_map" rows="3" class="w-full bg-background-dark border border-border-dark text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" placeholder="Paste Google Maps embed code or coordinates"></textarea>
+                                </div>
+                            </div>
+                            
+                            <!-- Images -->
+                            <div class="mb-8">
+                                <h5 class="text-white text-lg font-bold mb-4 pb-2 border-b border-border-dark flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary">photo_camera</span>
+                                    Images
+                                </h5>
+                                
+                                <div class="mb-5">
+                                    <label for="main_image" class="block text-sm font-medium text-text-secondary mb-2">
+                                        Main Image
+                                    </label>
+                                    <input type="file" name="main_image" id="main_image" accept="image/*" class="w-full bg-background-dark border border-border-dark text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-primary file:text-background-dark file:font-bold hover:file:bg-primary-hover">
+                                </div>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                    <div>
+                                        <label for="image_one" class="block text-sm font-medium text-text-secondary mb-2">
+                                            Image 1
+                                        </label>
+                                        <input type="file" name="image_one" id="image_one" accept="image/*" class="w-full bg-background-dark border border-border-dark text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-primary/20 file:text-primary file:font-medium hover:file:bg-primary/30">
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="image_two" class="block text-sm font-medium text-text-secondary mb-2">
+                                            Image 2
+                                        </label>
+                                        <input type="file" name="image_two" id="image_two" accept="image/*" class="w-full bg-background-dark border border-border-dark text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-primary/20 file:text-primary file:font-medium hover:file:bg-primary/30">
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="image_three" class="block text-sm font-medium text-text-secondary mb-2">
+                                            Image 3
+                                        </label>
+                                        <input type="file" name="image_three" id="image_three" accept="image/*" class="w-full bg-background-dark border border-border-dark text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-primary/20 file:text-primary file:font-medium hover:file:bg-primary/30">
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="image_four" class="block text-sm font-medium text-text-secondary mb-2">
+                                            Image 4
+                                        </label>
+                                        <input type="file" name="image_four" id="image_four" accept="image/*" class="w-full bg-background-dark border border-border-dark text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-primary/20 file:text-primary file:font-medium hover:file:bg-primary/30">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Submit Buttons -->
+                            <div class="flex flex-col sm:flex-row gap-3 pt-6 border-t border-border-dark">
+                                <button type="submit" class="flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-background-dark px-6 py-3 rounded-lg transition-all font-bold shadow-[0_0_15px_rgba(56,224,123,0.3)] hover:shadow-[0_0_20px_rgba(56,224,123,0.4)]">
+                                    <span class="material-symbols-outlined">check_circle</span>
+                                    Save House
+                                </button>
+                                <a href="" class="flex items-center justify-center gap-2 bg-surface-dark border border-border-dark hover:bg-border-dark text-white px-6 py-3 rounded-lg transition-all font-bold">
+                                    <span class="material-symbols-outlined">cancel</span>
+                                    Cancel
+                                </a>
+                            </div>
+                        </form>
                     </div>
-                    
-                    <!-- Submit Buttons -->
-                    <div class="flex flex-col sm:flex-row gap-3 pt-6 border-t border-border-dark">
-                        <button type="submit" class="flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-background-dark px-6 py-3 rounded-lg transition-all font-bold shadow-[0_0_15px_rgba(56,224,123,0.3)] hover:shadow-[0_0_20px_rgba(56,224,123,0.4)]">
-                            <span class="material-symbols-outlined">check_circle</span>
-                            Save House
-                        </button>
-                        <a href="{% url 'properties:house_list' %}" class="flex items-center justify-center gap-2 bg-surface-dark border border-border-dark hover:bg-border-dark text-white px-6 py-3 rounded-lg transition-all font-bold">
-                            <span class="material-symbols-outlined">cancel</span>
-                            Cancel
-                        </a>
+                            </div>
+                            
+                            <!-- Active Status -->
+                            <div class="mb-6 p-4 bg-background-dark/50 rounded-lg border border-border-dark">
+                                <div class="flex items-start gap-3">
+                                    {{ form.is_active }}
+                                    <div>
+                                        <label for="{{ form.is_active.id_for_label }}" class="text-sm font-medium text-white cursor-pointer">
+                                            Active Listing
+                                        </label>
+                                        <p class="text-xs text-text-secondary mt-1">Make this listing visible to the public</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Submit Buttons -->
+                            <div class="flex flex-col sm:flex-row gap-3 pt-6 border-t border-border-dark">
+                                <button type="submit" class="flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-background-dark px-6 py-3 rounded-lg transition-all font-bold shadow-[0_0_15px_rgba(56,224,123,0.3)] hover:shadow-[0_0_20px_rgba(56,224,123,0.4)]">
+                                    <span class="material-symbols-outlined">check_circle</span>
+                                    Save House
+                                </button>
+                                <a href="{% url 'landlord' %}" class="flex items-center justify-center gap-2 bg-surface-dark border border-border-dark hover:bg-border-dark text-white px-6 py-3 rounded-lg transition-all font-bold">
+                                    <span class="material-symbols-outlined">cancel</span>
+                                    Cancel
+                                </a>
+                            </div>
+                        </form>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-{% endblock %}
+ 
+        
+       
+                </div>
 
-{% block extra_js %}
-<script>
-    // Form validation
-    document.getElementById('houseForm').addEventListener('submit', function(e) {
-        let isValid = true;
-        const requiredFields = document.querySelectorAll('[required]');
-        
-        requiredFields.forEach(field => {
-            if (!field.value) {
-                isValid = false;
-                field.classList.add('border-red-400', 'ring-2', 'ring-red-400/20');
-                field.classList.remove('border-border-dark');
-            } else {
-                field.classList.remove('border-red-400', 'ring-2', 'ring-red-400/20');
-                field.classList.add('border-border-dark');
-            }
-        });
-        
-        if (!isValid) {
-            e.preventDefault();
-            // Show error message
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'fixed top-4 right-4 bg-red-500/20 border border-red-500/50 text-red-400 px-4 py-3 rounded-lg backdrop-blur-sm z-50 flex items-center gap-2';
-            errorDiv.innerHTML = '<span class="material-symbols-outlined text-sm">error</span>Please fill in all required fields.';
-            document.body.appendChild(errorDiv);
-            setTimeout(() => errorDiv.remove(), 3000);
-        }
-    });
-</script>
-{% endblock %}
+                       
+        </main>
+        <!-- Footer -->
+        {% include 'partial/footer.html' %}
+    </body>
+</html>

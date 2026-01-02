@@ -1,7 +1,9 @@
-from django.shortcuts import render, get_object_or_404
-from django.core.paginator import Paginator
-from django.db.models import Q
-from .models import House, District
+from django.shortcuts import render,redirect, get_object_or_404
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator 
+from decimal import Decimal
+from .models import House, Village, Cell, Sector, District, Province, City, Country
 from utils.general_search import search_houses
 
 
@@ -29,7 +31,7 @@ def home(request):
     houses = (
         House.objects
         .filter(is_active=True, status="Available")
-        .order_by("-date_of_listing")[:3]
+        .order_by("-date_of_listing")[:6]
     )
     housing_types = House.housing_types,
 
@@ -41,6 +43,80 @@ def home(request):
     }
 
     return render(request, "properties/homepage.html", context)
+
+def house_create(request):
+    if request.method == 'POST':
+        # Get location names from form (users typed these in)
+        village_name = request.POST.get('village')
+        cell_name = request.POST.get('cell')
+        sector_name = request.POST.get('sector')
+        district_name = request.POST.get('district')
+        city_name = request.POST.get('city')
+        province_name = request.POST.get('province')
+        country_name = request.POST.get('country')
+        
+        if not all([village_name, cell_name, sector_name, district_name, city_name, province_name, country_name]):
+            messages.error(request, 'Please enter all location fields')
+            return redirect('house_create')
+        
+        # Create location objects if they don't exist (bottom-up approach)
+        country, _ = Country.objects.get_or_create(name=country_name)
+        province, _ = Province.objects.get_or_create(name=province_name, country=country)
+        city, _ = City.objects.get_or_create(name=city_name, province=province)
+        district, _ = District.objects.get_or_create(name=district_name, city=city)
+        sector, _ = Sector.objects.get_or_create(name=sector_name, district=district)
+        cell, _ = Cell.objects.get_or_create(name=cell_name, sector=sector)
+        village, _ = Village.objects.get_or_create(name=village_name, cell=cell)
+        
+        # Get house data
+        type = request.POST.get('type')
+        status = request.POST.get('status', 'Available')
+        label = request.POST.get('label')
+        monthly_rent = request.POST.get('monthly_rent', '0.00')
+        neighborhood = request.POST.get('neighborhood')
+        street_address = request.POST.get('street_address', 'KG 702 St')
+        description = request.POST.get('description', '')
+        n_bed_rooms = request.POST.get('n_bed_rooms', '1')
+        n_bath_rooms = request.POST.get('n_bath_rooms', '1')
+        surface = request.POST.get('surface', '1')
+        parkings = request.POST.get('parkings', '0')
+        has_wifi = request.POST.get('has_wifi') == 'on'
+        on_map = request.POST.get('on_map')
+        
+        # Create house
+        house = House.objects.create(
+            type=type,
+            status=status,
+            label=label,
+            location=village,
+            monthly_rent=Decimal(monthly_rent),
+            neighborhood=neighborhood,
+            street_address=street_address,
+            description=description,
+            n_bed_rooms=int(n_bed_rooms),
+            n_bath_rooms=int(n_bath_rooms),
+            surface=int(surface),
+            parkings=int(parkings),
+            has_wifi=has_wifi,
+            on_map=on_map,
+            main_image=request.FILES.get('main_image'),
+            image_one=request.FILES.get('image_one'),
+            image_two=request.FILES.get('image_two'),
+            image_three=request.FILES.get('image_three'),
+            image_four=request.FILES.get('image_four'),
+        )
+        
+        messages.success(request, 'House is listed successfully!')
+        return redirect('landlord')
+    
+    # GET request - show all houses
+    houses = House.objects.all().order_by('-date_of_listing')
+    
+    context = {
+        'title': 'List Your Property',
+        'houses': houses,
+    }
+    return render(request, 'properties/house_create.html', context)  
 
 
 def all_houses(request):
@@ -110,7 +186,34 @@ def contact(request):
 def see_results(request):
     return render(request, 'properties/all/search_results.html', {})
 
+def landlord(request):
+    houses = House.objects.all().order_by('-date_of_listing')
+    districts= District.objects.all().order_by('name')
+    
+    # Calculate stats
+    total_properties = houses.count()
+    vacant_units = houses.filter(status='Available').count()
+    rented_units = houses.filter(status='Rented').count()
+    total_revenue = sum(house.monthly_rent for house in houses.filter(status='Rented'))
 
+    
+    # Calculate vacancy rate
+    if total_properties > 0:
+        vacancy_rate = (vacant_units / total_properties) * 100
+    else:
+        vacancy_rate = 0
+    
+    context = {
+        'houses': houses,
+        'districts': districts,
+        'total_properties': total_properties,
+        'vacant_units': vacant_units,
+        'rented_units': rented_units,
+        'total_revenue': total_revenue,
+        'vacancy_rate': vacancy_rate,
+    }
+    
+    return render(request, 'properties/landlord/my_properties.html', context)
 """
 @login_required
 def house_list(request):

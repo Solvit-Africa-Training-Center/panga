@@ -1,7 +1,9 @@
 from django.db import models
 import datetime
+from decimal import Decimal
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
+
 
 
 class Country(models.Model):
@@ -75,12 +77,13 @@ class House(models.Model):
         ('Duplex', 'Duplex'),
         ('Condo', 'Condo'),
         ('Townhouse', 'Townhouse'),
-        ('Other', 'Other'),
+        ('Office', 'Office'),
     )
     house_status = [
         ('Available', 'Available'),
         ('Rented', 'Rented'),
         ('Under Maintenance', 'Under Maintenance'),
+        
 
     ]
 
@@ -96,7 +99,10 @@ class House(models.Model):
     location = models.ForeignKey(
         Village, on_delete=models.CASCADE, related_name='houses')
     monthly_rent = models.DecimalField(
-        max_digits=10, decimal_places=2, default=0.00)
+    max_digits=10,
+    decimal_places=2,
+    default=Decimal("0.00")
+                             )
     neighborhood = models.CharField(max_length=100,  null=True, blank=True)
     street_address = models.CharField(max_length=200, null=True, blank=True)
     is_active = models.BooleanField(default=True)
