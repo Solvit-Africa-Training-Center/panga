@@ -1,6 +1,7 @@
+{% load static %}
 <!DOCTYPE html>
 <html class="dark" lang="en">
-    <head> 
+    <head>
         <meta charset="utf-8" />
         <meta content="width=device-width, initial-scale=1.0" name="viewport" />
         <title>GUKODESHA - My Properties</title>
@@ -106,7 +107,7 @@
                     <span class="text-sm font-medium">Settings</span>
                 </a>
                 <a class="flex items-center gap-3 px-3 py-3 rounded-lg text-text-secondary hover:bg-surface-dark hover:text-white transition-colors group"
-                   href="#">
+                   href="{% url 'login' %}">
                     <span class="material-symbols-outlined text-text-secondary group-hover:text-white">logout</span>
                     <span class="text-sm font-medium">Log Out</span>
                 </a>
@@ -140,7 +141,7 @@
                     </div>
                     <div class="flex items-center gap-3 pl-6 border-l border-border-dark">
                         <div class="text-right hidden sm:block">
-                            <p class="text-sm font-bold text-white leading-none">Jean-Paul M.</p>
+                            <p class="text-sm font-bold text-white leading-none">{{ user.first_name|capfirst }}</p>
                             <p class="text-xs text-text-secondary mt-1">Property Owner</p>
                         </div>
                         <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 ring-2 ring-surface-dark"
@@ -161,44 +162,48 @@
                                 Manage your portfolio, update availability, and track revenue across the Great Lakes region.
                             </p>
                         </div>
+                        <a href = "{% url 'house_create' %}">
                         <button class="flex items-center justify-center gap-2 bg-primary text-background-dark hover:bg-opacity-90 transition-all font-bold text-sm px-6 py-3 rounded-lg shadow-lg shadow-primary/20 whitespace-nowrap">
                             <span class="material-symbols-outlined">add</span>
                             <span>Add New Property</span>
-                        </button>
+                        </button> </a>
                     </div>
+                    
                     <!-- Stats Section -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="flex flex-col gap-3 rounded-xl p-6 bg-surface-dark border border-border-dark">
-                            <div class="flex items-center justify-between">
-                                <p class="text-text-secondary font-medium">Total Properties</p>
-                                <span class="material-symbols-outlined text-primary">domain</span>
-                            </div>
-                            <div class="flex items-end gap-3">
-                                <p class="text-white text-3xl font-bold leading-none">12</p>
-                                <p class="text-primary text-sm font-medium bg-primary/10 px-2 py-0.5 rounded">+1 this month</p>
-                            </div>
-                        </div>
-                        <div class="flex flex-col gap-3 rounded-xl p-6 bg-surface-dark border border-border-dark">
-                            <div class="flex items-center justify-between">
-                                <p class="text-text-secondary font-medium">Vacant Units</p>
-                                <span class="material-symbols-outlined text-yellow-500">key_off</span>
-                            </div>
-                            <div class="flex items-end gap-3">
-                                <p class="text-white text-3xl font-bold leading-none">2</p>
-                                <p class="text-text-secondary text-sm font-medium">16.6% vacancy rate</p>
-                            </div>
-                        </div>
-                        <div class="flex flex-col gap-3 rounded-xl p-6 bg-surface-dark border border-border-dark">
-                            <div class="flex items-center justify-between">
-                                <p class="text-text-secondary font-medium">Monthly Revenue</p>
-                                <span class="material-symbols-outlined text-primary">attach_money</span>
-                            </div>
-                            <div class="flex items-end gap-3">
-                                <p class="text-white text-3xl font-bold leading-none">$4,500</p>
-                                <p class="text-primary text-sm font-medium bg-primary/10 px-2 py-0.5 rounded">+5% vs last month</p>
-                            </div>
-                        </div>
-                    </div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="flex flex-col gap-3 rounded-xl p-6 bg-surface-dark border border-border-dark">
+        <div class="flex items-center justify-between">
+            <p class="text-text-secondary font-medium">Total Properties</p>
+            <span class="material-symbols-outlined text-primary">domain</span>
+        </div>
+        <div class="flex items-end gap-3">
+            <p class="text-white text-3xl font-bold leading-none">{{ total_properties }}</p>
+        </div>
+    </div>
+    
+    <div class="flex flex-col gap-3 rounded-xl p-6 bg-surface-dark border border-border-dark">
+        <div class="flex items-center justify-between">
+            <p class="text-text-secondary font-medium">Vacant Units</p>
+            <span class="material-symbols-outlined text-yellow-500">key_off</span>
+        </div>
+        <div class="flex items-end gap-3">
+            <p class="text-white text-3xl font-bold leading-none">{{ vacant_units }}</p>
+            {% if total_properties > 0 %}
+            <p class="text-text-secondary text-sm font-medium">{{ vacancy_rate|floatformat:1 }}% vacancy rate</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="flex flex-col gap-3 rounded-xl p-6 bg-surface-dark border border-border-dark">
+        <div class="flex items-center justify-between">
+            <p class="text-text-secondary font-medium">Monthly Revenue</p>
+            <span class="material-symbols-outlined text-primary">attach_money</span>
+        </div>
+        <div class="flex items-end gap-3">
+            <p class="text-white text-3xl font-bold leading-none">{{ total_revenue|floatformat:0 }} RWF</p>
+        </div>
+    </div>
+</div>
                     <!-- Filters & Search -->
                     <div class="flex flex-col lg:flex-row gap-4">
                         <label class="flex-1 relative group">
@@ -212,10 +217,10 @@
                         <div class="flex gap-3 overflow-x-auto pb-2 lg:pb-0 no-scrollbar">
                             <div class="relative min-w-[140px]">
                                 <select class="w-full bg-surface-dark border border-border-dark text-white text-sm rounded-lg focus:ring-primary focus:border-primary block p-3.5 appearance-none cursor-pointer">
-                                    <option>All Statuses</option>
-                                    <option>Rented</option>
-                                    <option>Vacant</option>
-                                    <option>Maintenance</option>
+                                    <option value="Choose house status" disabled selected>Select Status</option>
+                                    <option value="Available">Available</option>
+                                    <option value="Rented">Rented</option>
+                                    <option value="Under Maintenance">Under Maintenance</option>
                                 </select>
                                 <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                                     <span class="material-symbols-outlined text-text-secondary">expand_more</span>
@@ -223,10 +228,10 @@
                             </div>
                             <div class="relative min-w-[140px]">
                                 <select class="w-full bg-surface-dark border border-border-dark text-white text-sm rounded-lg focus:ring-primary focus:border-primary block p-3.5 appearance-none cursor-pointer">
-                                    <option>All Locations</option>
-                                    <option>Kigali</option>
-                                    <option>Gisenyi</option>
-                                    <option>Musanze</option>
+                                    <option value="" disabled selected>Select location</option>
+                                    {% for district in districts %}
+                                    <option value="{{district.id}}">{{district.name}} </option>
+                                    {% endfor %}
                                 </select>
                                 <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                                     <span class="material-symbols-outlined text-text-secondary">expand_more</span>
@@ -240,274 +245,111 @@
                     </div>
                     <!-- Property Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 pb-10">
-                        <!-- Card 1: Active -->
+                        {% for house in houses %}
+                        <!-- Property Card -->
                         <div class="group flex flex-col bg-surface-dark rounded-xl overflow-hidden border border-border-dark hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-black/20">
                             <div class="relative h-56 overflow-hidden">
-                                <div class="absolute top-4 left-4 z-10 bg-black/60 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-md flex items-center gap-1">
-                                    <span class="size-2 rounded-full bg-primary animate-pulse"></span> RENTED
+                                <!-- Status Badge -->
+                                <div class="absolute top-4 left-4 z-10 
+                                    {% if house.status == 'Available' %}bg-primary/90 text-background-dark
+                                    {% elif house.status == 'Rented' %}bg-black/60 text-white
+                                    {% else %}bg-gray-700/90 text-white{% endif %} 
+                                    backdrop-blur-md text-xs font-bold px-3 py-1.5 rounded-md flex items-center gap-1">
+                                    {% if house.status == 'Rented' %}
+                                        <span class="size-2 rounded-full bg-primary animate-pulse"></span>
+                                    {% elif house.status == 'Under Maintenance' %}
+                                        <span class="material-symbols-outlined text-[14px]">build</span>
+                                    {% endif %}
+                                    {{ house.status|upper }}
                                 </div>
+                                
+                                <!-- Options Menu -->
                                 <div class="absolute top-4 right-4 z-10">
                                     <button class="bg-black/40 hover:bg-black/70 backdrop-blur-md text-white rounded-full p-1.5 transition-colors">
                                         <span class="material-symbols-outlined text-[20px]">more_horiz</span>
                                     </button>
                                 </div>
-                                <div class="bg-cover bg-center w-full h-full group-hover:scale-105 transition-transform duration-500"
-                                     data-alt="Modern apartment complex with balconies in Kigali"
-                                     style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAaa_wsix4t00RTbGmfTuKhjWddFy2a6U2u9fbzqEsxsiBELgHYE9HQfZS5DkL8eKNlJcMJcVLjkNohE_uF9yiFjoUWtCxgB6DDiqG8ZZ1AkagEp-ZUVvsTE3Jl5gHH2CFEUh2-AcDvdq08WIXl_5vhYFqDYseaEjq1yuhZMAb4MUva6yjoijlfZdYWDX4qBevIi2gRh2hxhsVsfxDggamqIISAIok-EIMiBa_CI32GJE9vcS-Konl9D1n3b2I0vU6ZXjfuJAzUggY")'>
-                                </div>
+                                
+                                <!-- House Image -->
+                                {% if house.main_image %}
+                                    <div class="bg-cover bg-center w-full h-full group-hover:scale-105 transition-transform duration-500 
+                                        {% if house.status == 'Under Maintenance' %}grayscale group-hover:grayscale-0{% endif %}"
+                                         style='background-image: url("{{ house.main_image.url }}");'>
+                                    </div>
+                                {% else %}
+                                    <div class="bg-surface-dark w-full h-full flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-text-secondary text-6xl">home</span>
+                                    </div>
+                                {% endif %}
                             </div>
+                            
                             <div class="p-5 flex flex-col gap-4 flex-1">
                                 <div class="flex justify-between items-start">
                                     <div>
-                                        <h3 class="text-xl font-bold text-white group-hover:text-primary transition-colors">Sunrise Apartments</h3>
+                                        <h3 class="text-xl font-bold text-white group-hover:text-primary transition-colors">
+                                            {{ house.label|default:"Untitled Property" }}
+                                        </h3>
                                         <div class="flex items-center gap-1 text-text-secondary text-sm mt-1">
                                             <span class="material-symbols-outlined text-[16px]">location_on</span>
-                                            <span>Kigali, Nyarutarama</span>
+                                            <span>{{ house.location.name }}, {{ house.location.cell.sector.district.name }}</span>
                                         </div>
                                     </div>
                                     <div class="text-right">
-                                        <p class="text-lg font-bold text-white">$1,200</p>
+                                        <p class="text-lg font-bold text-white">{{ house.monthly_rent|floatformat:0 }} RWF</p>
                                         <p class="text-xs text-text-secondary">/month</p>
                                     </div>
                                 </div>
+                                
                                 <div class="grid grid-cols-3 gap-2 py-3 border-y border-border-dark">
                                     <div class="flex flex-col items-center justify-center p-1">
-                                        <span class="text-white font-bold text-lg">4</span>
-                                        <span class="text-xs text-text-secondary uppercase tracking-wider">Units</span>
+                                        <span class="text-white font-bold text-lg">{{ house.n_bed_rooms }}</span>
+                                        <span class="text-xs text-text-secondary uppercase tracking-wider">Bed{% if house.n_bed_rooms != 1 %}s{% endif %}</span>
                                     </div>
                                     <div class="flex flex-col items-center justify-center border-l border-border-dark p-1">
-                                        <span class="text-white font-bold text-lg">12</span>
-                                        <span class="text-xs text-text-secondary uppercase tracking-wider">Tenants</span>
+                                        <span class="text-white font-bold text-lg">{{ house.n_bath_rooms }}</span>
+                                        <span class="text-xs text-text-secondary uppercase tracking-wider">Bath{% if house.n_bath_rooms != 1 %}s{% endif %}</span>
                                     </div>
                                     <div class="flex flex-col items-center justify-center border-l border-border-dark p-1">
-                                        <span class="text-primary font-bold text-lg">100%</span>
-                                        <span class="text-xs text-text-secondary uppercase tracking-wider">Occupied</span>
+                                        <span class="text-white font-bold text-lg">{{ house.surface }}</span>
+                                        <span class="text-xs text-text-secondary uppercase tracking-wider">m<sup>2</sup></span>
                                     </div>
                                 </div>
-                                <div class="mt-auto pt-2">
-                                    <button class="w-full py-2.5 rounded-lg border border-border-dark text-white font-semibold text-sm hover:bg-border-dark hover:border-text-secondary/30 transition-all flex items-center justify-center gap-2">
-                                        <span>Manage Property</span>
-                                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card 2: Vacant -->
-                        <div class="group flex flex-col bg-surface-dark rounded-xl overflow-hidden border border-border-dark hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-black/20">
-                            <div class="relative h-56 overflow-hidden">
-                                <div class="absolute top-4 left-4 z-10 bg-yellow-500/90 text-black backdrop-blur-md text-xs font-bold px-3 py-1.5 rounded-md flex items-center gap-1">
-                                    <span class="material-symbols-filled text-[14px]">warning</span> VACANT UNIT
-                                </div>
-                                <div class="absolute top-4 right-4 z-10">
-                                    <button class="bg-black/40 hover:bg-black/70 backdrop-blur-md text-white rounded-full p-1.5 transition-colors">
-                                        <span class="material-symbols-outlined text-[20px]">more_horiz</span>
-                                    </button>
-                                </div>
-                                <div class="bg-cover bg-center w-full h-full group-hover:scale-105 transition-transform duration-500"
-                                     data-alt="Suburban family house with a garden"
-                                     style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDgZ-neSgwgrlSrTVE84v0sXyJFtoeCAr1zecC3EAhZJ2TVCcfQ_yufvOZ92dZUarO9LqqxaBRBifLPbSFSNewGVfJMxsbnyediBGId-tIt0f5198eR_809XkusaFiiLADDi5ZdY3pJCx2RCkdZdt7LL_uPwL0lNheK_PBTZrQtJOfst3MJAhULqRmRonnX8PT09Tid7iDOU7sZaaSSpIA7msqkc1BptRy1Wtgqnw_iuYfgvJArB5JHaCzz9lpTIO6aW4xuDFLcKNc")'>
-                                </div>
-                            </div>
-                            <div class="p-5 flex flex-col gap-4 flex-1">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h3 class="text-xl font-bold text-white group-hover:text-primary transition-colors">Highland Villa</h3>
-                                        <div class="flex items-center gap-1 text-text-secondary text-sm mt-1">
-                                            <span class="material-symbols-outlined text-[16px]">location_on</span>
-                                            <span>Musanze, Ruhengeri</span>
-                                        </div>
-                                    </div>
-                                    <div class="text-right">
-                                        <p class="text-lg font-bold text-white">$650</p>
-                                        <p class="text-xs text-text-secondary">/month</p>
-                                    </div>
-                                </div>
-                                <div class="grid grid-cols-3 gap-2 py-3 border-y border-border-dark">
-                                    <div class="flex flex-col items-center justify-center p-1">
-                                        <span class="text-white font-bold text-lg">1</span>
-                                        <span class="text-xs text-text-secondary uppercase tracking-wider">Unit</span>
-                                    </div>
-                                    <div class="flex flex-col items-center justify-center border-l border-border-dark p-1">
-                                        <span class="text-white font-bold text-lg">0</span>
-                                        <span class="text-xs text-text-secondary uppercase tracking-wider">Tenants</span>
-                                    </div>
-                                    <div class="flex flex-col items-center justify-center border-l border-border-dark p-1">
-                                        <span class="text-yellow-500 font-bold text-lg">0%</span>
-                                        <span class="text-xs text-text-secondary uppercase tracking-wider">Occupied</span>
-                                    </div>
-                                </div>
+                                
                                 <div class="mt-auto pt-2 flex gap-2">
-                                    <button class="flex-1 py-2.5 rounded-lg bg-primary text-background-dark font-bold text-sm hover:bg-primary/90 transition-all">
-                                        List Unit
-                                    </button>
-                                    <button class="px-3 py-2.5 rounded-lg border border-border-dark text-white hover:bg-border-dark transition-all">
+                                    <a href="{% url 'house_detail' house.id %}" class="flex-1 py-2.5 rounded-lg border border-border-dark text-white font-semibold text-sm hover:bg-border-dark hover:border-text-secondary/30 transition-all flex items-center justify-center gap-2">
+                                        <span>View Details</span>
+                                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                                    </a>
+                                    <a href="" class="px-3 py-2.5 rounded-lg border border-border-dark text-white hover:bg-border-dark transition-all">
                                         <span class="material-symbols-outlined">edit</span>
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                        <!-- Card 3: Maintenance -->
-                        <div class="group flex flex-col bg-surface-dark rounded-xl overflow-hidden border border-border-dark hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-black/20">
-                            <div class="relative h-56 overflow-hidden">
-                                <div class="absolute top-4 left-4 z-10 bg-gray-700/90 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-md flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-[14px]">build</span> MAINTENANCE
-                                </div>
-                                <div class="absolute top-4 right-4 z-10">
-                                    <button class="bg-black/40 hover:bg-black/70 backdrop-blur-md text-white rounded-full p-1.5 transition-colors">
-                                        <span class="material-symbols-outlined text-[20px]">more_horiz</span>
-                                    </button>
-                                </div>
-                                <div class="bg-cover bg-center w-full h-full grayscale group-hover:grayscale-0 transition-all duration-500"
-                                     data-alt="Two story residential building"
-                                     style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD1nT5iGCkJRhmDhHQ6YRryPfhPT-CXXKllyABKAjSTdldJG8VyuuKWkXfB0xbVY1mZXn0Xeig3uwbTeu2uxs8v3NneiINUdyTM1FdAprogrwM24f1WL03zSYmcf9GPbp7MwDmC7oqeLsEMYMGkzdly7Rzf5nVgHrFPKXYBkJaiAdsIX952KUJukL1eA4pShvPSwYdBQ4afiPWiPTsgOjgqiDpN3-NvMld6WxwaxwjgAG7jYhNMYMnDLHSBEP2HpXtwlNEsPCJM1gs")'>
-                                </div>
-                            </div>
-                            <div class="p-5 flex flex-col gap-4 flex-1">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h3 class="text-xl font-bold text-white group-hover:text-primary transition-colors">Lake View Duplex</h3>
-                                        <div class="flex items-center gap-1 text-text-secondary text-sm mt-1">
-                                            <span class="material-symbols-outlined text-[16px]">location_on</span>
-                                            <span>Gisenyi, Rubavu</span>
-                                        </div>
-                                    </div>
-                                    <div class="text-right">
-                                        <p class="text-lg font-bold text-white">$800</p>
-                                        <p class="text-xs text-text-secondary">/month</p>
-                                    </div>
-                                </div>
-                                <div class="grid grid-cols-3 gap-2 py-3 border-y border-border-dark">
-                                    <div class="flex flex-col items-center justify-center p-1">
-                                        <span class="text-white font-bold text-lg">2</span>
-                                        <span class="text-xs text-text-secondary uppercase tracking-wider">Units</span>
-                                    </div>
-                                    <div class="flex flex-col items-center justify-center border-l border-border-dark p-1">
-                                        <span class="text-white font-bold text-lg">1</span>
-                                        <span class="text-xs text-text-secondary uppercase tracking-wider">Tenant</span>
-                                    </div>
-                                    <div class="flex flex-col items-center justify-center border-l border-border-dark p-1">
-                                        <span class="text-white font-bold text-lg">50%</span>
-                                        <span class="text-xs text-text-secondary uppercase tracking-wider">Occupied</span>
-                                    </div>
-                                </div>
-                                <div class="mt-auto pt-2">
-                                    <button class="w-full py-2.5 rounded-lg border border-border-dark text-white font-semibold text-sm hover:bg-border-dark hover:border-text-secondary/30 transition-all flex items-center justify-center gap-2">
-                                        <span>View Issues</span>
-                                        <span class="material-symbols-outlined text-[18px] text-yellow-500">warning</span>
-                                    </button>
-                                </div>
-                            </div>
+                        {% empty %}
+                        <!-- Empty State -->
+                        <div class="col-span-full flex flex-col items-center justify-center py-16">
+                            <span class="material-symbols-outlined text-text-secondary text-8xl mb-4">home_work</span>
+                            <h3 class="text-2xl font-bold text-white mb-2">No Properties Listed Yet</h3>
+                            <p class="text-text-secondary text-center mb-6">Start building your portfolio by adding your first property.</p>
+                            <a href="{% url 'house_create' %}">
+                                <button class="flex items-center justify-center gap-2 bg-primary text-background-dark hover:bg-opacity-90 transition-all font-bold text-sm px-6 py-3 rounded-lg shadow-lg shadow-primary/20">
+                                    <span class="material-symbols-outlined">add</span>
+                                    <span>Add New Property</span>
+                                </button>
+                            </a>
                         </div>
-                        <!-- Card 4: Active -->
-                        <div class="group flex flex-col bg-surface-dark rounded-xl overflow-hidden border border-border-dark hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-black/20">
-                            <div class="relative h-56 overflow-hidden">
-                                <div class="absolute top-4 left-4 z-10 bg-black/60 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-md flex items-center gap-1">
-                                    <span class="size-2 rounded-full bg-primary animate-pulse"></span> RENTED
-                                </div>
-                                <div class="absolute top-4 right-4 z-10">
-                                    <button class="bg-black/40 hover:bg-black/70 backdrop-blur-md text-white rounded-full p-1.5 transition-colors">
-                                        <span class="material-symbols-outlined text-[20px]">more_horiz</span>
-                                    </button>
-                                </div>
-                                <div class="bg-cover bg-center w-full h-full group-hover:scale-105 transition-transform duration-500"
-                                     data-alt="Cozy bungalow house with trees"
-                                     style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDg2-8aq70VtcyGfDo2Ub8796rVzyisfi52sEAA5yHeIl0bbJC0fmhRD0riqN3X6ks5Vs0raS5BJnsabwE8covQGH_djcJwONMgGGr7hZa8-UhWWU7CMKVpKq97NGE379xs0jN6MmX28SmAJf-SvbJL1JsapMAGKpO5YF2WLOB2alvrs7LTD28HERRpx7yZ5P8YviMFnnEVOUiC7I1ABRbD1iFVyBLqC38EMQoNvWLDXIVJtgRgNhhgCodYlpBm1t3SCUcpT8hsjUk")'>
-                                </div>
-                            </div>
-                            <div class="p-5 flex flex-col gap-4 flex-1">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h3 class="text-xl font-bold text-white group-hover:text-primary transition-colors">Kicukiro Family Home</h3>
-                                        <div class="flex items-center gap-1 text-text-secondary text-sm mt-1">
-                                            <span class="material-symbols-outlined text-[16px]">location_on</span>
-                                            <span>Kigali, Kicukiro</span>
-                                        </div>
-                                    </div>
-                                    <div class="text-right">
-                                        <p class="text-lg font-bold text-white">$900</p>
-                                        <p class="text-xs text-text-secondary">/month</p>
-                                    </div>
-                                </div>
-                                <div class="grid grid-cols-3 gap-2 py-3 border-y border-border-dark">
-                                    <div class="flex flex-col items-center justify-center p-1">
-                                        <span class="text-white font-bold text-lg">1</span>
-                                        <span class="text-xs text-text-secondary uppercase tracking-wider">Unit</span>
-                                    </div>
-                                    <div class="flex flex-col items-center justify-center border-l border-border-dark p-1">
-                                        <span class="text-white font-bold text-lg">1</span>
-                                        <span class="text-xs text-text-secondary uppercase tracking-wider">Tenant</span>
-                                    </div>
-                                    <div class="flex flex-col items-center justify-center border-l border-border-dark p-1">
-                                        <span class="text-primary font-bold text-lg">100%</span>
-                                        <span class="text-xs text-text-secondary uppercase tracking-wider">Occupied</span>
-                                    </div>
-                                </div>
-                                <div class="mt-auto pt-2">
-                                    <button class="w-full py-2.5 rounded-lg border border-border-dark text-white font-semibold text-sm hover:bg-border-dark hover:border-text-secondary/30 transition-all flex items-center justify-center gap-2">
-                                        <span>Manage Property</span>
-                                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card 5: Active -->
-                        <div class="group flex flex-col bg-surface-dark rounded-xl overflow-hidden border border-border-dark hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-black/20">
-                            <div class="relative h-56 overflow-hidden">
-                                <div class="absolute top-4 left-4 z-10 bg-black/60 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-md flex items-center gap-1">
-                                    <span class="size-2 rounded-full bg-primary animate-pulse"></span> RENTED
-                                </div>
-                                <div class="absolute top-4 right-4 z-10">
-                                    <button class="bg-black/40 hover:bg-black/70 backdrop-blur-md text-white rounded-full p-1.5 transition-colors">
-                                        <span class="material-symbols-outlined text-[20px]">more_horiz</span>
-                                    </button>
-                                </div>
-                                <div class="bg-cover bg-center w-full h-full group-hover:scale-105 transition-transform duration-500"
-                                     data-alt="Modern minimalist house facade"
-                                     style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCAr8nKbPc6O-uzNKRIcZPg2XaSnQUbdhfyQsFo0lFntqeMG8xfXur-zzddUEroMzlmiyu4KQ9lAdeZxUN4VAdOQvsT0dGDGFIAAofUtpoENfAuk_nDb1RjV15I449iyJEbq9sUrdeBFjaeUULsG1AUJcYkt4AkRevG94BXQQ-93AZdsUdSNN8U-WyumF3-dIw17niqhEw7WXbqFX3v5pRaAJeyYQGDzRQMb0yL25y1Pcmz7bITS-7gX_Ez2_aHoSVjcUSnkuGaPw8")'>
-                                </div>
-                            </div>
-                            <div class="p-5 flex flex-col gap-4 flex-1">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h3 class="text-xl font-bold text-white group-hover:text-primary transition-colors">Rebero Heights</h3>
-                                        <div class="flex items-center gap-1 text-text-secondary text-sm mt-1">
-                                            <span class="material-symbols-outlined text-[16px]">location_on</span>
-                                            <span>Kigali, Rebero</span>
-                                        </div>
-                                    </div>
-                                    <div class="text-right">
-                                        <p class="text-lg font-bold text-white">$2,100</p>
-                                        <p class="text-xs text-text-secondary">/month</p>
-                                    </div>
-                                </div>
-                                <div class="grid grid-cols-3 gap-2 py-3 border-y border-border-dark">
-                                    <div class="flex flex-col items-center justify-center p-1">
-                                        <span class="text-white font-bold text-lg">1</span>
-                                        <span class="text-xs text-text-secondary uppercase tracking-wider">Unit</span>
-                                    </div>
-                                    <div class="flex flex-col items-center justify-center border-l border-border-dark p-1">
-                                        <span class="text-white font-bold text-lg">1</span>
-                                        <span class="text-xs text-text-secondary uppercase tracking-wider">Tenant</span>
-                                    </div>
-                                    <div class="flex flex-col items-center justify-center border-l border-border-dark p-1">
-                                        <span class="text-primary font-bold text-lg">100%</span>
-                                        <span class="text-xs text-text-secondary uppercase tracking-wider">Occupied</span>
-                                    </div>
-                                </div>
-                                <div class="mt-auto pt-2">
-                                    <button class="w-full py-2.5 rounded-lg border border-border-dark text-white font-semibold text-sm hover:bg-border-dark hover:border-text-secondary/30 transition-all flex items-center justify-center gap-2">
-                                        <span>Manage Property</span>
-                                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
+                        
+                     
+                        
+                       
                         <!-- Card 6: Add New Placeholder -->
                         <div class="group flex flex-col items-center justify-center bg-transparent rounded-xl overflow-hidden border-2 border-dashed border-border-dark hover:border-primary/50 hover:bg-surface-dark/50 transition-all duration-300 min-h-[400px] cursor-pointer">
                             <div class="size-16 rounded-full bg-surface-dark flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-background-dark transition-colors text-text-secondary">
                                 <span class="material-symbols-outlined text-3xl">add</span>
-                            </div>
-                            <h3 class="text-xl font-bold text-white mb-2">Add New Property</h3>
+                            </div> <a href = "{% url 'house_create' %}"
+                            <h3 class="text-xl font-bold text-white mb-2">Add New Property</h3></a>
                             <p class="text-text-secondary text-center px-8 text-sm">Expand your portfolio by listing a new house or apartment.</p>
                         </div>
                     </div>

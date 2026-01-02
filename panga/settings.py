@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-&unojz)@8tlu3##fwnhkc5af0m6v^z2ad51_faaxx5d^77bkaa
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -58,9 +58,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'panga.urls'
-#LOGIN_URL = '/auth/login'
-#LOGIN_REDIRECT_URL = 'properties:home'
-#LOGOUT_REDIRECT_URL = '/auth/login'
 
 TEMPLATES = [
     {
@@ -86,7 +83,7 @@ WSGI_APPLICATION = 'panga.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'dbc.sqlite3',
     }
 }
 
@@ -130,7 +127,7 @@ STATIC_URL = 'static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-#STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 VERIFICATION_CODE_LIFETIME = timedelta(minutes=5)
 
@@ -138,6 +135,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "feedyopc@gmail.com"
+EMAIL_HOST_USER = "mutheogene61@gmail.com"
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
-DEFAULT_FROM_EMAIL = "feedyopc@gmail.com"
+#DEFAULT_FROM_EMAIL = "mutheogene61@gmail.com"
+AUTH_USER_MODEL = 'accounts.User'

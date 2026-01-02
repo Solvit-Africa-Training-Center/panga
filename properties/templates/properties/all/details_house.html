@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>GUKODESHA - {{ house.label }}</title>
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+              rel="stylesheet" />
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <script id="tailwind-config">
+            tailwind.config = {
+                darkMode: "class",
+                theme: {
+                    extend: {
+                        colors: {
+                            "primary": "#38e07b",
+                            "background-light": "#f6f8f7",
+                            "background-dark": "#111714",
+                            "card-dark": "#1a2621", 
+                            "text-secondary": "#9eb7a8"
+                        },
+                        fontFamily: {
+                            "display": ["Manrope", "sans-serif"]
+                        },
+                        borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                    },
+                },
+            }
+        </script>
+    </head>
+    <body class="bg-background-light dark:bg-background-dark font-display text-white overflow-x-hidden">
+        <!-- Navbar -->
+        {% include 'partial/header.html' %}
+        <main class="layout-container flex flex-col items-center w-full px-4 md:px-10 lg:px-40 py-6">
+            <div class="max-w-[1200px] w-full flex flex-col gap-6">
+                <!-- Breadcrumbs -->
+                <div class="flex flex-wrap items-center gap-2 text-sm">
+                    <a class="text-text-secondary hover:text-white transition-colors"
+                       href="{% url 'home' %}">Home</a>
+                    <span class="text-text-secondary">/</span>
+                    <a class="text-text-secondary hover:text-white transition-colors"
+                       href="#">Rwanda</a>
+                    <span class="text-text-secondary">/</span>
+                    <a class="text-text-secondary hover:text-white transition-colors"
+                       href="#">{{ house.location.cell.sector.district.name }}</a>
+                    <span class="text-text-secondary">/</span>
+                    <a class="text-text-secondary hover:text-white transition-colors"
+                       href="#">{{ house.location.cell.sector.name }}</a>
+                    <span class="text-text-secondary">/</span>
+                    <span class="text-white font-medium">{{ house.label }}</span>
+                </div>
+                <!-- Header & Actions -->
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+                    <div>
+                        <h1 class="text-2xl md:text-3xl lg:text-[32px] font-bold leading-tight text-white mb-2">{{ house.label }}</h1>
+                        <div class="flex flex-wrap items-center gap-4 text-sm text-text-secondary">
+                            <span class="flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[18px] text-primary">verified</span>
+                                Verified Listing
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[18px] text-primary">security</span>
+                                Security Checked
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[18px]">location_on</span>
+                                {{ house.location.cell.sector.name }}, {{ house.location.cell.sector.district.name }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#29382f] hover:bg-[#35463b] text-white text-sm font-medium transition-colors">
+                            <span class="material-symbols-outlined text-[18px]">share</span>
+                            Share
+                        </button>
+                        <button class="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#29382f] hover:bg-[#35463b] text-white text-sm font-medium transition-colors">
+                            <span class="material-symbols-outlined text-[18px]">favorite_border</span>
+                            Save
+                        </button>
+                    </div>
+                </div>
+                <!-- Photo Gallery Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-3 h-[400px] md:h-[480px] rounded-xl overflow-hidden relative group">
+                    <!-- Main Large Image -->
+                    <div class="md:col-span-2 md:row-span-2 w-full h-full bg-cover bg-center bg-gray-700"
+                         {% if house.main_image %}style="background-image: url('{{ house.main_image.url }}')"{% endif %}>
+                        {% if not house.main_image %}
+                            <div class="w-full h-full flex items-center justify-center">
+                                <span class="material-symbols-outlined text-[64px] text-text-secondary">home</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <!-- Secondary Images -->
+                    <div class="hidden md:block w-full h-full bg-cover bg-center bg-gray-700"
+                         {% if house.image_one %}style="background-image: url('{{ house.image_one.url }}')"{% endif %}>
+                        {% if not house.image_one %}
+                            <div class="w-full h-full flex items-center justify-center">
+                                <span class="material-symbols-outlined text-[32px] text-text-secondary">image</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="hidden md:block w-full h-full bg-cover bg-center bg-gray-700"
+                         {% if house.image_two %}style="background-image: url('{{ house.image_two.url }}')"{% endif %}>
+                        {% if not house.image_two %}
+                            <div class="w-full h-full flex items-center justify-center">
+                                <span class="material-symbols-outlined text-[32px] text-text-secondary">image</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="hidden md:block w-full h-full bg-cover bg-center bg-gray-700"
+                         {% if house.image_three %}style="background-image: url('{{ house.image_three.url }}')"{% endif %}>
+                        {% if not house.image_three %}
+                            <div class="w-full h-full flex items-center justify-center">
+                                <span class="material-symbols-outlined text-[32px] text-text-secondary">image</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="hidden md:block w-full h-full bg-cover bg-center bg-gray-700 relative"
+                         {% if house.image_four %}style="background-image: url('{{ house.image_four.url }}')"{% endif %}>
+                        {% if not house.image_four %}
+                            <div class="w-full h-full flex items-center justify-center">
+                                <span class="material-symbols-outlined text-[32px] text-text-secondary">image</span>
+                            </div>
+                        {% endif %}
+                        <button class="absolute bottom-4 right-4 bg-black/70 backdrop-blur-sm text-white text-sm font-medium px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-black/90 transition-colors">
+                            <span class="material-symbols-outlined text-[18px]">grid_view</span>
+                            Show all photos
+                        </button>
+                    </div>
+                </div>
+                <!-- Content Grid: Left Main, Right Sidebar -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 mt-4 relative">
+                    <!-- Left Column (Property Details) -->
+                    <div class="lg:col-span-2 flex flex-col gap-8">
+                        <!-- Quick Stats & Host -->
+                        <div class="flex items-center justify-between border-b border-[#29382f] pb-6">
+                            <div>
+                                <h3 class="text-xl font-bold text-white mb-1">{{ house.type }}</h3>
+                                <p class="text-text-secondary text-base">
+                                    {% if house.n_bed_rooms %}{{ house.n_bed_rooms }} bedroom{{ house.n_bed_rooms|pluralize }}{% endif %}
+                                    {% if house.n_bath_rooms %}· {{ house.n_bath_rooms }} bathroom{{ house.n_bath_rooms|pluralize }}{% endif %}
+                                    {% if house.surface %}· {{ house.surface }}m²{% endif %}
+                                </p>
+                            </div>
+                            <div class="px-4 py-2 rounded-lg {% if house.status == 'Available' %}bg-primary/20 text-primary{% elif house.status == 'Rented' %}bg-red-500/20 text-red-400{% else %}bg-yellow-500/20 text-yellow-400{% endif %}">
+                                <span class="font-bold text-sm">{{ house.status }}</span>
+                            </div>
+                        </div>
+                        <!-- Key Features -->
+                        <div class="flex flex-col gap-5 border-b border-[#29382f] pb-6">
+                            {% if house.has_wifi %}
+                                <div class="flex items-start gap-4">
+                                    <div class="p-2 rounded-lg bg-[#29382f] text-primary">
+                                        <span class="material-symbols-outlined">wifi</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-white font-bold text-base">Fiber Internet</h4>
+                                        <p class="text-text-secondary text-sm">High-speed connection suitable for remote work.</p>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if house.parkings > 0 %}
+                                <div class="flex items-start gap-4">
+                                    <div class="p-2 rounded-lg bg-[#29382f] text-primary">
+                                        <span class="material-symbols-outlined">local_parking</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-white font-bold text-base">Parking Available</h4>
+                                        <p class="text-text-secondary text-sm">{{ house.parkings }} parking space{{ house.parkings|pluralize }} included.</p>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="flex items-start gap-4">
+                                <div class="p-2 rounded-lg bg-[#29382f] text-primary">
+                                    <span class="material-symbols-outlined">calendar_month</span>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-bold text-base">Listed Date</h4>
+                                    <p class="text-text-secondary text-sm">{{ house.date_of_listing|date:"F d, Y" }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Description -->
+                        <div class="border-b border-[#29382f] pb-6">
+                            <h3 class="text-lg font-bold text-white mb-3">About this place</h3>
+                            <p class="text-text-secondary leading-relaxed mb-4">{{ house.description|linebreaks }}</p>
+                            {% if house.neighborhood %}
+                                <p class="text-text-secondary leading-relaxed mb-4">
+                                    <strong class="text-white">Neighborhood:</strong> {{ house.neighborhood }}
+                                </p>
+                            {% endif %}
+                            {% if house.street_address %}
+                                <p class="text-text-secondary leading-relaxed">
+                                    <strong class="text-white">Address:</strong> {{ house.street_address }}
+                                </p>
+                            {% endif %}
+                        </div>
+                        <!-- Amenities -->
+                        <div class="border-b border-[#29382f] pb-6">
+                            <h3 class="text-lg font-bold text-white mb-4">What this place offers</h3>
+                            <div class="grid grid-cols-2 gap-y-3 gap-x-8">
+                                {% if house.n_bed_rooms %}
+                                    <div class="flex items-center gap-3 text-text-secondary">
+                                        <span class="material-symbols-outlined text-[20px]">bed</span>
+                                        <span class="text-sm">{{ house.n_bed_rooms }} Bedroom{{ house.n_bed_rooms|pluralize }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if house.n_bath_rooms %}
+                                    <div class="flex items-center gap-3 text-text-secondary">
+                                        <span class="material-symbols-outlined text-[20px]">bathtub</span>
+                                        <span class="text-sm">{{ house.n_bath_rooms }} Bathroom{{ house.n_bath_rooms|pluralize }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if house.has_wifi %}
+                                    <div class="flex items-center gap-3 text-text-secondary">
+                                        <span class="material-symbols-outlined text-[20px]">wifi</span>
+                                        <span class="text-sm">WiFi Internet</span>
+                                    </div>
+                                {% endif %}
+                                {% if house.parkings > 0 %}
+                                    <div class="flex items-center gap-3 text-text-secondary">
+                                        <span class="material-symbols-outlined text-[20px]">local_parking</span>
+                                        <span class="text-sm">{{ house.parkings }} Parking Space{{ house.parkings|pluralize }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if house.surface %}
+                                    <div class="flex items-center gap-3 text-text-secondary">
+                                        <span class="material-symbols-outlined text-[20px]">square_foot</span>
+                                        <span class="text-sm">{{ house.surface }}m² Surface</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- Map Location -->
+                        <div class="pb-6">
+                            <h3 class="text-lg font-bold text-white mb-2">Where you'll be</h3>
+                            <p class="text-text-secondary text-sm mb-4">
+                                {{ house.location.name }}, {{ house.location.cell.name }}, {{ house.location.cell.sector.name }}, {{ house.location.cell.sector.district.name }}
+                            </p>
+                            <div class="w-full h-[320px] rounded-xl bg-[#29382f] relative overflow-hidden group cursor-pointer">
+                                <div class="w-full h-full bg-cover bg-center opacity-80 group-hover:opacity-100 transition-opacity">
+                                    <iframe src="{{ house.on_map }}"
+                                            width="100%"
+                                            height="450"
+                                            style="border:0"
+                                            allowfullscreen=""
+                                            loading="lazy"
+                                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                </div>
+                                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                    <div class="bg-primary/90 p-4 rounded-full shadow-[0_0_20px_rgba(56,224,123,0.4)] animate-pulse">
+                                        <span class="material-symbols-outlined text-[#111714] text-[32px] block">home_pin</span>
+                                    </div>
+                                </div>
+                                <div class="absolute bottom-4 left-4 bg-[#111714] px-4 py-2 rounded-lg text-xs font-bold text-white shadow-lg pointer-events-none">
+                                    {{ house.location.cell.sector.name }}, {{ house.location.cell.sector.district.name }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Right Sidebar (Sticky Booking Card) -->
+                    <div class="lg:col-span-1 relative">
+                        <div class="sticky top-24">
+                            <div class="bg-card-dark border border-[#29382f] rounded-xl p-6 shadow-xl">
+                                <div class="flex justify-between items-baseline mb-6">
+                                    <div>
+                                        <span class="text-2xl font-bold text-white">{{ house.monthly_rent|floatformat:0 }} RWF</span>
+                                        <span class="text-text-secondary text-sm">/ month</span>
+                                    </div>
+                                </div>
+                                <div class="border border-[#35463b] rounded-lg mb-4 overflow-hidden">
+                                    <div class="grid grid-cols-2 border-b border-[#35463b]">
+                                        <div class="p-3 border-r border-[#35463b]">
+                                            <label class="block text-[10px] font-bold text-text-secondary uppercase tracking-wider">Check-in</label>
+                                            <div class="text-white text-sm font-medium">Add date</div>
+                                        </div>
+                                        <div class="p-3">
+                                            <label class="block text-[10px] font-bold text-text-secondary uppercase tracking-wider">Check-out</label>
+                                            <div class="text-white text-sm font-medium">Add date</div>
+                                        </div>
+                                    </div>
+                                    <div class="p-3">
+                                        <label class="block text-[10px] font-bold text-text-secondary uppercase tracking-wider">Guests</label>
+                                        <div class="flex justify-between items-center text-white text-sm font-medium">
+                                            <span>2 guests</span>
+                                            <span class="material-symbols-outlined text-[18px]">expand_more</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-3">
+                                    {% if house.status == 'Available' %}
+                                        <button class="w-full bg-primary hover:bg-[#32c96e] text-[#111714] text-base font-bold py-3.5 rounded-lg transition-colors shadow-[0_4px_14px_0_rgba(56,224,123,0.39)]">
+                                            Reserve Now
+                                        </button>
+                                        <button class="w-full bg-transparent border border-primary text-primary hover:bg-primary/10 text-base font-bold py-3.5 rounded-lg transition-colors">
+                                            Request Visit
+                                        </button>
+                                    {% else %}
+                                        <button disabled
+                                                class="w-full bg-gray-600 text-gray-400 text-base font-bold py-3.5 rounded-lg cursor-not-allowed">
+                                            Not Available
+                                        </button>
+                                    {% endif %}
+                                </div>
+                                <div class="mt-4 text-center">
+                                    <p class="text-xs text-text-secondary">You won't be charged yet</p>
+                                </div>
+                                {% if house.status == 'Available' %}
+                                    <div class="mt-6 pt-6 border-t border-[#29382f]">
+                                        <div class="flex justify-between text-sm text-text-secondary mb-2">
+                                            <span class="underline">{{ house.monthly_rent|floatformat:0 }} RWF x 1 month</span>
+                                            <span>{{ house.monthly_rent|floatformat:0 }} RWF</span>
+                                        </div>
+                                        <div class="flex justify-between text-sm text-text-secondary mb-2">
+                                            <span class="underline">Service fee</span>
+                                            <span>{% widthratio house.monthly_rent 100 3 %} RWF</span>
+                                        </div>
+                                        <div class="flex justify-between text-base font-bold text-white mt-4 pt-4 border-t border-[#29382f]">
+                                            <span>Total</span>
+                                            <span>{% widthratio house.monthly_rent 1 1.03 %} RWF</span>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="mt-4 flex items-center justify-center gap-2 text-text-secondary">
+                                <span class="material-symbols-outlined text-[18px]">flag</span>
+                                <a class="text-xs underline hover:text-white" href="#">Report this listing</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        {% include 'partial/footer.html' %}
+    </body>
+</html>

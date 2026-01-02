@@ -53,48 +53,14 @@
     <header class="sticky top-0 z-50 w-full border-b border-border-dark bg-background-dark/95 backdrop-blur-md">
         <div class="px-4 md:px-10 py-3 flex items-center justify-between mx-auto max-w-[1440px]">
             <div class="flex items-center gap-3 text-white cursor-pointer">
-                <a href="{% url 'properties:home' %}" class="flex items-center gap-3 text-white">
+                <a href="{% url 'home' %}" class="flex items-center gap-3 text-white">
                     <span class="material-symbols-outlined text-primary text-4xl">roofing</span>
                     <h2 class="text-2xl font-bold tracking-tight">GUKODESHA</h2>
                 </a>
             </div>
             
-            <!-- Desktop Menu -->
-            <div class="hidden md:flex flex-1 justify-end gap-8 items-center">
-                <nav class="flex items-center gap-8">
-                    <a class="text-white hover:text-primary transition-colors text-sm font-medium leading-normal" href="{% url 'properties:house_list' %}">All Houses</a>
-                    <a class="text-white hover:text-primary transition-colors text-sm font-medium leading-normal" href="{% url 'properties:available_house' %}">Available</a>
-                    <a class="text-white hover:text-primary transition-colors text-sm font-medium leading-normal" href="{% url 'properties:house_search' %}">Search</a>
-                </nav>
-                <div class="h-6 w-px bg-border-dark"></div>
-                <div class="flex gap-3">
-                    {% if request.user.is_authenticated and user.profile.role == 'LANDLORD' %}
-                    <a href="{% url 'properties:house_create' %}" class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary-hover text-background-dark text-sm font-bold shadow-[0_0_15px_rgba(56,224,123,0.3)] transition-all">
-                        <span class="truncate">List Property</span>
-                    </a>
-                    {% endif %}
-                  
-                </div>
-            </div>
-            
-            <!-- Mobile Menu Icon -->
-            <button id="mobile-menu-btn" class="md:hidden text-white">
-                <span class="material-symbols-outlined">menu</span>
-            </button>
-        </div>
-        
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden border-t border-border-dark bg-surface-dark">
-            <nav class="flex flex-col p-4 space-y-2">
-                <a class="text-white hover:text-primary transition-colors py-2 px-3 rounded hover:bg-background-dark" href="{% url 'properties:house_list' %}">All Houses</a>
-                <a class="text-white hover:text-primary transition-colors py-2 px-3 rounded hover:bg-background-dark" href="{% url 'properties:available_house' %}">Available</a>
-                <a class="text-white hover:text-primary transition-colors py-2 px-3 rounded hover:bg-background-dark" href="{% url 'properties:house_search' %}">Search</a>
-                <a href="{% url 'properties:house_create' %}" class="bg-primary hover:bg-primary-hover text-background-dark text-sm font-bold py-2 px-3 rounded transition-all mt-2 text-center">
-                    List Property
-                </a>
-            </nav>
-        </div>
-    </header>
+          
+       
 
     <!-- Messages -->
     {% if messages %}
@@ -143,17 +109,17 @@
                     <ul class="flex flex-col gap-3 text-sm text-text-secondary">
                         <li><a class="hover:text-primary transition-colors" href="#">Help Center</a></li>
                         <li><a class="hover:text-primary transition-colors" href="#">Safety Information</a></li>
-                        <li><a class="hover:text-primary transition-colors" href="{% url 'properties:house_list' %}">Browse Houses</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Browse Houses</a></li>
                         <li><a class="hover:text-primary transition-colors" href="#">Contact Us</a></li>
                     </ul>
                 </div>
                 <div>
                     <h3 class="text-white font-bold mb-4">Quick Links</h3>
                     <ul class="flex flex-col gap-3 text-sm text-text-secondary">
-                        <li><a class="hover:text-primary transition-colors" href="{% url 'properties:house_list' %}">All Properties</a></li>
-                        <li><a class="hover:text-primary transition-colors" href="{% url 'properties:available_house' %}">Available Properties</a></li>
-                        <li><a class="hover:text-primary transition-colors" href="{% url 'properties:house_search' %}">Search</a></li>
-                        <li><a class="hover:text-primary transition-colors" href="{% url 'properties:house_create' %}">List House</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">All Properties</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Available Properties</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Search</a></li>
+                       
                     </ul>
                 </div>
             </div>
