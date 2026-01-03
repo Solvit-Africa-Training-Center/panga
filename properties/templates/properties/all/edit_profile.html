@@ -25,7 +25,7 @@
                         "primary": "#38e07b",
                         "background-light": "#f6f8f7",
                         "background-dark": "#122017",
-                        "surface-dark": "#1a2c22", // A slightly lighter dark for cards
+                        "surface-dark": "#1a2c22", 
                     },
                     fontFamily: {
                         "display": ["Manrope", "sans-serif"]
@@ -36,20 +36,20 @@
         }
         </script>
         <style>
-        /* Custom scrollbar for better aesthetic in dark mode */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #122017;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #29382f;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #38e07b;
-        }
+            /* Custom scrollbar for better aesthetic in dark mode */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            ::-webkit-scrollbar-track {
+                background: #122017;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #29382f;
+                border-radius: 4px;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: #38e07b;
+            }
         </style>
     </head>
     <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display min-h-screen flex flex-col overflow-x-hidden">
@@ -59,10 +59,10 @@
             <!-- Breadcrumbs -->
             <nav class="flex flex-wrap gap-2 pb-6 text-sm">
                 <a class="text-slate-500 dark:text-[#9eb7a8] hover:text-primary transition-colors"
-                   href="#">Dashboard</a>
+                   href="/">Home</a>
                 <span class="text-slate-500 dark:text-[#9eb7a8] material-symbols-outlined text-sm pt-0.5">chevron_right</span>
-                <a class="text-slate-500 dark:text-[#9eb7a8] hover:text-primary transition-colors"
-                   href="#">Settings</a>
+                <a class="text-slate-500 dark:text-[#9eb7a8]  transition-colors"
+                   href="#">My Profile</a>
                 <span class="text-slate-500 dark:text-[#9eb7a8] material-symbols-outlined text-sm pt-0.5">chevron_right</span>
                 <span class="text-slate-900 dark:text-white font-medium">Edit Profile</span>
             </nav>
@@ -71,14 +71,6 @@
                 <div class="flex flex-col gap-2">
                     <h1 class="text-3xl md:text-4xl font-black tracking-tight text-slate-900 dark:text-white">Edit Profile</h1>
                     <p class="text-slate-500 dark:text-[#9eb7a8] text-base">Manage your personal information and account settings.</p>
-                </div>
-                <div class="flex gap-3">
-                    <button class="px-4 h-10 rounded-lg border border-slate-300 dark:border-[#29382f] text-slate-700 dark:text-white font-bold text-sm hover:bg-slate-100 dark:hover:bg-[#29382f] transition-colors">
-                        Cancel
-                    </button>
-                    <button class="px-6 h-10 rounded-lg bg-primary text-slate-900 font-bold text-sm hover:bg-opacity-90 transition-opacity shadow-lg shadow-primary/20">
-                        Save Changes
-                    </button>
                 </div>
             </div>
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -90,18 +82,15 @@
                             <div class="relative group cursor-pointer">
                                 <div class="bg-center bg-no-repeat bg-cover rounded-full w-32 h-32 border-4 border-slate-100 dark:border-[#29382f]"
                                      data-alt="Profile picture of Jane Doe"
-                                     style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDNLY4dxSSv40hKE-gc_Q59sg537mhy0F9sena1YtevT4bfFhqSOSeKeGCoqh2XuKAHy2Kh3y6rXvYk4mRhq34R3EtRM6IFWyEF27l7x1T4G6gWZeHdYJ2KGX91bRp8ssfYRi6ro64am8D046Lo_Irj6vokOvw9rnjW9t_t9k1OlzOqTTlogt1eHiRVaV5ZFF-YpDnMiPJoKxKcJ2FuG_GSB6fkvJ3yrpknWl7ws9qSq1BZWhcQorXkv2ryR8j1C232rd3xtvQ8xOU")'>
+                                     style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBR_ZGqJheIthBRuTtKRBDHIPE4VrkvEkE8dyzz6tehLwT11NpaJIo3-NelngFNiUpIHbzszkTTKa3zyfKCwa0vs0TayEEuRKq8MIUd8pAmE45kU_g8cKlQ03FNDzI1mF9l2FJz-5UbUPf04hYDntn3uOa0mFQgM3ug4qib1aaony322jZd10qbeGVx5gMRVreaCNWXtt333F6pzqRlnFZVKbA6-Qc70EP9zPYxbgmnnkY5Wz6zjox6APAkd8100Z1TgPHLq9hOkWI")'>
                                 </div>
                                 <div class="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                     <span class="material-symbols-outlined text-white">photo_camera</span>
                                 </div>
-                                <button class="absolute bottom-1 right-1 bg-primary text-slate-900 p-2 rounded-full shadow-lg hover:bg-white hover:text-primary transition-all">
-                                    <span class="material-symbols-outlined text-sm font-bold">edit</span>
-                                </button>
                             </div>
-                            <h2 class="mt-4 text-xl font-bold text-slate-900 dark:text-white">Jane Doe</h2>
+                            <h2 class="mt-4 text-xl font-bold text-slate-900 dark:text-white">{{ request.user.get_full_name.capitalize }}</h2>
                             <div class="flex items-center gap-2 mt-1 mb-4">
-                                <span class="inline-flex items-center rounded-md bg-primary/20 px-2 py-1 text-xs font-medium text-primary ring-1 ring-inset ring-primary/30">Tenant Account</span>
+                                <span class="inline-flex items-center rounded-md bg-primary/20 px-2 py-1 text-xs font-medium text-primary ring-1 ring-inset ring-primary/30">{{ request.user.role.capitalize }} Account</span>
                                 <span class="inline-flex items-center gap-1 text-xs text-[#9eb7a8]">
                                     <span class="material-symbols-outlined text-[14px] text-primary">verified</span> Verified
                                 </span>
@@ -110,15 +99,21 @@
                             <div class="w-full flex flex-col gap-2 mt-2 text-sm text-left">
                                 <div class="flex justify-between py-2 border-b border-slate-100 dark:border-[#29382f]/50">
                                     <span class="text-slate-500 dark:text-[#9eb7a8]">Member Since</span>
-                                    <span class="text-slate-900 dark:text-white font-medium">Aug 2023</span>
+                                    <span class="text-slate-900 dark:text-white font-medium">{{ request.user.created_at }}</span>
                                 </div>
                                 <div class="flex justify-between py-2 border-b border-slate-100 dark:border-[#29382f]/50">
-                                    <span class="text-slate-500 dark:text-[#9eb7a8]">Location</span>
-                                    <span class="text-slate-900 dark:text-white font-medium">Kigali, Rwanda</span>
+                                    <span class="text-slate-500 dark:text-[#9eb7a8]">Email</span>
+                                    <span class="text-slate-900 dark:text-white font-medium">{{ request.user.email }}</span>
                                 </div>
                                 <div class="flex justify-between py-2">
-                                    <span class="text-slate-500 dark:text-[#9eb7a8]">Last Login</span>
-                                    <span class="text-slate-900 dark:text-white font-medium">2 hours ago</span>
+                                    <span class="text-slate-500 dark:text-[#9eb7a8]">Phone number</span>
+                                    <span class="text-slate-900 dark:text-white font-medium">
+                                        {% if request.user.phone %}
+                                            {{ request.user.phone }}
+                                        {% else %}
+                                            Not registered
+                                        {% endif %}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -132,26 +127,69 @@
                                 Personal Information
                             </a>
                             <a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-[#9eb7a8] hover:bg-slate-100 dark:hover:bg-[#29382f] rounded-lg transition-colors font-medium"
-                               href="#">
-                                <span class="material-symbols-outlined">security</span>
-                                Login &amp; Security
+                               href="{% url 'my_visit_requests' %}">
+                                <span class="material-symbols-outlined">luggage</span>
+                                My Visit requests
                             </a>
                             <a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-[#9eb7a8] hover:bg-slate-100 dark:hover:bg-[#29382f] rounded-lg transition-colors font-medium"
-                               href="#">
-                                <span class="material-symbols-outlined">payments</span>
-                                Billing &amp; Payments
+                               href=" {% url 'my_reservations' %} ">
+                                <span class="material-symbols-outlined">holiday_village</span>
+                                My Reservations
                             </a>
                             <a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-[#9eb7a8] hover:bg-slate-100 dark:hover:bg-[#29382f] rounded-lg transition-colors font-medium"
-                               href="#">
-                                <span class="material-symbols-outlined">notifications</span>
-                                Notifications
+                               href="{% url 'forgot_password' %}">
+                                <span class="material-symbols-outlined">lock</span>
+                                Change Password
                             </a>
+                            {% if request.user.role == "LANDLORD" %}
+                                <a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-[#9eb7a8] hover:bg-slate-100 dark:hover:bg-[#29382f] rounded-lg transition-colors font-medium"
+                                   href="{% url 'landlord_properties' %}">
+                                    <span class="material-symbols-outlined">apartment</span>
+                                    View my properties
+                                </a>
+                                <a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-[#9eb7a8] hover:bg-slate-100 dark:hover:bg-[#29382f] rounded-lg transition-colors font-medium"
+                                   href="{% url 'landlord_reservations' %}">
+                                    <span class="material-symbols-outlined">list_alt</span>
+                                    Reservations on my properties
+                                </a>
+                                <a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-[#9eb7a8] hover:bg-slate-100 dark:hover:bg-[#29382f] rounded-lg transition-colors font-medium"
+                                   href="{% url 'landlord_visit_requests' %}">
+                                    <span class="material-symbols-outlined">ballot</span>
+                                    Visits on my properties
+                                </a>
+                            {% endif %}
+                            {% if request.user.role == "ADMIN" %}
+                                <a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-[#9eb7a8] hover:bg-slate-100 dark:hover:bg-[#29382f] rounded-lg transition-colors font-medium"
+                                   href="{% url 'admin:index' %}">
+                                    <span class="material-symbols-outlined">admin_panel_settings</span>
+                                    Admin Portal
+                                </a>
+                            {% endif %}
                         </nav>
                     </div>
                 </div>
                 <!-- Main Form Area -->
-                <div class="lg:col-span-8 flex flex-col gap-8">
+                <form method="post"
+                      action="{% url 'update_profile' %}"
+                      class="lg:col-span-8 flex flex-col gap-8">
+                    {% csrf_token %}
                     <!-- Section: Personal Information -->
+                    {% if messages %}
+                        <div class="mb-6 space-y-3">
+                            {% for message in messages %}
+                                <div class="flex items-center gap-3 p-4 rounded-xl border {% if message.tags == 'success' %}bg-primary/10 border-primary{% elif message.tags == 'error' %}bg-red-500/10 border-red-500{% endif %}">
+                                    <span class="material-symbols-outlined">
+                                        {% if message.tags == 'success' %}
+                                            check_circle
+                                        {% else %}
+                                            error
+                                        {% endif %}
+                                    </span>
+                                    <p class="text-sm font-medium">{{ message }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                     <div class="bg-white dark:bg-surface-dark rounded-xl p-6 sm:p-8 border border-slate-200 dark:border-[#29382f] shadow-sm">
                         <div class="flex items-center justify-between mb-6">
                             <h3 class="text-xl font-bold text-slate-900 dark:text-white">Personal Information</h3>
@@ -160,33 +198,13 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="flex flex-col gap-2">
                                 <label class="text-sm font-semibold text-slate-700 dark:text-[#9eb7a8]">First Name</label>
-                                <input class="w-full rounded-lg bg-slate-50 dark:bg-[#122017] border border-slate-200 dark:border-[#29382f] px-4 py-2.5 text-slate-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:text-slate-400"
-                                       placeholder="Enter first name"
-                                       type="text"
-                                       value="Jane" />
+                                {{ form.first_name }}
+                                {{ form.first_name.errors }}
                             </div>
                             <div class="flex flex-col gap-2">
                                 <label class="text-sm font-semibold text-slate-700 dark:text-[#9eb7a8]">Last Name</label>
-                                <input class="w-full rounded-lg bg-slate-50 dark:bg-[#122017] border border-slate-200 dark:border-[#29382f] px-4 py-2.5 text-slate-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:text-slate-400"
-                                       placeholder="Enter last name"
-                                       type="text"
-                                       value="Doe" />
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <label class="text-sm font-semibold text-slate-700 dark:text-[#9eb7a8]">Date of Birth</label>
-                                <div class="relative">
-                                    <input class="w-full rounded-lg bg-slate-50 dark:bg-[#122017] border border-slate-200 dark:border-[#29382f] px-4 py-2.5 text-slate-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all [color-scheme:dark]"
-                                           type="date"
-                                           value="1995-08-15" />
-                                </div>
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <label class="text-sm font-semibold text-slate-700 dark:text-[#9eb7a8]">Gender</label>
-                                <select class="w-full rounded-lg bg-slate-50 dark:bg-[#122017] border border-slate-200 dark:border-[#29382f] px-4 py-2.5 text-slate-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all">
-                                    <option>Female</option>
-                                    <option>Male</option>
-                                    <option>Prefer not to say</option>
-                                </select>
+                                {{ form.last_name }}
+                                {{ form.last_name.errors }}
                             </div>
                         </div>
                     </div>
@@ -206,7 +224,7 @@
                                     <input class="w-full rounded-lg bg-slate-100 dark:bg-[#29382f]/50 border border-slate-200 dark:border-[#29382f] pl-10 pr-4 py-2.5 text-slate-500 dark:text-gray-400 cursor-not-allowed outline-none"
                                            readonly=""
                                            type="email"
-                                           value="jane.doe@example.com" />
+                                           value="{{ request.user.email }}" />
                                     <span class="absolute inset-y-0 right-0 flex items-center pr-3 text-primary">
                                         <span class="material-symbols-outlined text-[20px]" title="Verified">check_circle</span>
                                     </span>
@@ -215,118 +233,24 @@
                             </div>
                             <div class="flex flex-col gap-2">
                                 <label class="text-sm font-semibold text-slate-700 dark:text-[#9eb7a8]">Phone Number</label>
-                                <div class="flex rounded-lg shadow-sm">
-                                    <select class="rounded-l-lg border-r-0 bg-slate-50 dark:bg-[#122017] border border-slate-200 dark:border-[#29382f] px-3 py-2.5 text-slate-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none text-sm min-w-[80px]">
-                                        <option>+250 (RW)</option>
-                                        <option>+254 (KE)</option>
-                                        <option>+256 (UG)</option>
-                                        <option>+255 (TZ)</option>
-                                        <option>+257 (BI)</option>
-                                    </select>
-                                    <input class="flex-1 min-w-0 rounded-r-lg bg-slate-50 dark:bg-[#122017] border border-slate-200 dark:border-[#29382f] px-4 py-2.5 text-slate-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:text-slate-400"
-                                           type="tel"
-                                           value="788 123 456" />
-                                </div>
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <label class="text-sm font-semibold text-slate-700 dark:text-[#9eb7a8]">City / Region</label>
-                                <select class="w-full rounded-lg bg-slate-50 dark:bg-[#122017] border border-slate-200 dark:border-[#29382f] px-4 py-2.5 text-slate-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all">
-                                    <option>Kigali</option>
-                                    <option>Nairobi</option>
-                                    <option>Kampala</option>
-                                    <option>Dar es Salaam</option>
-                                    <option>Bujumbura</option>
-                                    <option>Goma</option>
-                                </select>
-                            </div>
-                            <div class="flex flex-col gap-2 md:col-span-2">
-                                <label class="text-sm font-semibold text-slate-700 dark:text-[#9eb7a8]">Street Address</label>
-                                <input class="w-full rounded-lg bg-slate-50 dark:bg-[#122017] border border-slate-200 dark:border-[#29382f] px-4 py-2.5 text-slate-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:text-slate-400"
-                                       type="text"
-                                       value="KG 123 St, Kimihurura" />
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Section: Preferences -->
-                    <div class="bg-white dark:bg-surface-dark rounded-xl p-6 sm:p-8 border border-slate-200 dark:border-[#29382f] shadow-sm mb-10">
-                        <div class="flex items-center justify-between mb-6">
-                            <h3 class="text-xl font-bold text-slate-900 dark:text-white">Account Preferences</h3>
-                            <span class="material-symbols-outlined text-slate-400">tune</span>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
-                            <div class="flex flex-col gap-4">
-                                <h4 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">Localization</h4>
-                                <div class="flex flex-col gap-4">
-                                    <div class="flex flex-col gap-2">
-                                        <label class="text-sm font-semibold text-slate-700 dark:text-[#9eb7a8]">Language</label>
-                                        <select class="w-full rounded-lg bg-slate-50 dark:bg-[#122017] border border-slate-200 dark:border-[#29382f] px-4 py-2.5 text-slate-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all">
-                                            <option>English</option>
-                                            <option>Français</option>
-                                            <option>Kiswahili</option>
-                                            <option>Kinyarwanda</option>
-                                        </select>
-                                    </div>
-                                    <div class="flex flex-col gap-2">
-                                        <label class="text-sm font-semibold text-slate-700 dark:text-[#9eb7a8]">Currency</label>
-                                        <select class="w-full rounded-lg bg-slate-50 dark:bg-[#122017] border border-slate-200 dark:border-[#29382f] px-4 py-2.5 text-slate-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all">
-                                            <option>RWF (Rwandan Franc)</option>
-                                            <option>KES (Kenyan Shilling)</option>
-                                            <option>RWF (Ugandan Shilling)</option>
-                                            <option>USD (US Dollar)</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex flex-col gap-4">
-                                <h4 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">Notifications</h4>
-                                <div class="space-y-4">
-                                    <label class="flex items-center justify-between cursor-pointer group">
-                                        <div class="flex flex-col">
-                                            <span class="text-sm font-medium text-slate-900 dark:text-white">Email Notifications</span>
-                                            <span class="text-xs text-slate-500 dark:text-[#9eb7a8]">Receive updates about your listings and messages.</span>
-                                        </div>
-                                        <div class="relative inline-flex items-center cursor-pointer">
-                                            <input checked="" class="sr-only peer" type="checkbox" value="" />
-                                            <div class="w-11 h-6 bg-slate-200 dark:bg-[#29382f] peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/50 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary">
-                                            </div>
-                                        </div>
-                                    </label>
-                                    <label class="flex items-center justify-between cursor-pointer group">
-                                        <div class="flex flex-col">
-                                            <span class="text-sm font-medium text-slate-900 dark:text-white">SMS Alerts</span>
-                                            <span class="text-xs text-slate-500 dark:text-[#9eb7a8]">Get urgent security and rental alerts via SMS.</span>
-                                        </div>
-                                        <div class="relative inline-flex items-center cursor-pointer">
-                                            <input class="sr-only peer" type="checkbox" value="" />
-                                            <div class="w-11 h-6 bg-slate-200 dark:bg-[#29382f] peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/50 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary">
-                                            </div>
-                                        </div>
-                                    </label>
-                                    <label class="flex items-center justify-between cursor-pointer group">
-                                        <div class="flex flex-col">
-                                            <span class="text-sm font-medium text-slate-900 dark:text-white">Marketing &amp; Promos</span>
-                                            <span class="text-xs text-slate-500 dark:text-[#9eb7a8]">Receive offers from partners.</span>
-                                        </div>
-                                        <div class="relative inline-flex items-center cursor-pointer">
-                                            <input class="sr-only peer" type="checkbox" value="" />
-                                            <div class="w-11 h-6 bg-slate-200 dark:bg-[#29382f] peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/50 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary">
-                                            </div>
-                                        </div>
-                                    </label>
-                                </div>
+                                {{ form.phone }}
+                                {{ form.phone.errors }}
                             </div>
                         </div>
                     </div>
                     <!-- Bottom Action Bar (Mobile only essentially, since desktop has top actions) -->
-                    <div class="md:hidden flex flex-col gap-3 pb-8">
-                        <button class="w-full h-12 rounded-lg bg-primary text-slate-900 font-bold text-base hover:bg-opacity-90 transition-opacity shadow-lg shadow-primary/20">
+                    <div class=" flex flex-col gap-3 pb-8">
+                        <button type="submit"
+                                class="w-full h-12 rounded-lg bg-primary text-slate-900 font-bold text-base hover:bg-opacity-90 transition-opacity shadow-lg shadow-primary/20">
                             Save Changes
                         </button>
-                        <button class="w-full h-12 rounded-lg border border-slate-300 dark:border-[#29382f] text-slate-700 dark:text-white font-bold text-base bg-white dark:bg-transparent hover:bg-slate-50 dark:hover:bg-[#29382f] transition-colors">
-                            Cancel
-                        </button>
+                        <a href="{% url 'home' %}">
+                            <button class="w-full h-12 rounded-lg border border-slate-300 dark:border-[#29382f] text-slate-700 dark:text-white font-bold text-base bg-white dark:bg-transparent hover:bg-slate-50 dark:hover:bg-[#29382f] transition-colors">
+                                Cancel
+                            </button>
+                        </a>
                     </div>
-                </div>
+                </form>
             </div>
         </main>
     </body>

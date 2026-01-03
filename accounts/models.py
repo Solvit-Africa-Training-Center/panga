@@ -74,7 +74,7 @@ class User(AbstractUser, PermissionsMixin):
 
     phone = models.CharField(
         _("phone number"), max_length=255, unique=True, validators=[
-            MinLengthValidator(limit_value=15),
+            MinLengthValidator(limit_value=13),
             MaxLengthValidator(limit_value=15)
         ]
     )
