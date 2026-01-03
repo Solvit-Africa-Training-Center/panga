@@ -4,3 +4,7 @@
 *.pyc
 env/
 config.txt
+test_users.txt
+
+__pycache__/
+*.pyc

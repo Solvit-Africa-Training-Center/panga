@@ -37,12 +37,27 @@
                         <span class="truncate">Sign Up</span>
                     </a>
                 {% else %}
-                    <a class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary-hover text-background-dark text-sm font-bold shadow-[0_0_15px_rgba(56,224,123,0.3)] transition-all">
-                        <span class="truncate">Hey {{ request.user.get_full_name|default:request.user.username }}</span>
-                    </a>
+                    {% if request.user.role == "TENANT" or request.user.role == "ADMIN" %}
+                        <div class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary  text-background-dark text-sm font-bold shadow-[0_0_15px_rgba(56,224,123,0.3)] transition-all">
+                            <span class="truncate">@{{ request.user.role.capitalize }}</span>
+                        </div>
+                    {% else %}
+                        <a href="{% url 'landlord_properties' %}"
+                           class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary-hover text-background-dark text-sm font-bold shadow-[0_0_15px_rgba(56,224,123,0.3)] transition-all">
+                            <span class="truncate">My properties</span>
+                        </a>
+                    {% endif %}
                     <a href="{% url 'logout' %}"
                        class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-transparent border border-border-dark hover:bg-surface-dark text-white text-sm font-bold transition-all">
                         <span class="truncate">Log Out</span>
+                    </a>
+                    <a href="{% url 'update_profile' %}">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-surface-border cursor-pointer"
+                                 data-alt="User profile avatar showing a smiling person"
+                                 style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBR_ZGqJheIthBRuTtKRBDHIPE4VrkvEkE8dyzz6tehLwT11NpaJIo3-NelngFNiUpIHbzszkTTKa3zyfKCwa0vs0TayEEuRKq8MIUd8pAmE45kU_g8cKlQ03FNDzI1mF9l2FJz-5UbUPf04hYDntn3uOa0mFQgM3ug4qib1aaony322jZd10qbeGVx5gMRVreaCNWXtt333F6pzqRlnFZVKbA6-Qc70EP9zPYxbgmnnkY5Wz6zjox6APAkd8100Z1TgPHLq9hOkWI")'>
+                            </div>
+                        </div>
                     </a>
                 {% endif %}
             </div>

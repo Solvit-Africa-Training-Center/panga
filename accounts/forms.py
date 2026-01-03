@@ -202,3 +202,21 @@ class ChangePasswordForm(forms.Form):
 
         validate_password(new_password)
         return cleaned_data
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = [
+            "first_name",
+            "last_name",
+            "phone",
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field in self.fields.values():
+            field.widget.attrs.update({
+                "class": "w-full rounded-lg bg-slate-50 dark:bg-[#122017] border border-slate-200 dark:border-[#29382f] px-4 py-2.5 text-slate-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:text-slate-400"
+            })
