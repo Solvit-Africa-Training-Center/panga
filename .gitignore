@@ -5,3 +5,5 @@
 env/
 config.txt
 test_users.txt
+
+__pycache__
