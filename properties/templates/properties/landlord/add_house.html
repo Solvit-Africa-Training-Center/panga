@@ -383,6 +383,16 @@
                                                min="1"
                                                value="{% if edit_mode %}{{ house.surface }}{% endif %}" />
                                     </div>
+                                    <div class="flex flex-col gap-1.5">
+                                        <label class="text-sm font-medium text-text-secondary">Status *</label>
+                                        <input class="bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white placeholder-text-secondary/50 focus:ring-2 focus:ring-primary outline-none"
+                                               placeholder="Available-Rented or Under Maintenance"
+                                               type="text"
+                                               name="status"
+                                               required
+                                               min="1"
+                                               value="{% if edit_mode %}{{ house.status }}{% endif %}" />
+                                    </div>
                                 </div>
                                 <div class="flex flex-col gap-1.5">
                                     <label class="text-sm font-medium text-text-secondary">Description *</label>

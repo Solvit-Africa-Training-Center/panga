@@ -68,15 +68,11 @@ class Village(models.Model):
 
 class House(models.Model):
     housing_types = (
-        ('Single Room', 'Single Room'),
         ('Apartment', 'Apartment'),
         ('House', 'House'),
         ('Villa', 'Villa'),
         ('Studio', 'Studio'),
-        ('Duplex', 'Duplex'),
-        ('Condo', 'Condo'),
-        ('Townhouse', 'Townhouse'),
-        ('Other', 'Other'),
+
     )
     house_status = [
         ('Available', 'Available'),
@@ -120,6 +116,11 @@ class House(models.Model):
 
 
 class Reservation(models.Model):
+    reservation_status = [
+        ('Pending', 'Pending'),
+        ('Accepted', 'Accepted'),
+        ('Refused', 'Refused'),
+    ]
     house = models.ForeignKey(
         House, on_delete=models.CASCADE, related_name='reservations')
     user = models.ForeignKey(
@@ -127,12 +128,19 @@ class Reservation(models.Model):
     start_date = models.DateField()
     guests = models.PositiveIntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
+    status = status = models.CharField(
+        max_length=50,  choices=reservation_status, default='Pending')
 
     def __str__(self):
         return f"Reservation - {self.house.label} by {self.user}"
 
 
 class VisitRequest(models.Model):
+    request_status = [
+        ('Pending', 'Pending'),
+        ('Accepted', 'Accepted'),
+        ('Refused', 'Refused'),
+    ]
     house = models.ForeignKey(
         House, on_delete=models.CASCADE, related_name='visit_requests')
     user = models.ForeignKey(
@@ -141,6 +149,8 @@ class VisitRequest(models.Model):
     guests = models.PositiveIntegerField(default=1)
     message = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(
+        max_length=50,  choices=request_status, default='Pending')
 
     def __str__(self):
         return f"Visit request - {self.house.label} by {self.user}"

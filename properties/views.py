@@ -115,13 +115,14 @@ def add_house(request):
             description = request.POST.get('description')
             monthly_rent = request.POST.get('monthly_rent')
             label = request.POST.get('label')
+            status = request.POST.get('status')
 
             has_wifi = request.POST.get('wifi') == 'on'
             parkings = int(request.POST.get('parkings', 0))
 
             on_map = request.POST.get('on_map', '')
 
-            if not all([house_type, village_id, n_bed_rooms, n_bath_rooms, surface, description, monthly_rent]):
+            if not all([house_type, village_id, n_bed_rooms, n_bath_rooms, surface, description, monthly_rent, status]):
                 messages.error(request, 'Please fill all required fields.')
                 return redirect('add_house')
 
@@ -142,7 +143,7 @@ def add_house(request):
                 has_wifi=has_wifi,
                 parkings=parkings,
                 on_map=on_map,
-                status='Available'
+                status=status
             )
 
             if 'main_image' in request.FILES:
@@ -182,6 +183,7 @@ def edit_house(request, house_id):
     if request.method == 'POST':
         try:
             house.type = request.POST.get('property_type')
+            house.status = request.POST.get('status')
             house.street_address = request.POST.get('street_address')
             house.neighborhood = request.POST.get('neighborhood')
             house.n_bed_rooms = int(request.POST.get('bedrooms'))
@@ -457,7 +459,8 @@ def create_visit_request(request, house_id):
             user=request.user,
             visit_date=visit_date,
             guests=guests,
-            message=message
+            message=message,
+            status="Pending"
         )
 
         messages.success(
@@ -535,25 +538,184 @@ def cancel_visit_request(request, visit_request_id):
 
 @login_required
 def landlord_reservations(request):
-    if request.user.role != "LANDLORD":
-        return redirect("home")
+
     reservations = Reservation.objects.filter(
         house__landlord=request.user
-    ).select_related('house', 'user')
+    ).select_related('house', 'user').order_by('-created_at')
 
-    return render(request, 'properties/landlord/reservations.html', {
+    return render(request, 'properties/landlord/landlord_reservations.html', {
         'reservations': reservations
     })
 
 
 @login_required
 def landlord_visit_requests(request):
-    if request.user.role != "LANDLORD":
-        return redirect("home")
+
     visit_requests = VisitRequest.objects.filter(
         house__landlord=request.user
-    ).select_related('house', 'user')
+    ).select_related('house', 'user').order_by('-created_at')
 
-    return render(request, 'properties/landlord/visit_requests.html', {
+    return render(request, 'properties/landlord/landlord_visit_requests.html', {
         'visit_requests': visit_requests
     })
+
+
+@login_required
+@require_http_methods(["POST"])
+def landlord_accept_reservation(request, reservation_id):
+    reservation = get_object_or_404(
+        Reservation,
+        id=reservation_id,
+        house__landlord=request.user
+    )
+
+    try:
+        house = reservation.house
+        if house.status != 'Available':
+            messages.error(request, 'This property is no longer available.')
+            return redirect('landlord_reservations')
+
+        house.status = 'Rented'
+        house.save()
+
+        reservation.status = "Accepted"
+        reservation.save()
+
+        messages.success(
+            request,
+            f'Reservation accepted! {house.label or house.type} is now marked as Rented. '
+            f'Please contact {reservation.user.get_full_name() or reservation.user.email} on this phone number {reservation.user.phone} or this email {reservation.user.email} to finalize the details.'
+        )
+        other_reservations = Reservation.objects.filter(
+            house=house
+        ).exclude(id=reservation_id)
+
+        count = other_reservations.count()
+        if count > 0:
+            other_reservations.delete()
+            messages.info(
+                request, f'{count} other pending reservation(s) have been automatically cancelled.')
+
+    except Exception as e:
+        messages.error(request, f'Error accepting reservation: {str(e)}')
+
+    return redirect('landlord_reservations')
+
+
+@login_required
+@require_http_methods(["POST"])
+def landlord_reject_reservation(request, reservation_id):
+    reservation = get_object_or_404(
+        Reservation,
+        id=reservation_id,
+        house__landlord=request.user
+    )
+
+    try:
+        house_label = reservation.house.label or reservation.house.type
+        user_name = reservation.user.get_full_name() or reservation.user.username
+        reservation.delete()
+
+        messages.success(
+            request,
+            f'Reservation from {user_name} for {house_label} has been rejected.'
+        )
+
+    except Exception as e:
+        messages.error(request, f'Error rejecting reservation: {str(e)}')
+
+    return redirect('landlord_reservations')
+
+
+@login_required
+@require_http_methods(["POST"])
+def landlord_accept_visit_request(request, visit_request_id):
+    visit_request = get_object_or_404(
+        VisitRequest,
+        id=visit_request_id,
+        house__landlord=request.user
+    )
+    try:
+        house_label = visit_request.house.label or visit_request.house.type
+        user_name = visit_request.user.get_full_name() or visit_request.user.username
+
+        visit_request.status = "Accepted"
+        visit_request.save()
+
+        messages.success(
+            request,
+            f'Visit request accepted! Please contact {user_name} at {visit_request.user.email} or {visit_request.user.phone} '
+            f'to confirm the visit to {house_label} on {visit_request.visit_date.strftime("%B %d, %Y")}.'
+        )
+
+        # visit_request.delete()
+
+    except Exception as e:
+        messages.error(request, f'Error accepting visit request: {str(e)}')
+
+    return redirect('landlord_visit_requests')
+
+
+@login_required
+@require_http_methods(["POST"])
+def landlord_reject_visit_request(request, visit_request_id):
+    visit_request = get_object_or_404(
+        VisitRequest,
+        id=visit_request_id,
+        house__landlord=request.user
+    )
+    try:
+        house_label = visit_request.house.label or visit_request.house.type
+        user_name = visit_request.user.get_full_name() or visit_request.user.username
+        visit_request.status = "Refused"
+        visit_request.save()
+
+        messages.success(
+            request,
+            f'Visit request from {user_name} for {house_label} has been rejected.'
+        )
+
+    except Exception as e:
+        messages.error(request, f'Error rejecting visit request: {str(e)}')
+
+    return redirect('landlord_visit_requests')
+
+
+@login_required
+def landlord_dashboard(request):
+    total_properties = House.objects.filter(landlord=request.user).count()
+    available_properties = House.objects.filter(
+        landlord=request.user,
+        status='Available'
+    ).count()
+    rented_properties = House.objects.filter(
+        landlord=request.user,
+        status='Rented'
+    ).count()
+
+    pending_reservations = Reservation.objects.filter(
+        house__landlord=request.user
+    ).count()
+    pending_visits = VisitRequest.objects.filter(
+        house__landlord=request.user, status="Pending"
+    ).count()
+
+    recent_reservations = Reservation.objects.filter(
+        house__landlord=request.user
+    ).select_related('house', 'user').order_by('-created_at')[:5]
+
+    recent_visits = VisitRequest.objects.filter(
+        house__landlord=request.user
+    ).select_related('house', 'user').order_by('-created_at')[:5]
+
+    context = {
+        'total_properties': total_properties,
+        'available_properties': available_properties,
+        'rented_properties': rented_properties,
+        'pending_reservations': pending_reservations,
+        'pending_visits': pending_visits,
+        'recent_reservations': recent_reservations,
+        'recent_visits': recent_visits,
+    }
+
+    return render(request, 'properties/landlord/landlord_dashboard.html', context)

@@ -1,0 +1,311 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="dark" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>GUKODESHA - Manage Reservations</title>
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+              rel="stylesheet" />
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+              rel="stylesheet" />
+        <script>
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "primary": "#38e07b",
+                    "background-dark": "#122017",
+                    "surface-dark": "#1a2c22",
+                    "border-dark": "#29382f",
+                    "text-secondary": "#9eb7a8"
+                },
+                fontFamily: {
+                    "display": ["Manrope", "sans-serif"],
+                    "body": ["Noto Sans", "sans-serif"]
+                },
+            },
+        },
+    }
+        </script>
+    </head>
+    <body class="bg-background-dark text-white font-display antialiased">
+        <div class="flex h-screen w-full flex-col overflow-hidden">
+            {% include 'partial/header.html' %}
+            <div class="flex flex-1 overflow-hidden">
+                <main class="flex-1 overflow-y-auto bg-[#0d1410]">
+                    <div class="mx-auto max-w-7xl px-6 py-8 md:px-12 md:py-12">
+                        <!-- Header -->
+                        <div class="flex items-center justify-between mb-10">
+                            <div>
+                                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-2">Reservation Requests</h1>
+                                <p class="text-text-secondary text-lg">Manage reservations for your properties</p>
+                            </div>
+                            <a href="{% url 'landlord_dashboard' %}"
+                               class="bg-border-dark hover:bg-border-dark/80 text-white rounded-lg px-6 py-3 font-bold text-sm transition-all flex items-center gap-2">
+                                <span class="material-symbols-outlined">dashboard</span>
+                                Dashboard
+                            </a>
+                        </div>
+                        <!-- Messages -->
+                        {% if messages %}
+                            <div class="mb-6 space-y-3">
+                                {% for message in messages %}
+                                    <div class="flex items-center gap-3 p-4 rounded-xl border {% if message.tags == 'success' %}bg-primary/10 border-primary{% elif message.tags == 'error' %}bg-red-500/10 border-red-500{% elif message.tags == 'warning' or message.tags == 'info' %}bg-blue-500/10 border-blue-500{% endif %}">
+                                        <span class="material-symbols-outlined">
+                                            {% if message.tags == 'success' %}
+                                                check_circle
+                                            {% elif message.tags == 'error' %}
+                                                error
+                                            {% else %}
+                                                info
+                                            {% endif %}
+                                        </span>
+                                        <p class="text-sm font-medium">{{ message }}</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <!-- Reservations List -->
+                        {% if reservations %}
+                            <div class="space-y-4">
+                                {% for reservation in reservations %}
+                                    <div class="bg-surface-dark border border-border-dark rounded-xl overflow-hidden hover:border-primary/50 transition-all">
+                                        <div class="p-6">
+                                            <div class="flex flex-col lg:flex-row gap-6">
+                                                <!-- Property Image -->
+                                                <div class="w-full lg:w-48 aspect-video lg:aspect-square bg-gray-800 rounded-lg overflow-hidden flex-shrink-0">
+                                                    {% if reservation.house.main_image %}
+                                                        <img src="{{ reservation.house.main_image.url }}"
+                                                             alt="{{ reservation.house.label }}"
+                                                             class="w-full h-full object-cover">
+                                                    {% else %}
+                                                        <div class="w-full h-full flex items-center justify-center">
+                                                            <span class="material-symbols-outlined text-4xl text-text-secondary">home</span>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                                <!-- Details -->
+                                                <div class="flex-1">
+                                                    <!-- Property & Tenant Info -->
+                                                    <div class="flex items-start justify-between mb-4">
+                                                        <div>
+                                                            <h3 class="text-xl font-bold text-white mb-1">{{ reservation.house.label|default:reservation.house.type }}</h3>
+                                                            <p class="text-text-secondary text-sm flex items-center gap-1 mb-3">
+                                                                <span class="material-symbols-outlined text-base">pin_drop</span>
+                                                                {{ reservation.house.location.name }}, {{ reservation.house.location.cell.sector.district.city.name }}
+                                                            </p>
+                                                            <div class="flex items-center gap-2 bg-[#122017] border border-border-dark rounded-lg px-3 py-2 inline-flex">
+                                                                <span class="material-symbols-outlined text-primary text-lg">person</span>
+                                                                <div>
+                                                                    <p class="text-xs text-text-secondary">Requested by</p>
+                                                                    <p class="text-sm font-bold text-white">{{ reservation.user.get_full_name|default:reservation.user.username }}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-right">
+                                                            <p class="text-2xl font-bold text-primary">{{ reservation.house.monthly_rent|floatformat:0 }} FR</p>
+                                                            <p class="text-xs text-text-secondary">per month</p>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Reservation Details -->
+                                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                                                        <div class="bg-[#122017] border border-border-dark rounded-lg p-3">
+                                                            <p class="text-xs text-text-secondary mb-1">Move-in Date</p>
+                                                            <p class="text-sm font-bold text-white">{{ reservation.start_date|date:"M d, Y" }}</p>
+                                                        </div>
+                                                        <div class="bg-[#122017] border border-border-dark rounded-lg p-3">
+                                                            <p class="text-xs text-text-secondary mb-1">Guests</p>
+                                                            <p class="text-sm font-bold text-white">{{ reservation.guests }} guest{{ reservation.guests|pluralize }}</p>
+                                                        </div>
+                                                        <div class="bg-[#122017] border border-border-dark rounded-lg p-3">
+                                                            <p class="text-xs text-text-secondary mb-1">Submitted</p>
+                                                            <p class="text-sm font-bold text-white">{{ reservation.created_at|date:"M d, Y" }}</p>
+                                                        </div>
+                                                        <div class="bg-[#122017] border border-border-dark rounded-lg p-3">
+                                                            <p class="text-xs text-text-secondary mb-1">Contact</p>
+                                                            <p class="text-sm font-bold text-white truncate">{{ reservation.user.email }}</p>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Actions -->
+                                                    <div class="flex flex-wrap gap-3">
+                                                        {% if reservation.house.status == 'Available' %}
+                                                            <button onclick="confirmAccept({{ reservation.id }}, '{{ reservation.house.label|default:reservation.house.type }}', '{{ reservation.user.get_full_name|default:reservation.user.username }}')"
+                                                                    class="flex-1 min-w-[200px] bg-primary hover:bg-[#32c96e] text-background-dark rounded-lg px-4 py-3 font-bold text-sm transition-all flex items-center justify-center gap-2 shadow-[0_4px_14px_0_rgba(56,224,123,0.39)]">
+                                                                <span class="material-symbols-outlined text-base">check_circle</span>
+                                                                Accept & Mark as Rented
+                                                            </button>
+                                                            <button onclick="confirmReject({{ reservation.id }}, '{{ reservation.house.label|default:reservation.house.type }}', '{{ reservation.user.get_full_name|default:reservation.user.username }}')"
+                                                                    class="flex-1 min-w-[200px] bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-white border border-red-500/30 hover:border-red-500 rounded-lg px-4 py-3 font-bold text-sm transition-all flex items-center justify-center gap-2">
+                                                                <span class="material-symbols-outlined text-base">cancel</span>
+                                                                Reject
+                                                            </button>
+                                                        {% else %}
+                                                            <div class="flex-1 bg-gray-600/20 border border-gray-600/30 text-gray-400 rounded-lg px-4 py-3 font-bold text-sm flex items-center justify-center gap-2">
+                                                                <span class="material-symbols-outlined text-base">info</span>
+                                                                Property Already {{ reservation.house.status }}
+                                                            </div>
+                                                        {% endif %}
+                                                        <a href="{% url 'house_detail' reservation.house.id %}"
+                                                           class="bg-border-dark hover:bg-primary/20 text-white hover:text-primary border border-transparent hover:border-primary/30 rounded-lg px-6 py-3 font-bold text-sm transition-all flex items-center justify-center gap-2">
+                                                            <span class="material-symbols-outlined text-base">visibility</span>
+                                                            View Property
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="text-center py-20">
+                                <span class="material-symbols-outlined text-6xl text-text-secondary mb-4 block">event_busy</span>
+                                <h3 class="text-xl font-bold text-white mb-2">No Reservation Requests</h3>
+                                <p class="text-text-secondary mb-6">You don't have any pending reservation requests at the moment</p>
+                                <a href="{% url 'landlord_properties' %}"
+                                   class="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-background-dark rounded-lg px-6 py-3 font-bold transition-all">
+                                    <span class="material-symbols-outlined">home_work</span>
+                                    View My Properties
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </main>
+            </div>
+        </div>
+        <!-- Accept Confirmation Modal -->
+        <div id="acceptModal"
+             class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div class="bg-surface-dark border border-border-dark rounded-2xl max-w-md w-full p-6 transform scale-95 opacity-0 transition-all duration-200"
+                 id="acceptModalContent">
+                <div class="flex items-start gap-4 mb-4">
+                    <div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                        <span class="material-symbols-outlined text-primary text-2xl">check_circle</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-1">Accept Reservation</h3>
+                        <p class="text-text-secondary text-sm">
+                            Accept reservation from <span id="acceptUserName" class="text-white font-semibold"></span> for
+                            <span id="acceptPropertyName" class="text-white font-semibold"></span>?
+                        </p>
+                        <div class="mt-3 bg-orange-500/10 border border-orange-500/30 rounded-lg p-3">
+                            <p class="text-orange-400 text-xs">
+                                <span class="material-symbols-outlined text-sm align-middle">warning</span>
+                                This will mark the property as <strong>Rented</strong> and cancel all other pending reservations.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <form id="acceptForm" method="POST" class="flex gap-3 mt-6">
+                    {% csrf_token %}
+                    <button type="button"
+                            onclick="closeAcceptModal()"
+                            class="flex-1 bg-border-dark hover:bg-border-dark/80 text-white rounded-lg px-4 py-2.5 font-bold transition-all">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                            class="flex-1 bg-primary hover:bg-[#32c96e] text-background-dark rounded-lg px-4 py-2.5 font-bold transition-all shadow-[0_4px_14px_0_rgba(56,224,123,0.39)]">
+                        Accept
+                    </button>
+                </form>
+            </div>
+        </div>
+        <!-- Reject Confirmation Modal -->
+        <div id="rejectModal"
+             class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div class="bg-surface-dark border border-border-dark rounded-2xl max-w-md w-full p-6 transform scale-95 opacity-0 transition-all duration-200"
+                 id="rejectModalContent">
+                <div class="flex items-start gap-4 mb-4">
+                    <div class="w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0">
+                        <span class="material-symbols-outlined text-red-500 text-2xl">cancel</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-1">Reject Reservation</h3>
+                        <p class="text-text-secondary text-sm">
+                            Reject reservation from <span id="rejectUserName" class="text-white font-semibold"></span> for
+                            <span id="rejectPropertyName" class="text-white font-semibold"></span>?
+                        </p>
+                    </div>
+                </div>
+                <form id="rejectForm" method="POST" class="flex gap-3 mt-6">
+                    {% csrf_token %}
+                    <button type="button"
+                            onclick="closeRejectModal()"
+                            class="flex-1 bg-border-dark hover:bg-border-dark/80 text-white rounded-lg px-4 py-2.5 font-bold transition-all">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                            class="flex-1 bg-red-500 hover:bg-red-600 text-white rounded-lg px-4 py-2.5 font-bold transition-all">
+                        Reject
+                    </button>
+                </form>
+            </div>
+        </div>
+        <script>
+            function confirmAccept(reservationId, propertyName, userName) {
+                const modal = document.getElementById('acceptModal');
+                const form = document.getElementById('acceptForm');
+                const content = document.getElementById('acceptModalContent');
+                
+                document.getElementById('acceptPropertyName').textContent = propertyName;
+                document.getElementById('acceptUserName').textContent = userName;
+                form.action = `/landlord/accept-reservation/${reservationId}/`;
+                
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    content.classList.remove('scale-95', 'opacity-0');
+                    content.classList.add('scale-100', 'opacity-100');
+                }, 10);
+            }
+
+            function closeAcceptModal() {
+                const modal = document.getElementById('acceptModal');
+                const content = document.getElementById('acceptModalContent');
+                content.classList.add('scale-95', 'opacity-0');
+                content.classList.remove('scale-100', 'opacity-100');
+                setTimeout(() => modal.classList.add('hidden'), 200);
+            }
+        
+            function confirmReject(reservationId, propertyName, userName) {
+                const modal = document.getElementById('rejectModal');
+                const form = document.getElementById('rejectForm');
+                const content = document.getElementById('rejectModalContent');
+                
+                document.getElementById('rejectPropertyName').textContent = propertyName;
+                document.getElementById('rejectUserName').textContent = userName;
+                form.action = `/landlord/reject-reservation/${reservationId}/`;
+                
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    content.classList.remove('scale-95', 'opacity-0');
+                    content.classList.add('scale-100', 'opacity-100');
+                }, 10);
+            }
+
+            function closeRejectModal() {
+                const modal = document.getElementById('rejectModal');
+                const content = document.getElementById('rejectModalContent');
+                content.classList.add('scale-95', 'opacity-0');
+                content.classList.remove('scale-100', 'opacity-100');
+                setTimeout(() => modal.classList.add('hidden'), 200);
+            }
+            
+            document.getElementById('acceptModal').addEventListener('click', function(e) {
+                if (e.target === this) closeAcceptModal();
+            });
+            document.getElementById('rejectModal').addEventListener('click', function(e) {
+                if (e.target === this) closeRejectModal();    });
+
+        
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeAcceptModal();
+                    closeRejectModal();
+                }
+            });
+        </script>
+    </body>
+</html>
