@@ -12,7 +12,6 @@ def search_houses(request):
             "location__cell__sector",
             "location__cell__sector__district",
         )
-
     )
 
     query = request.GET.get("q")

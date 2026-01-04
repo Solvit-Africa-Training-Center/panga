@@ -38,11 +38,19 @@ urlpatterns = [
     path('cancel-visit-request/<int:visit_request_id>/',
          cancel_visit_request, name='cancel_visit_request'),
 
-    path(
-        'landlord/reservations/', landlord_reservations, name='landlord_reservations'
-    ),
-    path(
-        'landlord/visit-requests/', landlord_visit_requests, name='landlord_visit_requests'),
+    path('landlord/dashboard/', landlord_dashboard, name='landlord_dashboard'),
+    path('landlord/reservations/', landlord_reservations,
+         name='landlord_reservations'),
+    path('landlord/visit-requests/', landlord_visit_requests,
+         name='landlord_visit_requests'),
+    path('landlord/accept-reservation/<int:reservation_id>/',
+         landlord_accept_reservation, name='landlord_accept_reservation'),
+    path('landlord/reject-reservation/<int:reservation_id>/',
+         landlord_reject_reservation, name='landlord_reject_reservation'),
+    path('landlord/accept-visit-request/<int:visit_request_id>/',
+         landlord_accept_visit_request, name='landlord_accept_visit_request'),
+    path('landlord/reject-visit-request/<int:visit_request_id>/',
+         landlord_reject_visit_request, name='landlord_reject_visit_request'),
 
 
 

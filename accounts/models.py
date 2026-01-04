@@ -1,10 +1,7 @@
-# this is the latest version
-
 import random
 import uuid
 from django.conf import settings
 from django.db import models
-# from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin

@@ -42,9 +42,9 @@
                             <span class="truncate">@{{ request.user.role.capitalize }}</span>
                         </div>
                     {% else %}
-                        <a href="{% url 'landlord_properties' %}"
+                        <a href="{% url 'landlord_dashboard' %}"
                            class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary-hover text-background-dark text-sm font-bold shadow-[0_0_15px_rgba(56,224,123,0.3)] transition-all">
-                            <span class="truncate">My properties</span>
+                            <span class="truncate">Dashboard</span>
                         </a>
                     {% endif %}
                     <a href="{% url 'logout' %}"
