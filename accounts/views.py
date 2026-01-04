@@ -11,6 +11,8 @@ from utils.code_generator import random_with_N_digits
 
 
 def signup_view(request):
+    if request.user.is_authenticated:
+        return redirect("home")
     form = SignupForm()
 
     if request.method == "POST":
@@ -63,6 +65,8 @@ def verify_account_view(request):
 
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect("home")
     form = CustomLoginForm(request, data=request.POST or None)
 
     if request.method == "POST":
@@ -193,3 +197,23 @@ def change_password_view(request):
             print(form.errors)
 
     return render(request, "accounts/c_reset_password.html", {"form": form})
+
+
+@login_required
+def profile_update_view(request):
+    user = request.user
+
+    if request.method == "POST":
+        form = UserProfileForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully.")
+            return redirect("update_profile")
+        else:
+            messages.error(request, "Operation Failed")
+    else:
+        form = UserProfileForm(instance=user)
+
+    return render(request, "properties/all/edit_profile.html", {
+        "form": form
+    })

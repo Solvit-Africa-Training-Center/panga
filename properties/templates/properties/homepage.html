@@ -162,7 +162,7 @@
                                     </div>
                                 </a>
                                 <div class="absolute bottom-3 right-3 bg-black/70 backdrop-blur-md text-white text-sm font-bold px-3 py-1 rounded-lg">
-                                    FR{{ house.monthly_rent }}/mo
+                                    FR{{ house.monthly_rent|floatformat:0 }}/mo
                                 </div>
                             </div>
                             <div class="p-5">
@@ -240,7 +240,9 @@
                                     </div>
                                     <div>
                                         <h3 class="text-white text-xl font-bold mb-1">Secure Payments</h3>
-                                        <p class="text-text-secondary">Fast and transparent transactions for rent and services via mobile money or cards.</p>
+                                        <p class="text-text-secondary">
+                                            Fast and transparent transactions Tenant-Landlord for rent and services via mobile money.
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -314,6 +316,7 @@
                 </div>
             </section>
             <!-- CTA Section -->
+<<<<<<< HEAD
             <section class="py-10 px-4">
                 <div class="max-w-5xl mx-auto bg-gradient-to-r from-primary/20 to-surface-dark border border-border-dark rounded-2xl p-8 md:p-12 text-center relative overflow-hidden">
                     <div class="relative z-10 flex flex-col items-center gap-6">
@@ -328,10 +331,30 @@
                             <button class="bg-surface-dark border border-border-dark hover:bg-border-dark text-white font-bold px-6 py-3 rounded-lg transition-colors">
                                 Service Provider
                             </button>
+=======
+            {% if not request.user.is_authenticated %}
+                <section class="py-10 px-4">
+                    <div class="max-w-5xl mx-auto bg-gradient-to-r from-primary/20 to-surface-dark border border-border-dark rounded-2xl p-8 md:p-12 text-center relative overflow-hidden">
+                        <div class="relative z-10 flex flex-col items-center gap-6">
+                            <h2 class="text-white text-3xl md:text-4xl font-black">Are you a Landlord or Service Provider?</h2>
+                            <p class="text-text-secondary text-lg max-w-2xl">
+                                Join thousands of others growing their business on GUKODESHA. List your property or offer your services today.
+                            </p>
+                            <div class="flex gap-4">
+                                <a href="{% url 'signup' %}"
+                                   class="bg-primary hover:bg-primary-hover text-background-dark font-bold px-6 py-3 rounded-lg transition-colors">
+                                    List Your Property
+                                </a>
+                                <a href="{% url 'signup' %}"
+                                   class="bg-surface-dark border border-border-dark hover:bg-border-dark text-white font-bold px-6 py-3 rounded-lg transition-colors">
+                                    Register as Pro
+                                </a>
+                            </div>
+>>>>>>> b76edf2453bc1e0e54062315fe730b25ea65f3a1
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            {% endif %}
         </main>
         <!-- Footer -->
         {% include 'partial/footer.html' %}

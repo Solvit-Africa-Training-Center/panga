@@ -96,7 +96,7 @@
                     <!-- Price Range Slider -->
                     <div class="flex flex-col gap-4 mb-8">
                         <div class="flex justify-between items-center">
-                            <label class="text-white text-sm font-medium">Price Range (RWF)</label>
+                            <label class="text-white text-sm font-medium">Price Range (FR)</label>
                         </div>
                         <div class="space-y-4">
                             <input type="range"
@@ -215,7 +215,7 @@
                     <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
                         <div>
                             <h1 class="text-white text-3xl md:text-4xl font-extrabold leading-tight tracking-[-0.033em] mb-2">
-                                Properties for Rent in Kigali
+                                Properties for Rent
                             </h1>
                             <p class="text-text-secondary text-base">{{ number }} listing{{ number|pluralize }} found</p>
                         </div>
@@ -315,7 +315,7 @@
                                     </div>
                                     <div class="flex items-center justify-between pt-2">
                                         <p class="text-primary text-lg font-bold">
-                                            {{ house.monthly_rent|floatformat:0 }} RWF<span class="text-sm font-normal text-text-secondary">/month</span>
+                                            {{ house.monthly_rent|floatformat:0 }} FR<span class="text-sm font-normal text-text-secondary">/month</span>
                                         </p>
                                         <a href="{% url 'house_detail' house.id %}"
                                            class="text-sm font-bold text-white bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded transition-colors border border-border-dark">
@@ -375,7 +375,6 @@
             </main>
         </div>
         <script>
-            // Price Range Sliders
             const minPrice = document.getElementById('minPrice');
             const maxPrice = document.getElementById('maxPrice');
             const minLabel = document.getElementById('minPriceLabel');
@@ -400,7 +399,7 @@
                 maxLabel.textContent = formatPrice(maxPrice.value);
             });
 
-            // Bedroom Buttons
+            
             const bedroomBtns = document.querySelectorAll('.bedroom-btn');
             const bedroomsInput = document.getElementById('bedroomsInput');
             
@@ -421,14 +420,14 @@
                 });
             });
 
-            // Sort Select
+            
             document.getElementById('sortSelect').addEventListener('change', (e) => {
                 const url = new URL(window.location);
                 url.searchParams.set('sort', e.target.value);
                 window.location.href = url.toString();
             });
 
-            // Reset Filters
+        
             document.getElementById('resetFilters').addEventListener('click', () => {
                 window.location.href = window.location.pathname;
             });

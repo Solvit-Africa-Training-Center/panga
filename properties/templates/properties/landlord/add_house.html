@@ -1,0 +1,707 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="dark" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>GUKODESHA -
+            {% if edit_mode %}
+                Edit
+            {% else %}
+                Add
+            {% endif %}
+        House</title>
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+              rel="stylesheet" />
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+              rel="stylesheet" />
+        <script>
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "primary": "#38e07b",
+                    "background-dark": "#122017",
+                    "surface-dark": "#1a2c22",
+                    "border-dark": "#29382f",
+                    "text-secondary": "#9eb7a8"
+                },
+                fontFamily: {
+                    "display": ["Manrope", "sans-serif"],
+                    "body": ["Noto Sans", "sans-serif"]
+                },
+            },
+        },
+    }
+        </script>
+    </head>
+    <body class="bg-background-dark text-white font-display antialiased">
+        <div class="flex h-screen w-full flex-col overflow-hidden">
+            {% include 'partial/header.html' %}
+            <div class="flex flex-1 overflow-hidden">
+                <main class="flex-1 overflow-y-auto bg-[#0d1410]">
+                    <div class="mx-auto max-w-5xl px-6 py-8 md:px-12 md:py-12 pb-32">
+                        <div class="mb-10">
+                            <div class="flex items-center gap-3 mb-3">
+                                <a href="{% url 'landlord_properties' %}"
+                                   class="text-text-secondary hover:text-white transition-colors">
+                                    <span class="material-symbols-outlined">arrow_back</span>
+                                </a>
+                                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
+                                    {% if edit_mode %}
+                                        Edit Property
+                                    {% else %}
+                                        Add New Property
+                                    {% endif %}
+                                </h1>
+                            </div>
+                            <p class="text-text-secondary text-lg ml-12">
+                                {% if edit_mode %}
+                                    Update your property information
+                                {% else %}
+                                    Fill in the details about your property
+                                {% endif %}
+                            </p>
+                        </div>
+                        {% if messages %}
+                            <div class="mb-6 space-y-3">
+                                {% for message in messages %}
+                                    <div class="flex items-center gap-3 p-4 rounded-xl border {% if message.tags == 'success' %}bg-primary/10 border-primary{% elif message.tags == 'error' %}bg-red-500/10 border-red-500{% endif %}">
+                                        <span class="material-symbols-outlined">
+                                            {% if message.tags == 'success' %}
+                                                check_circle
+                                            {% else %}
+                                                error
+                                            {% endif %}
+                                        </span>
+                                        <p class="text-sm font-medium">{{ message }}</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <form method="POST"
+                              enctype="multipart/form-data"
+                              class="flex flex-col gap-10"
+                              id="propertyForm">
+                            {% csrf_token %}
+                            <!-- Property Type -->
+                            <section>
+                                <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary">home_work</span>
+                                    Property Type
+                                </h3>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                    <label class="cursor-pointer">
+                                        <input {% if edit_mode and house.type == 'Apartment' %}checked{% elif not edit_mode %}checked{% endif %}
+                                               class="peer sr-only"
+                                               name="property_type"
+                                               type="radio"
+                                               value="Apartment"
+                                               required />
+                                        <div class="flex flex-col items-center justify-center h-24 rounded-xl border border-border-dark bg-surface-dark peer-checked:bg-primary/10 peer-checked:border-primary peer-checked:text-primary hover:bg-[#22362b] transition-all">
+                                            <span class="material-symbols-outlined mb-2">apartment</span>
+                                            <span class="text-sm font-bold">Apartment</span>
+                                        </div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input {% if edit_mode and house.type == 'House' %}checked{% endif %}
+                                               class="peer sr-only"
+                                               name="property_type"
+                                               type="radio"
+                                               value="House"
+                                               required />
+                                        <div class="flex flex-col items-center justify-center h-24 rounded-xl border border-border-dark bg-surface-dark peer-checked:bg-primary/10 peer-checked:border-primary peer-checked:text-primary hover:bg-[#22362b] transition-all">
+                                            <span class="material-symbols-outlined mb-2">house</span>
+                                            <span class="text-sm font-bold">House</span>
+                                        </div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input {% if edit_mode and house.type == 'Villa' %}checked{% endif %}
+                                               class="peer sr-only"
+                                               name="property_type"
+                                               type="radio"
+                                               value="Villa"
+                                               required />
+                                        <div class="flex flex-col items-center justify-center h-24 rounded-xl border border-border-dark bg-surface-dark peer-checked:bg-primary/10 peer-checked:border-primary peer-checked:text-primary hover:bg-[#22362b] transition-all">
+                                            <span class="material-symbols-outlined mb-2">villa</span>
+                                            <span class="text-sm font-bold">Villa</span>
+                                        </div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input {% if edit_mode and house.type == 'Studio' %}checked{% endif %}
+                                               class="peer sr-only"
+                                               name="property_type"
+                                               type="radio"
+                                               value="Studio"
+                                               required />
+                                        <div class="flex flex-col items-center justify-center h-24 rounded-xl border border-border-dark bg-surface-dark peer-checked:bg-primary/10 peer-checked:border-primary peer-checked:text-primary hover:bg-[#22362b] transition-all">
+                                            <span class="material-symbols-outlined mb-2">meeting_room</span>
+                                            <span class="text-sm font-bold">Studio</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </section>
+                            <hr class="border-border-dark" />
+                            <!-- Section: Location Hierarchy -->
+                            <section>
+                                <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary">pin_drop</span>
+                                    Location
+                                </h3>
+                                <div class="bg-primary/5 border border-primary/20 rounded-xl p-4 mb-6">
+                                    <div class="flex items-start gap-3">
+                                        <span class="material-symbols-outlined text-primary mt-1">info</span>
+                                        <div>
+                                            <p class="text-white text-sm font-bold mb-1">Location Selection Guide</p>
+                                            <p class="text-text-secondary text-xs leading-relaxed">
+                                                Select your location step by step: Country → Province → City → District → Sector → Cell → Village.
+                                                Each selection loads the next level options.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div class="flex flex-col gap-4">
+                                        <!-- Country -->
+                                        <div class="flex flex-col gap-1.5">
+                                            <label class="text-sm font-medium text-text-secondary">Country *</label>
+                                            <div class="relative">
+                                                <select id="country"
+                                                        name="country"
+                                                        class="w-full bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white appearance-none focus:ring-2 focus:ring-primary outline-none"
+                                                        required>
+                                                    <option value="">Select Country</option>
+                                                    {% for country in countries %}
+                                                        <option value="{{ country.id }}"
+                                                                {% if edit_mode and selected_country.id == country.id %}selected{% endif %}>
+                                                            {{ country.name }}
+                                                        </option>
+                                                    {% endfor %}
+                                                </select>
+                                                <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none">expand_more</span>
+                                            </div>
+                                        </div>
+                                        <!-- Province -->
+                                        <div class="flex flex-col gap-1.5">
+                                            <label class="text-sm font-medium text-text-secondary">Province *</label>
+                                            <div class="relative">
+                                                <select id="province"
+                                                        name="province"
+                                                        class="w-full bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white appearance-none focus:ring-2 focus:ring-primary outline-none"
+                                                        required
+                                                        disabled>
+                                                    <option value="">Select Province</option>
+                                                </select>
+                                                <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none">expand_more</span>
+                                            </div>
+                                        </div>
+                                        <!-- City -->
+                                        <div class="flex flex-col gap-1.5">
+                                            <label class="text-sm font-medium text-text-secondary">City *</label>
+                                            <div class="relative">
+                                                <select id="city"
+                                                        name="city"
+                                                        class="w-full bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white appearance-none focus:ring-2 focus:ring-primary outline-none"
+                                                        required
+                                                        disabled>
+                                                    <option value="">Select City</option>
+                                                </select>
+                                                <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none">expand_more</span>
+                                            </div>
+                                        </div>
+                                        <!-- District -->
+                                        <div class="flex flex-col gap-1.5">
+                                            <label class="text-sm font-medium text-text-secondary">District *</label>
+                                            <div class="relative">
+                                                <select id="district"
+                                                        name="district"
+                                                        class="w-full bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white appearance-none focus:ring-2 focus:ring-primary outline-none"
+                                                        required
+                                                        disabled>
+                                                    <option value="">Select District</option>
+                                                </select>
+                                                <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none">expand_more</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col gap-4">
+                                        <!-- Sector -->
+                                        <div class="flex flex-col gap-1.5">
+                                            <label class="text-sm font-medium text-text-secondary">Sector *</label>
+                                            <div class="relative">
+                                                <select id="sector"
+                                                        name="sector"
+                                                        class="w-full bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white appearance-none focus:ring-2 focus:ring-primary outline-none"
+                                                        required
+                                                        disabled>
+                                                    <option value="">Select Sector</option>
+                                                </select>
+                                                <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none">expand_more</span>
+                                            </div>
+                                        </div>
+                                        <!-- Cell -->
+                                        <div class="flex flex-col gap-1.5">
+                                            <label class="text-sm font-medium text-text-secondary">Cell *</label>
+                                            <div class="relative">
+                                                <select id="cell"
+                                                        name="cell"
+                                                        class="w-full bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white appearance-none focus:ring-2 focus:ring-primary outline-none"
+                                                        required
+                                                        disabled>
+                                                    <option value="">Select Cell</option>
+                                                </select>
+                                                <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none">expand_more</span>
+                                            </div>
+                                        </div>
+                                        <!-- Village -->
+                                        <div class="flex flex-col gap-1.5">
+                                            <label class="text-sm font-medium text-text-secondary">Village *</label>
+                                            <div class="relative">
+                                                <select id="village"
+                                                        name="village"
+                                                        class="w-full bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white appearance-none focus:ring-2 focus:ring-primary outline-none"
+                                                        required
+                                                        disabled>
+                                                    <option value="">Select Village</option>
+                                                </select>
+                                                <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none">expand_more</span>
+                                            </div>
+                                        </div>
+                                        <!-- Street Address -->
+                                        <div class="flex flex-col gap-1.5">
+                                            <label class="text-sm font-medium text-text-secondary">Street Address</label>
+                                            <input class="bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white placeholder-text-secondary/50 focus:ring-2 focus:ring-primary outline-none"
+                                                   placeholder="e.g. KG 123 St"
+                                                   type="text"
+                                                   name="street_address"
+                                                   value="{% if edit_mode %}{{ house.street_address }}{% endif %}" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Neighborhood & Map -->
+                                <div class="grid md:grid-cols-2 gap-6 mt-6">
+                                    <div class="flex flex-col gap-1.5">
+                                        <label class="text-sm font-medium text-text-secondary">Neighborhood</label>
+                                        <input class="bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white placeholder-text-secondary/50 focus:ring-2 focus:ring-primary outline-none"
+                                               placeholder="e.g. Near Kimironko Market"
+                                               type="text"
+                                               name="neighborhood"
+                                               value="{% if edit_mode %}{{ house.neighborhood }}{% endif %}" />
+                                    </div>
+                                    <div class="flex flex-col gap-1.5">
+                                        <label class="text-sm font-medium text-text-secondary">Map Location (optional)</label>
+                                        <input class="bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white placeholder-text-secondary/50 focus:ring-2 focus:ring-primary outline-none"
+                                               placeholder="Google Maps link or coordinates"
+                                               type="text"
+                                               name="on_map"
+                                               value="{% if edit_mode %}{{ house.on_map }}{% endif %}" />
+                                    </div>
+                                </div>
+                            </section>
+                            <hr class="border-border-dark" />
+                            <!-- Section: Property Details -->
+                            <section>
+                                <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary">list_alt</span>
+                                    Property Details
+                                </h3>
+                                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                                    <div class="flex flex-col gap-1.5">
+                                        <label class="text-sm font-medium text-text-secondary">Property Label/Title</label>
+                                        <input class="bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white placeholder-text-secondary/50 focus:ring-2 focus:ring-primary outline-none"
+                                               placeholder="e.g. Modern 2BR Apartment in Kimihurura"
+                                               type="text"
+                                               name="label"
+                                               value="{% if edit_mode %}{{ house.label }}{% endif %}" />
+                                    </div>
+                                    <div class="flex flex-col gap-1.5">
+                                        <label class="text-sm font-medium text-text-secondary">Monthly Rent (FR) *</label>
+                                        <input class="bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white placeholder-text-secondary/50 focus:ring-2 focus:ring-primary outline-none"
+                                               placeholder="e.g. 250000"
+                                               type="number"
+                                               name="monthly_rent"
+                                               required
+                                               min="0"
+                                               step="1000"
+                                               value="{% if edit_mode %}{{ house.monthly_rent }}{% endif %}" />
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mb-6">
+                                    <div class="flex flex-col gap-1.5">
+                                        <label class="text-sm font-medium text-text-secondary">Bedrooms *</label>
+                                        <div class="relative">
+                                            <button type="button"
+                                                    onclick="decrementValue('bedrooms')"
+                                                    class="absolute left-1 top-1 w-10 h-10 flex items-center justify-center text-text-secondary hover:text-white rounded bg-border-dark hover:bg-border-dark/80 z-10">
+                                                <span class="material-symbols-outlined text-base">remove</span>
+                                            </button>
+                                            <input id="bedrooms"
+                                                   class="w-full bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white text-center focus:ring-2 focus:ring-primary outline-none"
+                                                   type="number"
+                                                   name="bedrooms"
+                                                   required
+                                                   min="0"
+                                                   value="{% if edit_mode %}{{ house.n_bed_rooms }}{% else %}1{% endif %}" />
+                                            <button type="button"
+                                                    onclick="incrementValue('bedrooms')"
+                                                    class="absolute right-1 top-1 w-10 h-10 flex items-center justify-center text-text-secondary hover:text-white rounded bg-border-dark hover:bg-border-dark/80 z-10">
+                                                <span class="material-symbols-outlined text-base">add</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col gap-1.5">
+                                        <label class="text-sm font-medium text-text-secondary">Bathrooms *</label>
+                                        <div class="relative">
+                                            <button type="button"
+                                                    onclick="decrementValue('bathrooms')"
+                                                    class="absolute left-1 top-1 w-10 h-10 flex items-center justify-center text-text-secondary hover:text-white rounded bg-border-dark hover:bg-border-dark/80 z-10">
+                                                <span class="material-symbols-outlined text-base">remove</span>
+                                            </button>
+                                            <input id="bathrooms"
+                                                   class="w-full bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white text-center focus:ring-2 focus:ring-primary outline-none"
+                                                   type="number"
+                                                   name="bathrooms"
+                                                   required
+                                                   min="0"
+                                                   value="{% if edit_mode %}{{ house.n_bath_rooms }}{% else %}1{% endif %}" />
+                                            <button type="button"
+                                                    onclick="incrementValue('bathrooms')"
+                                                    class="absolute right-1 top-1 w-10 h-10 flex items-center justify-center text-text-secondary hover:text-white rounded bg-border-dark hover:bg-border-dark/80 z-10">
+                                                <span class="material-symbols-outlined text-base">add</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col gap-1.5">
+                                        <label class="text-sm font-medium text-text-secondary">Size (m²) *</label>
+                                        <input class="bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white placeholder-text-secondary/50 focus:ring-2 focus:ring-primary outline-none"
+                                               placeholder="e.g. 120"
+                                               type="number"
+                                               name="surface"
+                                               required
+                                               min="1"
+                                               value="{% if edit_mode %}{{ house.surface }}{% endif %}" />
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-1.5">
+                                    <label class="text-sm font-medium text-text-secondary">Description *</label>
+                                    <textarea class="bg-surface-dark border border-border-dark rounded-lg p-4 text-white placeholder-text-secondary/50 focus:ring-2 focus:ring-primary outline-none resize-none"
+                                              placeholder="Describe the property, nearby landmarks, and unique features..."
+                                              name="description"
+                                              required
+                                              rows="5">{% if edit_mode %}{{ house.description }}{% endif %}</textarea>
+                                </div>
+                            </section>
+                            <hr class="border-border-dark" />
+                            <!-- Section: Amenities -->
+                            <section>
+                                <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary">star</span>
+                                    Amenities & Features
+                                </h3>
+                                <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                                    <label class="flex items-center gap-3 p-4 rounded-lg border border-border-dark bg-surface-dark cursor-pointer hover:bg-[#22362b] transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/10">
+                                        <input class="w-5 h-5 rounded border-gray-600 text-primary focus:ring-primary bg-gray-800"
+                                               type="checkbox"
+                                               name="wifi"
+                                               {% if edit_mode and house.has_wifi %}checked{% endif %} />
+                                        <div class="flex items-center gap-2">
+                                            <span class="material-symbols-outlined text-lg">wifi</span>
+                                            <span class="text-white text-sm font-medium">WiFi</span>
+                                        </div>
+                                    </label>
+                                    <div class="flex flex-col gap-1.5 col-span-2 sm:col-span-1">
+                                        <label class="text-sm font-medium text-text-secondary px-1">Parking Spaces</label>
+                                        <div class="relative">
+                                            <button type="button"
+                                                    onclick="decrementValue('parkings')"
+                                                    class="absolute left-1 top-1 w-10 h-10 flex items-center justify-center text-text-secondary hover:text-white rounded bg-border-dark hover:bg-border-dark/80 z-10">
+                                                <span class="material-symbols-outlined text-base">remove</span>
+                                            </button>
+                                            <input id="parkings"
+                                                   class="w-full bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white text-center focus:ring-2 focus:ring-primary outline-none"
+                                                   type="number"
+                                                   name="parkings"
+                                                   min="0"
+                                                   value="{% if edit_mode %}{{ house.parkings }}{% else %}0{% endif %}" />
+                                            <button type="button"
+                                                    onclick="incrementValue('parkings')"
+                                                    class="absolute right-1 top-1 w-10 h-10 flex items-center justify-center text-text-secondary hover:text-white rounded bg-border-dark hover:bg-border-dark/80 z-10">
+                                                <span class="material-symbols-outlined text-base">add</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <hr class="border-border-dark" />
+                            <!-- Section: Photos -->
+                            <section>
+                                <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary">add_a_photo</span>
+                                    Property Photos
+                                </h3>
+                                <p class="text-text-secondary text-sm mb-6">Upload up to 5 photos. First image will be the main photo.</p>
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                    <!-- Main Image -->
+                                    <div class="relative group">
+                                        <input type="file"
+                                               id="image_main"
+                                               name="main_image"
+                                               accept="image/*"
+                                               class="hidden"
+                                               onchange="previewImage(this, 'preview_1')">
+                                        <label for="image_main"
+                                               class="block aspect-video rounded-xl border-2 border-dashed border-border-dark bg-surface-dark hover:border-primary hover:bg-primary/5 transition-all cursor-pointer overflow-hidden">
+                                            <div id="preview_1"
+                                                 class="w-full h-full flex flex-col items-center justify-center">
+                                                {% if edit_mode and house.main_image %}
+                                                    <img src="{{ house.main_image.url }}"
+                                                         class="w-full h-full object-cover"
+                                                         alt="Main image">
+                                                {% else %}
+                                                    <span class="material-symbols-outlined text-4xl text-text-secondary mb-2">add_photo_alternate</span>
+                                                    <span class="text-text-secondary text-xs">Main Photo</span>
+                                                {% endif %}
+                                            </div>
+                                        </label>
+                                        <div class="absolute top-2 left-2 bg-primary text-background-dark text-xs font-bold px-2 py-1 rounded-full">Main</div>
+                                    </div>
+                                    <!-- Image One -->
+                                    <div class="relative">
+                                        <input type="file"
+                                               id="image_2"
+                                               name="image_one"
+                                               accept="image/*"
+                                               class="hidden"
+                                               onchange="previewImage(this, 'preview_2')">
+                                        <label for="image_2"
+                                               class="block aspect-video rounded-xl border-2 border-dashed border-border-dark bg-surface-dark hover:border-primary hover:bg-primary/5 transition-all cursor-pointer overflow-hidden">
+                                            <div id="preview_2"
+                                                 class="w-full h-full flex flex-col items-center justify-center">
+                                                {% if edit_mode and house.image_one %}
+                                                    <img src="{{ house.image_one.url }}"
+                                                         class="w-full h-full object-cover"
+                                                         alt="Image 1">
+                                                {% else %}
+                                                    <span class="material-symbols-outlined text-4xl text-text-secondary mb-2">add_photo_alternate</span>
+                                                    <span class="text-text-secondary text-xs">Photo 2</span>
+                                                {% endif %}
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <!-- Image Two -->
+                                    <div class="relative">
+                                        <input type="file"
+                                               id="image_3"
+                                               name="image_two"
+                                               accept="image/*"
+                                               class="hidden"
+                                               onchange="previewImage(this, 'preview_3')">
+                                        <label for="image_3"
+                                               class="block aspect-video rounded-xl border-2 border-dashed border-border-dark bg-surface-dark hover:border-primary hover:bg-primary/5 transition-all cursor-pointer overflow-hidden">
+                                            <div id="preview_3"
+                                                 class="w-full h-full flex flex-col items-center justify-center">
+                                                {% if edit_mode and house.image_two %}
+                                                    <img src="{{ house.image_two.url }}"
+                                                         class="w-full h-full object-cover"
+                                                         alt="Image 2">
+                                                {% else %}
+                                                    <span class="material-symbols-outlined text-4xl text-text-secondary mb-2">add_photo_alternate</span>
+                                                    <span class="text-text-secondary text-xs">Photo 3</span>
+                                                {% endif %}
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <!-- Image Three -->
+                                    <div class="relative">
+                                        <input type="file"
+                                               id="image_4"
+                                               name="image_three"
+                                               accept="image/*"
+                                               class="hidden"
+                                               onchange="previewImage(this, 'preview_4')">
+                                        <label for="image_4"
+                                               class="block aspect-video rounded-xl border-2 border-dashed border-border-dark bg-surface-dark hover:border-primary hover:bg-primary/5 transition-all cursor-pointer overflow-hidden">
+                                            <div id="preview_4"
+                                                 class="w-full h-full flex flex-col items-center justify-center">
+                                                {% if edit_mode and house.image_three %}
+                                                    <img src="{{ house.image_three.url }}"
+                                                         class="w-full h-full object-cover"
+                                                         alt="Image 3">
+                                                {% else %}
+                                                    <span class="material-symbols-outlined text-4xl text-text-secondary mb-2">add_photo_alternate</span>
+                                                    <span class="text-text-secondary text-xs">Photo 4</span>
+                                                {% endif %}
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <!-- Image Four -->
+                                    <div class="relative">
+                                        <input type="file"
+                                               id="image_5"
+                                               name="image_four"
+                                               accept="image/*"
+                                               class="hidden"
+                                               onchange="previewImage(this, 'preview_5')">
+                                        <label for="image_5"
+                                               class="block aspect-video rounded-xl border-2 border-dashed border-border-dark bg-surface-dark hover:border-primary hover:bg-primary/5 transition-all cursor-pointer overflow-hidden">
+                                            <div id="preview_5"
+                                                 class="w-full h-full flex flex-col items-center justify-center">
+                                                {% if edit_mode and house.image_four %}
+                                                    <img src="{{ house.image_four.url }}"
+                                                         class="w-full h-full object-cover"
+                                                         alt="Image 4">
+                                                {% else %}
+                                                    <span class="material-symbols-outlined text-4xl text-text-secondary mb-2">add_photo_alternate</span>
+                                                    <span class="text-text-secondary text-xs">Photo 5</span>
+                                                {% endif %}
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </section>
+                        </form>
+                    </div>
+                    <!-- Sticky Footer -->
+                    <div class="fixed bottom-0 right-0 left-0 bg-background-dark/95 backdrop-blur border-t border-border-dark px-8 py-4 flex items-center justify-between z-30">
+                        <a href="{% url 'landlord_properties' %}"
+                           class="text-text-secondary hover:text-white text-sm font-bold px-4 py-2 transition-colors">Cancel</a>
+                        <button type="submit"
+                                form="propertyForm"
+                                class="bg-primary hover:bg-primary/90 text-background-dark rounded-lg px-8 py-2.5 font-bold text-sm transition-all shadow-lg shadow-primary/20 flex items-center gap-2">
+                            <span class="material-symbols-outlined">save</span>
+                            {% if edit_mode %}
+                                Update Property
+                            {% else %}
+                                Add Property
+                            {% endif %}
+                        </button>
+                    </div>
+                </main>
+            </div>
+        </div>
+        <!-- JavaScript -->
+        <script>
+    // Increment/Decrement functions
+    function incrementValue(id) {
+        const input = document.getElementById(id);
+        input.value = parseInt(input.value || 0) + 1;
+    }
+
+    function decrementValue(id) {
+        const input = document.getElementById(id);
+        const val = parseInt(input.value || 0);
+        if (val > 0) input.value = val - 1;
+    }
+
+    // Image preview
+    function previewImage(input, previewId) {
+        const preview = document.getElementById(previewId);
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover" alt="Preview">`;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    // Location cascade (AJAX)
+    document.getElementById('country').addEventListener('change', async function() {
+        const countryId = this.value;
+        const response = await fetch(`/api/provinces/?country_id=${countryId}`);
+        const data = await response.json();
+        updateSelect('province', data.provinces, true);
+        resetSelects(['city', 'district', 'sector', 'cell', 'village']);
+    });
+
+    document.getElementById('province').addEventListener('change', async function() {
+        const provinceId = this.value;
+        const response = await fetch(`/api/cities/?province_id=${provinceId}`);
+        const data = await response.json();
+        updateSelect('city', data.cities, true);
+        resetSelects(['district', 'sector', 'cell', 'village']);
+    });
+
+    document.getElementById('city').addEventListener('change', async function() {
+        const cityId = this.value;
+        const response = await fetch(`/api/districts/?city_id=${cityId}`);
+        const data = await response.json();
+        updateSelect('district', data.districts, true);
+        resetSelects(['sector', 'cell', 'village']);
+    });
+
+    document.getElementById('district').addEventListener('change', async function() {
+        const districtId = this.value;
+        const response = await fetch(`/api/sectors/?district_id=${districtId}`);
+        const data = await response.json();
+        updateSelect('sector', data.sectors, true);
+        resetSelects(['cell', 'village']);
+    });
+
+    document.getElementById('sector').addEventListener('change', async function() {
+        const sectorId = this.value;
+        const response = await fetch(`/api/cells/?sector_id=${sectorId}`);
+        const data = await response.json();
+        updateSelect('cell', data.cells, true);
+        resetSelects(['village']);
+    });
+
+    document.getElementById('cell').addEventListener('change', async function() {
+        const cellId = this.value;
+        const response = await fetch(`/api/villages/?cell_id=${cellId}`);
+        const data = await response.json();
+        updateSelect('village', data.villages, true);
+    });
+
+    function updateSelect(selectId, options, enable) {
+        const select = document.getElementById(selectId);
+        select.innerHTML = `<option value="">Select ${selectId.charAt(0).toUpperCase() + selectId.slice(1)}</option>`;
+        options.forEach(opt => {
+            const option = document.createElement('option');
+            option.value = opt.id;
+            option.textContent = opt.name;
+            select.appendChild(option);
+        });
+        select.disabled = !enable;
+    }
+
+    function resetSelects(selectIds) {
+        selectIds.forEach(id => {
+            const select = document.getElementById(id);
+            select.innerHTML = `<option value="">Select ${id.charAt(0).toUpperCase() + id.slice(1)}</option>`;
+            select.disabled = true;
+        });
+    }
+
+    // Initialize edit mode
+    {% if edit_mode %}
+    window.addEventListener('DOMContentLoaded', async function() {
+        // Trigger cascades for edit mode
+        const countrySelect = document.getElementById('country');
+        if (countrySelect.value) {
+            countrySelect.dispatchEvent(new Event('change'));
+            await new Promise(r => setTimeout(r, 200));
+            document.getElementById('province').value = '{{ selected_province.id }}';
+            document.getElementById('province').dispatchEvent(new Event('change'));
+            await new Promise(r => setTimeout(r, 200));
+            document.getElementById('city').value = '{{ selected_city.id }}';
+            document.getElementById('city').dispatchEvent(new Event('change'));
+            await new Promise(r => setTimeout(r, 200));
+            document.getElementById('district').value = '{{ selected_district.id }}';
+            document.getElementById('district').dispatchEvent(new Event('change'));
+            await new Promise(r => setTimeout(r, 200));
+            document.getElementById('sector').value = '{{ selected_sector.id }}';
+            document.getElementById('sector').dispatchEvent(new Event('change'));
+            await new Promise(r => setTimeout(r, 200));
+            document.getElementById('cell').value = '{{ selected_cell.id }}';
+            document.getElementById('cell').dispatchEvent(new Event('change'));
+            await new Promise(r => setTimeout(r, 200));
+            document.getElementById('village').value = '{{ selected_village.id }}';
+        }
+    });
+    {% endif %}
+        </script>
+    </body>
+</html>

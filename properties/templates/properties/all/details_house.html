@@ -19,7 +19,10 @@
                             "background-light": "#f6f8f7",
                             "background-dark": "#111714",
                             "card-dark": "#1a2621", 
-                            "text-secondary": "#9eb7a8"
+                            "text-secondary": "#9eb7a8",
+                            "border-dark": "#3d5245",
+                            "primary-hover": "#2ccb69",
+                            "surface-dark": "#1c2620"
                         },
                         fontFamily: {
                             "display": ["Manrope", "sans-serif"]
@@ -41,7 +44,7 @@
                        href="{% url 'home' %}">Home</a>
                     <span class="text-text-secondary">/</span>
                     <a class="text-text-secondary hover:text-white transition-colors"
-                       href="#">Rwanda</a>
+                       href="#">{{ house.location.cell.sector.district.city.province.country.name }}</a>
                     <span class="text-text-secondary">/</span>
                     <a class="text-text-secondary hover:text-white transition-colors"
                        href="#">{{ house.location.cell.sector.district.name }}</a>
@@ -52,6 +55,22 @@
                     <span class="text-white font-medium">{{ house.label }}</span>
                 </div>
                 <!-- Header & Actions -->
+                {% if messages %}
+                    <div class="mb-6 space-y-3">
+                        {% for message in messages %}
+                            <div class="flex items-center gap-3 p-4 rounded-xl border {% if message.tags == 'success' %}bg-primary/10 border-primary{% elif message.tags == 'error' %}bg-red-500/10 border-red-500{% endif %}">
+                                <span class="material-symbols-outlined">
+                                    {% if message.tags == 'success' %}
+                                        check_circle
+                                    {% else %}
+                                        error
+                                    {% endif %}
+                                </span>
+                                <p class="text-sm font-medium">{{ message }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
                     <div>
                         <h1 class="text-2xl md:text-3xl lg:text-[32px] font-bold leading-tight text-white mb-2">{{ house.label }}</h1>
@@ -81,9 +100,7 @@
                         </button>
                     </div>
                 </div>
-                <!-- Photo Gallery Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-3 h-[400px] md:h-[480px] rounded-xl overflow-hidden relative group">
-                    <!-- Main Large Image -->
                     <div class="md:col-span-2 md:row-span-2 w-full h-full bg-cover bg-center bg-gray-700"
                          {% if house.main_image %}style="background-image: url('{{ house.main_image.url }}')"{% endif %}>
                         {% if not house.main_image %}
@@ -92,7 +109,6 @@
                             </div>
                         {% endif %}
                     </div>
-                    <!-- Secondary Images -->
                     <div class="hidden md:block w-full h-full bg-cover bg-center bg-gray-700"
                          {% if house.image_one %}style="background-image: url('{{ house.image_one.url }}')"{% endif %}>
                         {% if not house.image_one %}
@@ -126,7 +142,7 @@
                         {% endif %}
                         <button class="absolute bottom-4 right-4 bg-black/70 backdrop-blur-sm text-white text-sm font-medium px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-black/90 transition-colors">
                             <span class="material-symbols-outlined text-[18px]">grid_view</span>
-                            Show all photos
+                            Need Zoom ?
                         </button>
                     </div>
                 </div>
@@ -266,37 +282,55 @@
                             <div class="bg-card-dark border border-[#29382f] rounded-xl p-6 shadow-xl">
                                 <div class="flex justify-between items-baseline mb-6">
                                     <div>
-                                        <span class="text-2xl font-bold text-white">{{ house.monthly_rent|floatformat:0 }} RWF</span>
+                                        <span class="text-2xl font-bold text-white">{{ house.monthly_rent|floatformat:0 }} FR</span>
                                         <span class="text-text-secondary text-sm">/ month</span>
                                     </div>
                                 </div>
+                                <!-- Date and Guests Display (read-only) -->
                                 <div class="border border-[#35463b] rounded-lg mb-4 overflow-hidden">
                                     <div class="grid grid-cols-2 border-b border-[#35463b]">
-                                        <div class="p-3 border-r border-[#35463b]">
-                                            <label class="block text-[10px] font-bold text-text-secondary uppercase tracking-wider">Check-in</label>
-                                            <div class="text-white text-sm font-medium">Add date</div>
-                                        </div>
                                         <div class="p-3">
-                                            <label class="block text-[10px] font-bold text-text-secondary uppercase tracking-wider">Check-out</label>
-                                            <div class="text-white text-sm font-medium">Add date</div>
+                                            <label class="block text-[10px] font-bold text-text-secondary uppercase tracking-wider">Wished Date</label>
+                                            <div class="text-white text-sm font-medium" id="displayDate">Select date</div>
                                         </div>
                                     </div>
                                     <div class="p-3">
                                         <label class="block text-[10px] font-bold text-text-secondary uppercase tracking-wider">Guests</label>
                                         <div class="flex justify-between items-center text-white text-sm font-medium">
-                                            <span>2 guests</span>
+                                            <span id="displayGuests">1 guest</span>
                                             <span class="material-symbols-outlined text-[18px]">expand_more</span>
                                         </div>
                                     </div>
                                 </div>
+                                <!-- Action Buttons -->
                                 <div class="flex flex-col gap-3">
                                     {% if house.status == 'Available' %}
-                                        <button class="w-full bg-primary hover:bg-[#32c96e] text-[#111714] text-base font-bold py-3.5 rounded-lg transition-colors shadow-[0_4px_14px_0_rgba(56,224,123,0.39)]">
-                                            Reserve Now
-                                        </button>
-                                        <button class="w-full bg-transparent border border-primary text-primary hover:bg-primary/10 text-base font-bold py-3.5 rounded-lg transition-colors">
-                                            Request Visit
-                                        </button>
+                                        {% if user.is_authenticated %}
+                                            {% if user != house.landlord %}
+                                                <button onclick="openReserveModal()"
+                                                        class="w-full bg-primary hover:bg-[#32c96e] text-[#111714] text-base font-bold py-3.5 rounded-lg transition-colors shadow-[0_4px_14px_0_rgba(56,224,123,0.39)]">
+                                                    Reserve Now
+                                                </button>
+                                                <button onclick="openVisitModal()"
+                                                        class="w-full bg-transparent border border-primary text-primary hover:bg-primary/10 text-base font-bold py-3.5 rounded-lg transition-colors">
+                                                    Request Visit
+                                                </button>
+                                            {% else %}
+                                                <button disabled
+                                                        class="w-full bg-gray-600 text-gray-400 text-base font-bold py-3.5 rounded-lg cursor-not-allowed">
+                                                    Your Property
+                                                </button>
+                                            {% endif %}
+                                        {% else %}
+                                            <a href="{% url 'login' %}?next={{ request.path }}"
+                                               class="w-full bg-primary hover:bg-[#32c96e] text-[#111714] text-base font-bold py-3.5 rounded-lg transition-colors shadow-[0_4px_14px_0_rgba(56,224,123,0.39)] text-center">
+                                                Login to Reserve
+                                            </a>
+                                            <a href="{% url 'login' %}?next={{ request.path }}"
+                                               class="w-full bg-transparent border border-primary text-primary hover:bg-primary/10 text-base font-bold py-3.5 rounded-lg transition-colors text-center">
+                                                Login to Request Visit
+                                            </a>
+                                        {% endif %}
                                     {% else %}
                                         <button disabled
                                                 class="w-full bg-gray-600 text-gray-400 text-base font-bold py-3.5 rounded-lg cursor-not-allowed">
@@ -310,16 +344,16 @@
                                 {% if house.status == 'Available' %}
                                     <div class="mt-6 pt-6 border-t border-[#29382f]">
                                         <div class="flex justify-between text-sm text-text-secondary mb-2">
-                                            <span class="underline">{{ house.monthly_rent|floatformat:0 }} RWF x 1 month</span>
-                                            <span>{{ house.monthly_rent|floatformat:0 }} RWF</span>
+                                            <span class="underline">{{ house.monthly_rent|floatformat:0 }} FR x 1 month</span>
+                                            <span>{{ house.monthly_rent|floatformat:0 }} FR</span>
                                         </div>
                                         <div class="flex justify-between text-sm text-text-secondary mb-2">
                                             <span class="underline">Service fee</span>
-                                            <span>{% widthratio house.monthly_rent 100 3 %} RWF</span>
+                                            <span>{% widthratio house.monthly_rent 100 3 %} FR</span>
                                         </div>
                                         <div class="flex justify-between text-base font-bold text-white mt-4 pt-4 border-t border-[#29382f]">
                                             <span>Total</span>
-                                            <span>{% widthratio house.monthly_rent 1 1.03 %} RWF</span>
+                                            <span>{% widthratio house.monthly_rent 1 1.03 %} FR</span>
                                         </div>
                                     </div>
                                 {% endif %}
@@ -334,5 +368,256 @@
             </div>
         </main>
         {% include 'partial/footer.html' %}
+        <!-- Reserve Modal -->
+        <div id="reserveModal"
+             class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div class="bg-[#1a2c22] border border-[#29382f] rounded-2xl max-w-md w-full p-6 transform scale-95 opacity-0 transition-all duration-200"
+                 id="reserveModalContent">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-bold text-white">Reserve Property</h3>
+                    <button onclick="closeReserveModal()"
+                            class="text-text-secondary hover:text-white">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                <form method="POST"
+                      action="{% url 'create_reservation' house.id %}"
+                      id="reserveForm">
+                    {% csrf_token %}
+                    <!-- Start Date -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-text-secondary mb-2">Move-in Date *</label>
+                        <input type="date"
+                               name="start_date"
+                               id="reserveDate"
+                               required
+                               min="{{ today|date:'Y-m-d' }}"
+                               class="w-full bg-[#122017] border border-[#29382f] rounded-lg px-4 h-12 text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
+                               onchange="updateDisplayDate(this.value)">
+                    </div>
+                    <!-- Guests -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-text-secondary mb-2">Number of Guests *</label>
+                        <div class="relative">
+                            <button type="button"
+                                    onclick="decrementGuests('reserveGuests')"
+                                    class="absolute left-1 top-1 w-10 h-10 flex items-center justify-center text-text-secondary hover:text-white rounded bg-[#29382f] hover:bg-[#35463b] z-10">
+                                <span class="material-symbols-outlined text-base">remove</span>
+                            </button>
+                            <input type="number"
+                                   name="guests"
+                                   id="reserveGuests"
+                                   required
+                                   min="1"
+                                   value="1"
+                                   class="w-full bg-[#122017] border border-[#29382f] rounded-lg px-4 h-12 text-white text-center focus:ring-2 focus:ring-primary outline-none"
+                                   onchange="updateDisplayGuests(this.value)">
+                            <button type="button"
+                                    onclick="incrementGuests('reserveGuests')"
+                                    class="absolute right-1 top-1 w-10 h-10 flex items-center justify-center text-text-secondary hover:text-white rounded bg-[#29382f] hover:bg-[#35463b] z-10">
+                                <span class="material-symbols-outlined text-base">add</span>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Info Box -->
+                    <div class="bg-primary/5 border border-primary/20 rounded-lg p-4 mb-6">
+                        <div class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary text-lg mt-0.5">info</span>
+                            <p class="text-text-secondary text-xs leading-relaxed">
+                                Your reservation will be sent to the landlord for review. You'll be contacted to finalize the details.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Buttons -->
+                    <div class="flex gap-3">
+                        <button type="button"
+                                onclick="closeReserveModal()"
+                                class="flex-1 bg-transparent border border-[#29382f] hover:bg-[#29382f] text-white rounded-lg px-4 py-3 font-bold transition-all">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                                class="flex-1 bg-primary hover:bg-[#32c96e] text-[#111714] rounded-lg px-4 py-3 font-bold transition-all shadow-[0_4px_14px_0_rgba(56,224,123,0.39)]">
+                            Confirm Reservation
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Visit Request Modal -->
+        <div id="visitModal"
+             class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div class="bg-[#1a2c22] border border-[#29382f] rounded-2xl max-w-md w-full p-6 transform scale-95 opacity-0 transition-all duration-200"
+                 id="visitModalContent">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-bold text-white">Request Visit</h3>
+                    <button onclick="closeVisitModal()"
+                            class="text-text-secondary hover:text-white">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                <form method="POST"
+                      action="{% url 'create_visit_request' house.id %}"
+                      id="visitForm">
+                    {% csrf_token %}
+                    <!-- Visit Date -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-text-secondary mb-2">Preferred Visit Date *</label>
+                        <input type="date"
+                               name="visit_date"
+                               id="visitDate"
+                               required
+                               min="{{ today|date:'Y-m-d' }}"
+                               class="w-full bg-[#122017] border border-[#29382f] rounded-lg px-4 h-12 text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
+                               onchange="updateDisplayDate(this.value)">
+                    </div>
+                    <!-- Guests -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-text-secondary mb-2">Number of Guests *</label>
+                        <div class="relative">
+                            <button type="button"
+                                    onclick="decrementGuests('visitGuests')"
+                                    class="absolute left-1 top-1 w-10 h-10 flex items-center justify-center text-text-secondary hover:text-white rounded bg-[#29382f] hover:bg-[#35463b] z-10">
+                                <span class="material-symbols-outlined text-base">remove</span>
+                            </button>
+                            <input type="number"
+                                   name="guests"
+                                   id="visitGuests"
+                                   required
+                                   min="1"
+                                   value="1"
+                                   class="w-full bg-[#122017] border border-[#29382f] rounded-lg px-4 h-12 text-white text-center focus:ring-2 focus:ring-primary outline-none"
+                                   onchange="updateDisplayGuests(this.value)">
+                            <button type="button"
+                                    onclick="incrementGuests('visitGuests')"
+                                    class="absolute right-1 top-1 w-10 h-10 flex items-center justify-center text-text-secondary hover:text-white rounded bg-[#29382f] hover:bg-[#35463b] z-10">
+                                <span class="material-symbols-outlined text-base">add</span>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Message -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-text-secondary mb-2">Additional Message (optional)</label>
+                        <textarea name="message"
+                                  rows="3"
+                                  placeholder="Tell the landlord about your preferred time or any questions..."
+                                  class="w-full bg-[#122017] border border-[#29382f] rounded-lg px-4 py-3 text-white placeholder-text-secondary/50 focus:ring-2 focus:ring-primary focus:border-transparent outline-none resize-none"></textarea>
+                    </div>
+                    <!-- Info Box -->
+                    <div class="bg-primary/5 border border-primary/20 rounded-lg p-4 mb-6">
+                        <div class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary text-lg mt-0.5">info</span>
+                            <p class="text-text-secondary text-xs leading-relaxed">
+                                The landlord will contact you to confirm the visit date and time. Be ready to provide additional information if needed.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Buttons -->
+                    <div class="flex gap-3">
+                        <button type="button"
+                                onclick="closeVisitModal()"
+                                class="flex-1 bg-transparent border border-[#29382f] hover:bg-[#29382f] text-white rounded-lg px-4 py-3 font-bold transition-all">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                                class="flex-1 bg-primary hover:bg-[#32c96e] text-[#111714] rounded-lg px-4 py-3 font-bold transition-all shadow-[0_4px_14px_0_rgba(56,224,123,0.39)]">
+                            Send Request
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script>
+            const today = new Date().toISOString().split('T')[0];
+
+            function openReserveModal() {
+                const modal = document.getElementById('reserveModal');
+                const content = document.getElementById('reserveModalContent');
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    content.classList.remove('scale-95', 'opacity-0');
+                    content.classList.add('scale-100', 'opacity-100');
+                }, 10);
+            }
+
+            function closeReserveModal() {
+                const modal = document.getElementById('reserveModal');
+                const content = document.getElementById('reserveModalContent');
+                content.classList.add('scale-95', 'opacity-0');
+                content.classList.remove('scale-100', 'opacity-100');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    document.getElementById('reserveForm').reset();
+                }, 200);
+            }
+           
+            function openVisitModal() {
+                const modal = document.getElementById('visitModal');
+                const content = document.getElementById('visitModalContent');
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    content.classList.remove('scale-95', 'opacity-0');
+                    content.classList.add('scale-100', 'opacity-100');
+                }, 10);
+            }
+
+            function closeVisitModal() {
+                const modal = document.getElementById('visitModal');
+                const content = document.getElementById('visitModalContent');
+                content.classList.add('scale-95', 'opacity-0');
+                content.classList.remove('scale-100', 'opacity-100');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    document.getElementById('visitForm').reset();
+                }, 200);
+            }
+            
+            function incrementGuests(inputId) {
+                const input = document.getElementById(inputId);
+                input.value = parseInt(input.value || 0) + 1;
+                updateDisplayGuests(input.value);
+            }
+
+            function decrementGuests(inputId) {
+                const input = document.getElementById(inputId);
+                const val = parseInt(input.value || 1);
+                if (val > 1) {
+                    input.value = val - 1;
+                    updateDisplayGuests(input.value);
+                }
+            }
+
+           
+            function updateDisplayDate(dateValue) {
+                const displayDate = document.getElementById('displayDate');
+                if (dateValue) {
+                    const date = new Date(dateValue);
+                    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                    displayDate.textContent = date.toLocaleDateString('en-US', options);
+                }
+            }
+
+            function updateDisplayGuests(guestsValue) {
+                const displayGuests = document.getElementById('displayGuests');
+                const num = parseInt(guestsValue || 1);
+                displayGuests.textContent = `${num} guest${num > 1 ? 's' : ''}`;
+            }
+
+            
+            document.getElementById('reserveModal').addEventListener('click', function(e) {
+                if (e.target === this) closeReserveModal();
+            });
+
+            document.getElementById('visitModal').addEventListener('click', function(e) {
+                if (e.target === this) closeVisitModal();
+            });
+
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeReserveModal();
+                    closeVisitModal();
+                }
+            });
+        </script>
     </body>
 </html>

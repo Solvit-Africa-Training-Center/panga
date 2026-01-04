@@ -3,6 +3,7 @@ import datetime
 from decimal import Decimal
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
+from accounts.models import User
 
 
 
@@ -60,7 +61,7 @@ class Cell(models.Model):
 class Village(models.Model):
 
     cell = models.ForeignKey(
-        'Cell', on_delete=models.CASCADE, related_name='villages')
+        Cell, on_delete=models.CASCADE, related_name='villages')
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -95,7 +96,8 @@ class House(models.Model):
     date_of_listing = models.DateTimeField(
         auto_now_add=True, editable=False, null=True)
     label = models.CharField(max_length=200, null=True, blank=True)
-    # image = models.ImageField(upload_to='', null=True, blank=True)
+    landlord = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, blank=True)
     location = models.ForeignKey(
         Village, on_delete=models.CASCADE, related_name='houses')
     monthly_rent = models.DecimalField(
@@ -121,3 +123,30 @@ class House(models.Model):
     image_three = models.ImageField(upload_to='houses', null=True, blank=True)
     image_four = models.ImageField(upload_to='houses', null=True, blank=True)
     on_map = models.TextField(null=True, blank=True)
+
+
+class Reservation(models.Model):
+    house = models.ForeignKey(
+        House, on_delete=models.CASCADE, related_name='reservations')
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='reservations')
+    start_date = models.DateField()
+    guests = models.PositiveIntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Reservation - {self.house.label} by {self.user}"
+
+
+class VisitRequest(models.Model):
+    house = models.ForeignKey(
+        House, on_delete=models.CASCADE, related_name='visit_requests')
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='visit_requests')
+    visit_date = models.DateField()
+    guests = models.PositiveIntegerField(default=1)
+    message = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Visit request - {self.house.label} by {self.user}"
