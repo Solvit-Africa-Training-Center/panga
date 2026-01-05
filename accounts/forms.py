@@ -11,11 +11,6 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 
 class UserAdminCreationForm(forms.ModelForm):
-    """
-    A form for creating new users. Includes all the required
-    fields, plus a repeated password.
-    """
-
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'password')
@@ -68,6 +63,7 @@ class SignupForm(forms.ModelForm):
 
     def clean(self):
         phone = self.cleaned_data.get("phone")
+
         cleaned_data = super().clean()
         password = cleaned_data.get("password")
         re_password = cleaned_data.get("re_password")

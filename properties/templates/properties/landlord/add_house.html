@@ -141,6 +141,7 @@
                                             <span class="text-sm font-bold">Studio</span>
                                         </div>
                                     </label>
+                                    {% if form.property_type.errors %}<p class="text-xs text-red-600">{{ form.property_type.errors.0 }}</p>{% endif %}
                                 </div>
                             </section>
                             <hr class="border-border-dark" />
@@ -257,12 +258,14 @@
                                         </div>
                                         <!-- Village -->
                                         <div class="flex flex-col gap-1.5">
-                                            <label class="text-sm font-medium text-text-secondary">Village *</label>
+                                            <label class="text-sm font-medium text-text-secondary">
+                                                Village *
+                                                {% if form.village.errors %}<span class="text-xs text-red-600">{{ form.village.errors.0 }}</span>{% endif %}
+                                            </label>
                                             <div class="relative">
                                                 <select id="village"
                                                         name="village"
                                                         class="w-full bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white appearance-none focus:ring-2 focus:ring-primary outline-none"
-                                                        required
                                                         disabled>
                                                     <option value="">Select Village</option>
                                                 </select>
@@ -271,7 +274,12 @@
                                         </div>
                                         <!-- Street Address -->
                                         <div class="flex flex-col gap-1.5">
-                                            <label class="text-sm font-medium text-text-secondary">Street Address</label>
+                                            <label class="text-sm font-medium text-text-secondary">
+                                                Street Address
+                                                {% if form.street_address.errors %}
+                                                    <span class="text-xs text-red-600">{{ form.street_address.errors.0 }}</span>
+                                                {% endif %}
+                                            </label>
                                             <input class="bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white placeholder-text-secondary/50 focus:ring-2 focus:ring-primary outline-none"
                                                    placeholder="e.g. KG 123 St"
                                                    type="text"
@@ -284,6 +292,7 @@
                                 <div class="grid md:grid-cols-2 gap-6 mt-6">
                                     <div class="flex flex-col gap-1.5">
                                         <label class="text-sm font-medium text-text-secondary">Neighborhood</label>
+                                        {% if form.neighborhood.errors %}<p class="text-xs text-red-600">{{ form.neighborhood.errors.0 }}</p>{% endif %}
                                         <input class="bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white placeholder-text-secondary/50 focus:ring-2 focus:ring-primary outline-none"
                                                placeholder="e.g. Near Kimironko Market"
                                                type="text"
@@ -292,6 +301,7 @@
                                     </div>
                                     <div class="flex flex-col gap-1.5">
                                         <label class="text-sm font-medium text-text-secondary">Map Location (optional)</label>
+                                        {% if form.on_map.errors %}<p class="text-xs text-red-600">{{ form.on_map.errors.0 }}</p>{% endif %}
                                         <input class="bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white placeholder-text-secondary/50 focus:ring-2 focus:ring-primary outline-none"
                                                placeholder="Google Maps link or coordinates"
                                                type="text"
@@ -310,6 +320,7 @@
                                 <div class="grid md:grid-cols-2 gap-6 mb-6">
                                     <div class="flex flex-col gap-1.5">
                                         <label class="text-sm font-medium text-text-secondary">Property Label/Title</label>
+                                        {% if form.label.errors %}<p class="text-xs text-red-600">{{ form.label.errors.0 }}</p>{% endif %}
                                         <input class="bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white placeholder-text-secondary/50 focus:ring-2 focus:ring-primary outline-none"
                                                placeholder="e.g. Modern 2BR Apartment in Kimihurura"
                                                type="text"
@@ -318,11 +329,11 @@
                                     </div>
                                     <div class="flex flex-col gap-1.5">
                                         <label class="text-sm font-medium text-text-secondary">Monthly Rent (FR) *</label>
+                                        {% if form.monthly_rent.errors %}<p class="text-xs text-red-600">{{ form.monthly_rent.errors.0 }}</p>{% endif %}
                                         <input class="bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white placeholder-text-secondary/50 focus:ring-2 focus:ring-primary outline-none"
                                                placeholder="e.g. 250000"
                                                type="number"
                                                name="monthly_rent"
-                                               required
                                                min="0"
                                                step="1000"
                                                value="{% if edit_mode %}{{ house.monthly_rent }}{% endif %}" />
@@ -331,6 +342,7 @@
                                 <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mb-6">
                                     <div class="flex flex-col gap-1.5">
                                         <label class="text-sm font-medium text-text-secondary">Bedrooms *</label>
+                                        {% if form.bedrooms.errors %}<p class="text-xs text-red-600">{{ form.bedrooms.errors.0 }}</p>{% endif %}
                                         <div class="relative">
                                             <button type="button"
                                                     onclick="decrementValue('bedrooms')"
@@ -341,7 +353,6 @@
                                                    class="w-full bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white text-center focus:ring-2 focus:ring-primary outline-none"
                                                    type="number"
                                                    name="bedrooms"
-                                                   required
                                                    min="0"
                                                    value="{% if edit_mode %}{{ house.n_bed_rooms }}{% else %}1{% endif %}" />
                                             <button type="button"
@@ -353,6 +364,7 @@
                                     </div>
                                     <div class="flex flex-col gap-1.5">
                                         <label class="text-sm font-medium text-text-secondary">Bathrooms *</label>
+                                        {% if form.bathrooms.errors %}<p class="text-xs text-red-600">{{ form.bathrooms.errors.0 }}</p>{% endif %}
                                         <div class="relative">
                                             <button type="button"
                                                     onclick="decrementValue('bathrooms')"
@@ -363,7 +375,6 @@
                                                    class="w-full bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white text-center focus:ring-2 focus:ring-primary outline-none"
                                                    type="number"
                                                    name="bathrooms"
-                                                   required
                                                    min="0"
                                                    value="{% if edit_mode %}{{ house.n_bath_rooms }}{% else %}1{% endif %}" />
                                             <button type="button"
@@ -375,31 +386,31 @@
                                     </div>
                                     <div class="flex flex-col gap-1.5">
                                         <label class="text-sm font-medium text-text-secondary">Size (m²) *</label>
+                                        {% if form.surface.errors %}<p class="text-xs text-red-600">{{ form.surface.errors.0 }}</p>{% endif %}
                                         <input class="bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white placeholder-text-secondary/50 focus:ring-2 focus:ring-primary outline-none"
                                                placeholder="e.g. 120"
                                                type="number"
                                                name="surface"
-                                               required
                                                min="1"
                                                value="{% if edit_mode %}{{ house.surface }}{% endif %}" />
                                     </div>
                                     <div class="flex flex-col gap-1.5">
                                         <label class="text-sm font-medium text-text-secondary">Status *</label>
+                                        {% if form.status.errors %}<p class="text-xs text-red-600">{{ form.status.errors.0 }}</p>{% endif %}
                                         <input class="bg-surface-dark border border-border-dark rounded-lg px-4 h-12 text-white placeholder-text-secondary/50 focus:ring-2 focus:ring-primary outline-none"
                                                placeholder="Available-Rented or Under Maintenance"
                                                type="text"
                                                name="status"
-                                               required
                                                min="1"
                                                value="{% if edit_mode %}{{ house.status }}{% endif %}" />
                                     </div>
                                 </div>
                                 <div class="flex flex-col gap-1.5">
                                     <label class="text-sm font-medium text-text-secondary">Description *</label>
+                                    {% if form.description.errors %}<p class="text-xs text-red-600">{{ form.description.errors.0 }}</p>{% endif %}
                                     <textarea class="bg-surface-dark border border-border-dark rounded-lg p-4 text-white placeholder-text-secondary/50 focus:ring-2 focus:ring-primary outline-none resize-none"
                                               placeholder="Describe the property, nearby landmarks, and unique features..."
                                               name="description"
-                                              required
                                               rows="5">{% if edit_mode %}{{ house.description }}{% endif %}</textarea>
                                 </div>
                             </section>
@@ -412,6 +423,7 @@
                                 </h3>
                                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
                                     <label class="flex items-center gap-3 p-4 rounded-lg border border-border-dark bg-surface-dark cursor-pointer hover:bg-[#22362b] transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/10">
+                                        {% if form.wifi.errors %}<p class="text-xs text-red-600">{{ form.wifi.errors.0 }}</p>{% endif %}
                                         <input class="w-5 h-5 rounded border-gray-600 text-primary focus:ring-primary bg-gray-800"
                                                type="checkbox"
                                                name="wifi"
@@ -423,6 +435,7 @@
                                     </label>
                                     <div class="flex flex-col gap-1.5 col-span-2 sm:col-span-1">
                                         <label class="text-sm font-medium text-text-secondary px-1">Parking Spaces</label>
+                                        {% if form.parkings.errors %}<p class="text-xs text-red-600">{{ form.parkings.errors.0 }}</p>{% endif %}
                                         <div class="relative">
                                             <button type="button"
                                                     onclick="decrementValue('parkings')"
@@ -452,6 +465,7 @@
                                     Property Photos
                                 </h3>
                                 <p class="text-text-secondary text-sm mb-6">Upload up to 5 photos. First image will be the main photo.</p>
+                                {% if form.main_image.errors %}<p class="text-xs text-red-600">{{ form.main_image.errors.0 }}</p>{% endif %}
                                 <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                                     <!-- Main Image -->
                                     <div class="relative group">
@@ -591,127 +605,125 @@
                 </main>
             </div>
         </div>
-        <!-- JavaScript -->
         <script>
-    // Increment/Decrement functions
-    function incrementValue(id) {
-        const input = document.getElementById(id);
-        input.value = parseInt(input.value || 0) + 1;
-    }
+            function incrementValue(id) {
+                const input = document.getElementById(id);
+                input.value = parseInt(input.value || 0) + 1;
+            }
 
-    function decrementValue(id) {
-        const input = document.getElementById(id);
-        const val = parseInt(input.value || 0);
-        if (val > 0) input.value = val - 1;
-    }
+            function decrementValue(id) {
+                const input = document.getElementById(id);
+                const val = parseInt(input.value || 0);
+                if (val > 0) input.value = val - 1;
+            }
 
-    // Image preview
-    function previewImage(input, previewId) {
-        const preview = document.getElementById(previewId);
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                preview.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover" alt="Preview">`;
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
+           
+            function previewImage(input, previewId) {
+                const preview = document.getElementById(previewId);
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        preview.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover" alt="Preview">`;
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
 
-    // Location cascade (AJAX)
-    document.getElementById('country').addEventListener('change', async function() {
-        const countryId = this.value;
-        const response = await fetch(`/api/provinces/?country_id=${countryId}`);
-        const data = await response.json();
-        updateSelect('province', data.provinces, true);
-        resetSelects(['city', 'district', 'sector', 'cell', 'village']);
-    });
+           
+            document.getElementById('country').addEventListener('change', async function() {
+                const countryId = this.value;
+                const response = await fetch(`/api/provinces/?country_id=${countryId}`);
+                const data = await response.json();
+                updateSelect('province', data.provinces, true);
+                resetSelects(['city', 'district', 'sector', 'cell', 'village']);
+            });
 
-    document.getElementById('province').addEventListener('change', async function() {
-        const provinceId = this.value;
-        const response = await fetch(`/api/cities/?province_id=${provinceId}`);
-        const data = await response.json();
-        updateSelect('city', data.cities, true);
-        resetSelects(['district', 'sector', 'cell', 'village']);
-    });
+            document.getElementById('province').addEventListener('change', async function() {
+                const provinceId = this.value;
+                const response = await fetch(`/api/cities/?province_id=${provinceId}`);
+                const data = await response.json();
+                updateSelect('city', data.cities, true);
+                resetSelects(['district', 'sector', 'cell', 'village']);
+            });
 
-    document.getElementById('city').addEventListener('change', async function() {
-        const cityId = this.value;
-        const response = await fetch(`/api/districts/?city_id=${cityId}`);
-        const data = await response.json();
-        updateSelect('district', data.districts, true);
-        resetSelects(['sector', 'cell', 'village']);
-    });
+            document.getElementById('city').addEventListener('change', async function() {
+                const cityId = this.value;
+                const response = await fetch(`/api/districts/?city_id=${cityId}`);
+                const data = await response.json();
+                updateSelect('district', data.districts, true);
+                resetSelects(['sector', 'cell', 'village']);
+            });
 
-    document.getElementById('district').addEventListener('change', async function() {
-        const districtId = this.value;
-        const response = await fetch(`/api/sectors/?district_id=${districtId}`);
-        const data = await response.json();
-        updateSelect('sector', data.sectors, true);
-        resetSelects(['cell', 'village']);
-    });
+            document.getElementById('district').addEventListener('change', async function() {
+                const districtId = this.value;
+                const response = await fetch(`/api/sectors/?district_id=${districtId}`);
+                const data = await response.json();
+                updateSelect('sector', data.sectors, true);
+                resetSelects(['cell', 'village']);
+            });
 
-    document.getElementById('sector').addEventListener('change', async function() {
-        const sectorId = this.value;
-        const response = await fetch(`/api/cells/?sector_id=${sectorId}`);
-        const data = await response.json();
-        updateSelect('cell', data.cells, true);
-        resetSelects(['village']);
-    });
+            document.getElementById('sector').addEventListener('change', async function() {
+                const sectorId = this.value;
+                const response = await fetch(`/api/cells/?sector_id=${sectorId}`);
+                const data = await response.json();
+                updateSelect('cell', data.cells, true);
+                resetSelects(['village']);
+            });
 
-    document.getElementById('cell').addEventListener('change', async function() {
-        const cellId = this.value;
-        const response = await fetch(`/api/villages/?cell_id=${cellId}`);
-        const data = await response.json();
-        updateSelect('village', data.villages, true);
-    });
+            document.getElementById('cell').addEventListener('change', async function() {
+                const cellId = this.value;
+                const response = await fetch(`/api/villages/?cell_id=${cellId}`);
+                const data = await response.json();
+                updateSelect('village', data.villages, true);
+            });
 
-    function updateSelect(selectId, options, enable) {
-        const select = document.getElementById(selectId);
-        select.innerHTML = `<option value="">Select ${selectId.charAt(0).toUpperCase() + selectId.slice(1)}</option>`;
-        options.forEach(opt => {
-            const option = document.createElement('option');
-            option.value = opt.id;
-            option.textContent = opt.name;
-            select.appendChild(option);
-        });
-        select.disabled = !enable;
-    }
+            function updateSelect(selectId, options, enable) {
+                const select = document.getElementById(selectId);
+                select.innerHTML = `<option value="">Select ${selectId.charAt(0).toUpperCase() + selectId.slice(1)}</option>`;
+                options.forEach(opt => {
+                    const option = document.createElement('option');
+                    option.value = opt.id;
+                    option.textContent = opt.name;
+                    select.appendChild(option);
+                });
+                select.disabled = !enable;
+            }
 
-    function resetSelects(selectIds) {
-        selectIds.forEach(id => {
-            const select = document.getElementById(id);
-            select.innerHTML = `<option value="">Select ${id.charAt(0).toUpperCase() + id.slice(1)}</option>`;
-            select.disabled = true;
-        });
-    }
+            function resetSelects(selectIds) {
+                selectIds.forEach(id => {
+                    const select = document.getElementById(id);
+                    select.innerHTML = `<option value="">Select ${id.charAt(0).toUpperCase() + id.slice(1)}</option>`;
+                    select.disabled = true;
+                });
+            }
 
-    // Initialize edit mode
-    {% if edit_mode %}
-    window.addEventListener('DOMContentLoaded', async function() {
-        // Trigger cascades for edit mode
-        const countrySelect = document.getElementById('country');
-        if (countrySelect.value) {
-            countrySelect.dispatchEvent(new Event('change'));
-            await new Promise(r => setTimeout(r, 200));
-            document.getElementById('province').value = '{{ selected_province.id }}';
-            document.getElementById('province').dispatchEvent(new Event('change'));
-            await new Promise(r => setTimeout(r, 200));
-            document.getElementById('city').value = '{{ selected_city.id }}';
-            document.getElementById('city').dispatchEvent(new Event('change'));
-            await new Promise(r => setTimeout(r, 200));
-            document.getElementById('district').value = '{{ selected_district.id }}';
-            document.getElementById('district').dispatchEvent(new Event('change'));
-            await new Promise(r => setTimeout(r, 200));
-            document.getElementById('sector').value = '{{ selected_sector.id }}';
-            document.getElementById('sector').dispatchEvent(new Event('change'));
-            await new Promise(r => setTimeout(r, 200));
-            document.getElementById('cell').value = '{{ selected_cell.id }}';
-            document.getElementById('cell').dispatchEvent(new Event('change'));
-            await new Promise(r => setTimeout(r, 200));
-            document.getElementById('village').value = '{{ selected_village.id }}';
-        }
-    });
-    {% endif %}
+        
+            {% if edit_mode %}
+            window.addEventListener('DOMContentLoaded', async function() {
+                
+                const countrySelect = document.getElementById('country');
+                if (countrySelect.value) {
+                    countrySelect.dispatchEvent(new Event('change'));
+                    await new Promise(r => setTimeout(r, 200));
+                    document.getElementById('province').value = '{{ selected_province.id }}';
+                    document.getElementById('province').dispatchEvent(new Event('change'));
+                    await new Promise(r => setTimeout(r, 200));
+                    document.getElementById('city').value = '{{ selected_city.id }}';
+                    document.getElementById('city').dispatchEvent(new Event('change'));
+                    await new Promise(r => setTimeout(r, 200));
+                    document.getElementById('district').value = '{{ selected_district.id }}';
+                    document.getElementById('district').dispatchEvent(new Event('change'));
+                    await new Promise(r => setTimeout(r, 200));
+                    document.getElementById('sector').value = '{{ selected_sector.id }}';
+                    document.getElementById('sector').dispatchEvent(new Event('change'));
+                    await new Promise(r => setTimeout(r, 200));
+                    document.getElementById('cell').value = '{{ selected_cell.id }}';
+                    document.getElementById('cell').dispatchEvent(new Event('change'));
+                    await new Promise(r => setTimeout(r, 200));
+                    document.getElementById('village').value = '{{ selected_village.id }}';
+                }
+            });
+            {% endif %}
         </script>
     </body>
 </html>

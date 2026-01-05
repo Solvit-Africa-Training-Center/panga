@@ -67,12 +67,15 @@ def verify_account_view(request):
 def login_view(request):
     if request.user.is_authenticated:
         return redirect("home")
+
     form = CustomLoginForm(request, data=request.POST or None)
 
     if request.method == "POST":
         if form.is_valid():
             login(request, form.get_user())
             # messages.success(request, "Welcome to Gukodesha!")
+            if request.user.role == "LANDLORD":
+                return redirect('landlord_dashboard')
             return redirect("home")
 
     return render(request, "accounts/c_login.html", {"form": form})

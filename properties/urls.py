@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import *
+from .locations import get_cells, get_cities, get_districts, get_provinces, get_sectors, get_villages
 
 # app_name = 'properties'
 

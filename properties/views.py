@@ -1,12 +1,29 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import House, Country, Province, City, District, Sector, Cell, Village, Reservation, VisitRequest
+from .models import House, Country, District, Reservation, VisitRequest
 from django.views.decorators.http import require_http_methods
-from django.http import JsonResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from utils.general_search import search_houses
-from datetime import datetime, date
+from .forms import HouseForm, VisitRequestForm, ReservationForm
+
+
+def home(request):
+    houses = (
+        House.objects
+        .filter(is_active=True, status="Available")
+        .order_by("-date_of_listing")[:3]
+    )
+    housing_types = House.housing_types,
+
+    districts = District.objects.all()
+    context = {
+        "houses": houses,
+        "districts": districts,
+        "housing_types": housing_types,
+    }
+
+    return render(request, "properties/homepage.html", context)
 
 
 def search_results(request):
@@ -27,24 +44,6 @@ def search_results(request):
     }
 
     return render(request, "properties/all/search_results.html", context)
-
-
-def home(request):
-    houses = (
-        House.objects
-        .filter(is_active=True, status="Available")
-        .order_by("-date_of_listing")[:3]
-    )
-    housing_types = House.housing_types,
-
-    districts = District.objects.all()
-    context = {
-        "houses": houses,
-        "districts": districts,
-        "housing_types": housing_types,
-    }
-
-    return render(request, "properties/homepage.html", context)
 
 
 def all_houses(request):
@@ -87,141 +86,65 @@ def house_detail(request, pk):
     return render(request, "properties/all/details_house.html", context)
 
 
-def about_us(request):
-    return render(request, "properties/gukodesha/about.html", {})
-
-
-def faq(request):
-    return render(request, "properties/gukodesha/faq.html", {})
-
-
-def contact(request):
-    return render(request, "properties/gukodesha/contact_us.html", {})
-
-
 @login_required
 def add_house(request):
     if request.user.role != "LANDLORD":
-        return redirect('home')
-    if request.method == 'POST':
-        try:
-            house_type = request.POST.get('property_type')
-            street_address = request.POST.get('street_address')
-            neighborhood = request.POST.get('neighborhood')
-            village_id = request.POST.get('village')
-            n_bed_rooms = request.POST.get('bedrooms')
-            n_bath_rooms = request.POST.get('bathrooms')
-            surface = request.POST.get('surface')
-            description = request.POST.get('description')
-            monthly_rent = request.POST.get('monthly_rent')
-            label = request.POST.get('label')
-            status = request.POST.get('status')
+        return redirect("home")
 
-            has_wifi = request.POST.get('wifi') == 'on'
-            parkings = int(request.POST.get('parkings', 0))
+    if request.method == "POST":
+        form = HouseForm(request.POST, request.FILES)
 
-            on_map = request.POST.get('on_map', '')
-
-            if not all([house_type, village_id, n_bed_rooms, n_bath_rooms, surface, description, monthly_rent, status]):
-                messages.error(request, 'Please fill all required fields.')
-                return redirect('add_house')
-
-            village = get_object_or_404(Village, id=village_id)
-
-            house = House.objects.create(
-                type=house_type,
-                landlord=request.user,
-                location=village,
-                street_address=street_address,
-                neighborhood=neighborhood,
-                n_bed_rooms=int(n_bed_rooms),
-                n_bath_rooms=int(n_bath_rooms),
-                surface=int(surface),
-                description=description,
-                monthly_rent=float(monthly_rent),
-                label=label,
-                has_wifi=has_wifi,
-                parkings=parkings,
-                on_map=on_map,
-                status=status
-            )
-
-            if 'main_image' in request.FILES:
-                house.main_image = request.FILES['main_image']
-            if 'image_one' in request.FILES:
-                house.image_one = request.FILES['image_one']
-            if 'image_two' in request.FILES:
-                house.image_two = request.FILES['image_two']
-            if 'image_three' in request.FILES:
-                house.image_three = request.FILES['image_three']
-            if 'image_four' in request.FILES:
-                house.image_four = request.FILES['image_four']
-
-            house.save()
-
-            messages.success(
-                request, f'Property "{house.label or house.type}" has been added successfully!')
-            return redirect('landlord_properties')
-
-        except Exception as e:
-            messages.error(request, f'Error adding property: {str(e)}')
-            return redirect('add_house')
-
+        if form.is_valid():
+            house = form.save(user=request.user)
+            messages.success(request, "Property added successfully!")
+            return redirect("landlord_properties")
+        else:
+            messages.error(request, "Please fix the errors.")
+    else:
+        form = HouseForm()
     countries = Country.objects.all()
-    return render(request, 'properties/landlord/add_house.html', {
+
+    return render(request, "properties/landlord/add_house.html", {
+        "form": form,
         'countries': countries,
-        'edit_mode': False
+        "edit_mode": False,
     })
 
 
 @login_required
 def edit_house(request, house_id):
     if request.user.role != "LANDLORD":
-        return redirect('home')
+        return redirect("home")
+
     house = get_object_or_404(House, id=house_id, landlord=request.user)
 
-    if request.method == 'POST':
-        try:
-            house.type = request.POST.get('property_type')
-            house.status = request.POST.get('status')
-            house.street_address = request.POST.get('street_address')
-            house.neighborhood = request.POST.get('neighborhood')
-            house.n_bed_rooms = int(request.POST.get('bedrooms'))
-            house.n_bath_rooms = int(request.POST.get('bathrooms'))
-            house.surface = int(request.POST.get('surface'))
-            house.description = request.POST.get('description')
-            house.monthly_rent = float(request.POST.get('monthly_rent'))
-            house.label = request.POST.get('label')
-            house.has_wifi = request.POST.get('wifi') == 'on'
-            house.parkings = int(request.POST.get('parkings', 0))
-            house.on_map = request.POST.get('on_map', '')
+    if request.method == "POST":
+        form = HouseForm(
+            request.POST,
+            request.FILES,
+            instance=house
+        )
 
-            village_id = request.POST.get('village')
-            if village_id:
-                house.location = get_object_or_404(Village, id=village_id)
-
-            if 'main_image' in request.FILES:
-                house.main_image = request.FILES['main_image']
-            if 'image_one' in request.FILES:
-                house.image_one = request.FILES['image_one']
-            if 'image_two' in request.FILES:
-                house.image_two = request.FILES['image_two']
-            if 'image_three' in request.FILES:
-                house.image_three = request.FILES['image_three']
-            if 'image_four' in request.FILES:
-                house.image_four = request.FILES['image_four']
-
-            house.save()
-
+        if form.is_valid():
+            form.save()
             messages.success(
-                request, f'Property "{house.label or house.type}" has been updated successfully!')
-            return redirect('landlord_properties')
-
-        except Exception as e:
-            messages.error(request, f"Error updating property: {str(e)}")
-            return redirect("edit_house", house_id=house_id)
-
-    countries = Country.objects.all()
+                request,
+                f'Property "{house.label or house.type}" updated successfully!'
+            )
+            return redirect("landlord_properties")
+        else:
+            messages.error(request, "Please correct the errors below.")
+    else:
+        form = HouseForm(
+            instance=house,
+            initial={
+                "property_type": house.type,
+                "village": house.location,
+                "bedrooms": house.n_bed_rooms,
+                "bathrooms": house.n_bath_rooms,
+                "wifi": house.has_wifi,
+            }
+        )
 
     village = house.location
     cell = village.cell
@@ -231,17 +154,18 @@ def edit_house(request, house_id):
     province = city.province
     country = province.country
 
-    return render(request, 'properties/landlord/add_house.html', {
-        'house': house,
-        'countries': countries,
-        'edit_mode': True,
-        'selected_country': country,
-        'selected_province': province,
-        'selected_city': city,
-        'selected_district': district,
-        'selected_sector': sector,
-        'selected_cell': cell,
-        'selected_village': village,
+    return render(request, "properties/landlord/add_house.html", {
+        "form": form,
+        "house": house,
+        "edit_mode": True,
+        "countries": Country.objects.all(),
+        "selected_country": country,
+        "selected_province": province,
+        "selected_city": city,
+        "selected_district": district,
+        "selected_sector": sector,
+        "selected_cell": cell,
+        "selected_village": village,
     })
 
 
@@ -263,64 +187,6 @@ def delete_house(request, house_id):
     return redirect('landlord_properties')
 
 
-@require_http_methods(["GET"])
-def get_provinces(request):
-    country_id = request.GET.get('country_id')
-    if country_id:
-        provinces = Province.objects.filter(
-            country_id=country_id).values('id', 'name')
-        return JsonResponse({'provinces': list(provinces)})
-    return JsonResponse({'provinces': []})
-
-
-@require_http_methods(["GET"])
-def get_cities(request):
-    province_id = request.GET.get('province_id')
-    if province_id:
-        cities = City.objects.filter(
-            province_id=province_id).values('id', 'name')
-        return JsonResponse({'cities': list(cities)})
-    return JsonResponse({'cities': []})
-
-
-@require_http_methods(["GET"])
-def get_districts(request):
-    city_id = request.GET.get('city_id')
-    if city_id:
-        districts = District.objects.filter(
-            city_id=city_id).values('id', 'name')
-        return JsonResponse({'districts': list(districts)})
-    return JsonResponse({'districts': []})
-
-
-@require_http_methods(["GET"])
-def get_sectors(request):
-    district_id = request.GET.get('district_id')
-    if district_id:
-        sectors = Sector.objects.filter(
-            district_id=district_id).values('id', 'name')
-        return JsonResponse({'sectors': list(sectors)})
-    return JsonResponse({'sectors': []})
-
-
-@require_http_methods(["GET"])
-def get_cells(request):
-    sector_id = request.GET.get('sector_id')
-    if sector_id:
-        cells = Cell.objects.filter(sector_id=sector_id).values('id', 'name')
-        return JsonResponse({'cells': list(cells)})
-    return JsonResponse({'cells': []})
-
-
-@require_http_methods(["GET"])
-def get_villages(request):
-    cell_id = request.GET.get('cell_id')
-    if cell_id:
-        villages = Village.objects.filter(cell_id=cell_id).values('id', 'name')
-        return JsonResponse({'villages': list(villages)})
-    return JsonResponse({'villages': []})
-
-
 @login_required
 def landlord_properties(request):
     if request.user.role != "LANDLORD":
@@ -335,8 +201,8 @@ def landlord_properties(request):
 @login_required
 @require_http_methods(["POST"])
 def create_reservation(request, house_id):
-
     house = get_object_or_404(House, id=house_id)
+
     if house.status != 'Available':
         messages.error(
             request, 'This property is not available for reservation.')
@@ -346,50 +212,14 @@ def create_reservation(request, house_id):
         messages.error(request, 'You cannot reserve your own property.')
         return redirect('house_detail', pk=house_id)
 
-    try:
-        start_date_str = request.POST.get('start_date')
-        guests = request.POST.get('guests')
+    form = ReservationForm(request.POST, user=request.user, house=house)
 
-        if not start_date_str or not guests:
-            messages.error(request, 'Please fill in all required fields.')
-            return redirect('house_detail', pk=house_id)
-
-        try:
-            start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
-        except ValueError:
-            messages.error(request, 'Invalid date format.')
-            return redirect('house_detail', pk=house_id)
-
-        if start_date < date.today():
-            messages.error(request, 'Please select a future date.')
-            return redirect('house_detail', pk=house_id)
-
-        try:
-            guests = int(guests)
-            if guests < 1:
-                raise ValueError()
-        except ValueError:
-            messages.error(request, 'Please enter a valid number of guests.')
-            return redirect('house_detail', pk=house_id)
-
-        existing_reservation = Reservation.objects.filter(
-            house=house,
-            user=request.user,
-            start_date__gte=date.today()
-        ).exists()
-
-        if existing_reservation:
-            messages.warning(
-                request, 'You already have a pending reservation for this property.')
-            return redirect('house_detail', pk=house_id)
-
-        reservation = Reservation.objects.create(
-            house=house,
-            user=request.user,
-            start_date=start_date,
-            guests=guests
-        )
-
+    if form.is_valid():
+        reservation = form.save(commit=False)
+        reservation.house = house
+        reservation.user = request.user
+        reservation.status = 'Pending'
+        reservation.save()
         messages.success(
             request,
             f'Your reservation for {house.label or house.type} has been submitted! '
@@ -397,9 +227,14 @@ def create_reservation(request, house_id):
         )
         return redirect('my_reservations')
 
-    except Exception as e:
-        messages.error(request, f'Error creating reservation: {str(e)}')
-        return redirect('house_detail', pk=house_id)
+    # Show form errors
+    for error in form.non_field_errors():
+        messages.error(request, error)
+    for field, errors in form.errors.items():
+        for error in errors:
+            messages.error(request, error)
+
+    return redirect('house_detail', pk=house_id)
 
 
 @login_required
@@ -407,72 +242,41 @@ def create_reservation(request, house_id):
 def create_visit_request(request, house_id):
     house = get_object_or_404(House, id=house_id)
 
-    if house.status != 'Available':
-        messages.error(request, 'This property is not available for visits.')
-        return redirect('house_detail', pk=house_id)
+    if house.status != "Available":
+        messages.error(request, "This property is not available for visits.")
+        return redirect("house_detail", pk=house_id)
 
     if house.landlord == request.user:
         messages.error(
-            request, 'You cannot request a visit to your own property.')
-        return redirect('house_detail', pk=house_id)
+            request, "You cannot request a visit to your own property.")
+        return redirect("house_detail", pk=house_id)
 
-    try:
-        visit_date_str = request.POST.get('visit_date')
-        guests = request.POST.get('guests')
-        message = request.POST.get('message', '')
+    form = VisitRequestForm(
+        request.POST,
+        user=request.user,
+        house=house
+    )
 
-        if not visit_date_str or not guests:
-            messages.error(request, 'Please fill in all required fields.')
-            return redirect('house_detail', pk=house_id)
-
-        try:
-            visit_date = datetime.strptime(visit_date_str, '%Y-%m-%d').date()
-        except ValueError:
-            messages.error(request, 'Invalid date format.')
-            return redirect('house_detail', pk=house_id)
-
-        if visit_date < date.today():
-            messages.error(request, 'Please select a future date.')
-            return redirect('house_detail', pk=house_id)
-
-        try:
-            guests = int(guests)
-            if guests < 1:
-                raise ValueError()
-        except ValueError:
-            messages.error(request, 'Please enter a valid number of guests.')
-            return redirect('house_detail', pk=house_id)
-
-        existing_request = VisitRequest.objects.filter(
-            house=house,
-            user=request.user,
-            visit_date__gte=date.today()
-        ).exists()
-
-        if existing_request:
-            messages.warning(
-                request, 'You already have a pending visit request for this property.')
-            return redirect('house_detail', pk=house_id)
-
-        visit_request = VisitRequest.objects.create(
-            house=house,
-            user=request.user,
-            visit_date=visit_date,
-            guests=guests,
-            message=message,
-            status="Pending"
-        )
+    if form.is_valid():
+        visit_request = form.save(commit=False)
+        visit_request.house = house
+        visit_request.user = request.user
+        visit_request.status = "Pending"
+        visit_request.save()
 
         messages.success(
             request,
-            f'Your visit request for {house.label or house.type} has been submitted! '
-            f'The landlord will contact you to confirm the visit.'
+            f"Your visit request for {house.label or house.type} has been submitted!"
         )
-        return redirect('my_visit_requests')
+        return redirect("my_visit_requests")
 
-    except Exception as e:
-        messages.error(request, f'Error creating visit request: {str(e)}')
-        return redirect('house_detail', pk=house_id)
+    for error in form.non_field_errors():
+        messages.error(request, error)
+    for field, errors in form.errors.items():
+        for error in errors:
+            messages.error(request, error)
+
+    return redirect("house_detail", pk=house_id)
 
 
 @login_required
@@ -502,10 +306,8 @@ def my_visit_requests(request):
 @login_required
 @require_http_methods(["POST"])
 def cancel_reservation(request, reservation_id):
-
     reservation = get_object_or_404(
         Reservation, id=reservation_id, user=request.user)
-
     try:
         house_label = reservation.house.label or reservation.house.type
         reservation.delete()
@@ -610,7 +412,6 @@ def landlord_reject_reservation(request, reservation_id):
         id=reservation_id,
         house__landlord=request.user
     )
-
     try:
         house_label = reservation.house.label or reservation.house.type
         user_name = reservation.user.get_full_name() or reservation.user.username
@@ -631,14 +432,10 @@ def landlord_reject_reservation(request, reservation_id):
 @require_http_methods(["POST"])
 def landlord_accept_visit_request(request, visit_request_id):
     visit_request = get_object_or_404(
-        VisitRequest,
-        id=visit_request_id,
-        house__landlord=request.user
-    )
+        VisitRequest, id=visit_request_id, house__landlord=request.user)
     try:
         house_label = visit_request.house.label or visit_request.house.type
         user_name = visit_request.user.get_full_name() or visit_request.user.username
-
         visit_request.status = "Accepted"
         visit_request.save()
 
@@ -647,8 +444,6 @@ def landlord_accept_visit_request(request, visit_request_id):
             f'Visit request accepted! Please contact {user_name} at {visit_request.user.email} or {visit_request.user.phone} '
             f'to confirm the visit to {house_label} on {visit_request.visit_date.strftime("%B %d, %Y")}.'
         )
-
-        # visit_request.delete()
 
     except Exception as e:
         messages.error(request, f'Error accepting visit request: {str(e)}')
@@ -660,20 +455,14 @@ def landlord_accept_visit_request(request, visit_request_id):
 @require_http_methods(["POST"])
 def landlord_reject_visit_request(request, visit_request_id):
     visit_request = get_object_or_404(
-        VisitRequest,
-        id=visit_request_id,
-        house__landlord=request.user
-    )
+        VisitRequest, id=visit_request_id, house__landlord=request.user)
     try:
         house_label = visit_request.house.label or visit_request.house.type
         user_name = visit_request.user.get_full_name() or visit_request.user.username
         visit_request.status = "Refused"
         visit_request.save()
-
         messages.success(
-            request,
-            f'Visit request from {user_name} for {house_label} has been rejected.'
-        )
+            request, f'Visit request from {user_name} for {house_label} has been rejected.')
 
     except Exception as e:
         messages.error(request, f'Error rejecting visit request: {str(e)}')
@@ -719,3 +508,15 @@ def landlord_dashboard(request):
     }
 
     return render(request, 'properties/landlord/landlord_dashboard.html', context)
+
+
+def about_us(request):
+    return render(request, "properties/gukodesha/about.html", {})
+
+
+def faq(request):
+    return render(request, "properties/gukodesha/faq.html", {})
+
+
+def contact(request):
+    return render(request, "properties/gukodesha/contact_us.html", {})
