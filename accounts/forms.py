@@ -1,3 +1,8 @@
+from .models import User, VerificationCode
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.utils import timezone
+from .models import VerificationCode
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
@@ -11,11 +16,6 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 
 class UserAdminCreationForm(forms.ModelForm):
-    """
-    A form for creating new users. Includes all the required
-    fields, plus a repeated password.
-    """
-
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'password')
@@ -68,6 +68,7 @@ class SignupForm(forms.ModelForm):
 
     def clean(self):
         phone = self.cleaned_data.get("phone")
+
         cleaned_data = super().clean()
         password = cleaned_data.get("password")
         re_password = cleaned_data.get("re_password")
@@ -133,7 +134,43 @@ class SignupForm(forms.ModelForm):
 
 
 class VerificationCodeForm(forms.Form):
-    code = forms.CharField(max_length=6)
+    code = forms.CharField(max_length=6, required=True)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        code = cleaned_data.get("code")
+
+        try:
+            code_obj = VerificationCode.objects.get(
+                code=code,
+                label=VerificationCode.SIGNUP,
+                is_pending=True
+            )
+        except VerificationCode.DoesNotExist:
+            raise ValidationError("Invalid code or expired code")
+
+        if not code_obj.user:
+            raise ValidationError("This code is not associated with any user")
+
+        if not code_obj.is_valid:
+            raise ValidationError("Code has expired")
+
+        self.code_obj = code_obj
+        return cleaned_data
+
+    def save(self):
+        code_obj = getattr(self, "code_obj", None)
+        if not code_obj:
+            raise ValueError(
+                "Cannot save without a valid code. Call clean() first.")
+
+        user = code_obj.user
+        user.is_active = True
+        user.save()
+        code_obj.is_pending = False
+        code_obj.save()
+
+        return user
 
 
 class CustomLoginForm(AuthenticationForm):
@@ -162,35 +199,105 @@ class CustomLoginForm(AuthenticationForm):
 
 
 class ForgotPasswordForm(forms.Form):
-    email = forms.EmailField()
+    email = forms.EmailField(label="Email")
 
     def clean_email(self):
         email = self.cleaned_data.get("email")
-        if not User.objects.filter(email=email).exists():
+        try:
+            self.user = User.objects.get(email=email)
+        except User.DoesNotExist:
             raise ValidationError("No account with this email")
         return email
 
+    def send_reset_code(self):
+        code = random_with_N_digits(6)
+        VerificationCode.objects.create(
+            user=self.user,
+            code=code,
+            label=VerificationCode.RESET_PASSWORD,
+            email=self.cleaned_data["email"]
+        )
+
+        send_email_custom(
+            self.cleaned_data["email"],
+            "Password reset code",
+            "email/code_email.html",
+            {
+                "title": "Reset your password",
+                "message": "Use the following code to reset your password:",
+                "code": code,
+            }
+        )
+        return code
+
 
 class ResetPasswordForm(forms.Form):
-    new_password = forms.CharField(widget=forms.PasswordInput)
-    repeat_password = forms.CharField(widget=forms.PasswordInput)
+    code = forms.CharField(label="Reset Code")
+    new_password = forms.CharField(
+        widget=forms.PasswordInput, label="New Password")
+    repeat_password = forms.CharField(
+        widget=forms.PasswordInput, label="Repeat Password")
+    # email = forms.EmailField(widget=forms.HiddenInput)
+
+    def __init__(self, *args, **kwargs):
+        self.email = kwargs.pop('email', None)
+        super().__init__(*args, **kwargs)
 
     def clean(self):
         cleaned_data = super().clean()
         password1 = cleaned_data.get("new_password")
         password2 = cleaned_data.get("repeat_password")
+        code = cleaned_data.get("code")
 
         if password1 != password2:
             raise ValidationError("Passwords do not match")
+        if not password1:
+            raise ValidationError("Please input the password")
 
         validate_password(password1)
+        try:
+            code_obj = VerificationCode.objects.get(
+                code=code,
+                label=VerificationCode.RESET_PASSWORD,
+                email=self.email,
+                is_pending=True
+            )
+        except VerificationCode.DoesNotExist:
+            raise ValidationError({"code": "Invalid code"})
+
+        if not code_obj.is_valid:
+            raise ValidationError({"code": "Code expired"})
+
+        self.user = code_obj.user
+        self.code_obj = code_obj
+
         return cleaned_data
+
+    def save(self):
+        self.user.set_password(self.cleaned_data["new_password"])
+        self.user.save()
+
+        self.code_obj.is_pending = False
+        self.code_obj.save()
 
 
 class ChangePasswordForm(forms.Form):
-    old_password = forms.CharField(widget=forms.PasswordInput)
-    new_password = forms.CharField(widget=forms.PasswordInput)
-    repeat_password = forms.CharField(widget=forms.PasswordInput)
+    old_password = forms.CharField(
+        widget=forms.PasswordInput, label="Old Password")
+    new_password = forms.CharField(
+        widget=forms.PasswordInput, label="New Password")
+    repeat_password = forms.CharField(
+        widget=forms.PasswordInput, label="Repeat Password")
+
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user = user
+
+    def clean_old_password(self):
+        old_password = self.cleaned_data.get("old_password")
+        if not self.user.check_password(old_password):
+            raise ValidationError("Old password is incorrect")
+        return old_password
 
     def clean(self):
         cleaned_data = super().clean()
@@ -202,6 +309,10 @@ class ChangePasswordForm(forms.Form):
 
         validate_password(new_password)
         return cleaned_data
+
+    def save(self):
+        self.user.set_password(self.cleaned_data["new_password"])
+        self.user.save()
 
 
 class UserProfileForm(forms.ModelForm):

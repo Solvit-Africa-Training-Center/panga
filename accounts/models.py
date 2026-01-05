@@ -138,9 +138,3 @@ class VerificationCode(models.Model):
     def is_valid(self):
         expiration_time = self.created_on + settings.VERIFICATION_CODE_LIFETIME
         return timezone.now() < expiration_time and self.is_pending
-
-    @staticmethod
-    def generate_code(n=6):
-        range_start = 10**(n-1)
-        range_end = (10**n)-1
-        return random.randint(range_start, range_end)

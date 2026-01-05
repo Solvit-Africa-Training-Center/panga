@@ -20,9 +20,7 @@ def signup_view(request):
         if form.is_valid():
             form.save()
             messages.success(
-                request,
-                "Account created. Check your email for the activation code."
-            )
+                request, "Account created. Check your email for the activation code.")
             return redirect("verify_account")
         else:
             print(form.errors)
@@ -36,30 +34,10 @@ def verify_account_view(request):
     if request.method == "POST":
         form = VerificationCodeForm(request.POST)
         if form.is_valid():
-            code = form.cleaned_data["code"]
-            try:
-                code_obj = VerificationCode.objects.get(
-                    code=code,
-                    label=VerificationCode.SIGNUP,
-                    is_pending=True
-                )
-            except VerificationCode.DoesNotExist:
-                messages.error(request, "Invalid or expired code")
-                return redirect("verify_account")
-
-            if not code_obj.is_valid:
-                messages.error(request, "Code expired")
-                return redirect("verify_account")
-
-            user = code_obj.user
-            user.is_active = True
-            user.save()
-
-            code_obj.is_pending = False
-            code_obj.save()
-
             messages.success(request, "Account activated. You can now login.")
             return redirect("login")
+        else:
+            return redirect("verify_account")
 
     return render(request, "accounts/c_email_verify.html", {"form": form})
 
@@ -67,12 +45,15 @@ def verify_account_view(request):
 def login_view(request):
     if request.user.is_authenticated:
         return redirect("home")
+
     form = CustomLoginForm(request, data=request.POST or None)
 
     if request.method == "POST":
         if form.is_valid():
             login(request, form.get_user())
             # messages.success(request, "Welcome to Gukodesha!")
+            if request.user.role == "LANDLORD":
+                return redirect('landlord_dashboard')
             return redirect("home")
 
     return render(request, "accounts/c_login.html", {"form": form})
@@ -86,115 +67,43 @@ def logout_view(request):
 
 
 def forgot_password_view(request):
-    form = ForgotPasswordForm()
+    form = ForgotPasswordForm(request.POST or None)
 
-    if request.method == "POST":
-        form = ForgotPasswordForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data["email"]
-            user = User.objects.get(email=email)
-
-            code = random_with_N_digits(6)
-            VerificationCode.objects.create(
-                user=user,
-                code=code,
-                label=VerificationCode.RESET_PASSWORD,
-                email=email
-            )
-
-            context = {
-                "title": "Reset your password",
-                "message": "Use the following code to reset your password:",
-                "code": code,
-            }
-            send_email_custom(
-                email,
-                "Password reset code",
-                "email/code_email.html",
-                context
-            )
-
-            request.session["reset_email"] = email
-            messages.success(request, "Check your email for the reset code.")
-            return redirect("reset_password")
-        else:
-            messages.error(request, "No account with this email")
-            print(form.errors)
+    if form.is_valid():
+        code = form.send_reset_code()
+        request.session["reset_email"] = form.cleaned_data["email"]
+        messages.success(request, "Check your email for the reset code.")
+        return redirect("reset_password")
 
     return render(request, "accounts/c_forgot_password.html", {"form": form})
 
 
 def reset_password_view(request):
-    form = ResetPasswordForm()
-    code_form = VerificationCodeForm()
+    email = request.session.get("reset_email")
+    if not email:
+        messages.error(
+            request, "No email found. Start the reset process again.")
+        return redirect("forgot_password")
 
-    if request.method == "POST":
-        code_form = VerificationCodeForm(request.POST)
-        form = ResetPasswordForm(request.POST)
+    form = ResetPasswordForm(request.POST or None, email=email)
 
-        if code_form.is_valid() and form.is_valid():
-            code = code_form.cleaned_data["code"]
-            email = request.session.get("reset_email")
+    if form.is_valid():
+        form.save()
+        request.session.pop("reset_email", None)
+        messages.success(request, "Password reset successfully.")
+        return redirect("login")
 
-            try:
-                code_obj = VerificationCode.objects.get(
-                    code=code,
-                    label=VerificationCode.RESET_PASSWORD,
-                    email=email,
-                    is_pending=True
-                )
-            except VerificationCode.DoesNotExist:
-                messages.error(request, "Invalid code")
-                return redirect("reset_password")
-
-            if not code_obj.is_valid:
-                messages.error(request, "Code expired")
-                return redirect("reset_password")
-
-            user = code_obj.user
-            user.set_password(form.cleaned_data["new_password"])
-            user.save()
-
-            code_obj.is_pending = False
-            code_obj.save()
-
-            request.session.pop("reset_email", None)
-
-            messages.success(request, "Password reset successfully.")
-            return redirect("login")
-        else:
-            print(form.errors)
-
-    return render(
-        request,
-        "accounts/c_reset_password.html",
-        {
-            "form": form,
-            "code_form": code_form
-        }
-    )
+    return render(request, "accounts/c_reset_password.html", {"form": form})
 
 
 @login_required
 def change_password_view(request):
-    form = ChangePasswordForm()
+    form = ChangePasswordForm(user=request.user, data=request.POST or None)
 
-    if request.method == "POST":
-        form = ChangePasswordForm(request.POST)
-        if form.is_valid():
-            user = request.user
-
-            if not user.check_password(form.cleaned_data["old_password"]):
-                messages.error(request, "Old password is incorrect")
-                return redirect("change_password")
-
-            user.set_password(form.cleaned_data["new_password"])
-            user.save()
-
-            messages.success(request, "Password changed successfully.")
-            return redirect("login")
-        else:
-            print(form.errors)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Password changed successfully.")
+        return redirect("login")
 
     return render(request, "accounts/c_reset_password.html", {"form": form})
 

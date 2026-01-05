@@ -1,7 +1,11 @@
 from django.urls import path
-from .views import *
+# from .views import *
+from properties.views_components.locations import get_cells, get_cities, get_districts, get_provinces, get_sectors, get_villages
+from properties.views_components.general import home, about_us, faq, contact, landlord_dashboard
+from properties.views_components.houses import search_results, house_detail, all_houses, add_house, edit_house, landlord_properties, delete_house
+from properties.views_components.reservations import create_reservation, my_reservations, landlord_accept_reservation, landlord_reject_reservation, landlord_reservations, cancel_reservation
+from properties.views_components.visits import create_visit_request, my_visit_requests, landlord_accept_visit_request, landlord_reject_visit_request, cancel_visit_request, landlord_visit_requests
 
-# app_name = 'properties'
 
 urlpatterns = [
     path('', home, name='home'),
