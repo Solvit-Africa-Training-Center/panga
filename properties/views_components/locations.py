@@ -1,4 +1,4 @@
-from .models import Province, City, District, Sector, Cell, Village
+from properties.models import Province, City, District, Sector, Cell, Village
 from django.views.decorators.http import require_http_methods
 from django.http import JsonResponse
 

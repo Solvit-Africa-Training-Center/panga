@@ -199,7 +199,7 @@
                                             </div>
                                         </div>
                                         <!-- City -->
-                                        <div class="flex flex-col gap-1.5">
+                                        <div class="flex flex-col gap-1.5" id="group-city">
                                             <label class="text-sm font-medium text-text-secondary">City *</label>
                                             <div class="relative">
                                                 <select id="city"
@@ -606,75 +606,317 @@
             </div>
         </div>
         <script>
-            function incrementValue(id) {
-                const input = document.getElementById(id);
-                input.value = parseInt(input.value || 0) + 1;
-            }
-
-            function decrementValue(id) {
-                const input = document.getElementById(id);
-                const val = parseInt(input.value || 0);
-                if (val > 0) input.value = val - 1;
-            }
+            const RWANDA_COUNTRY_ID = '1';
+            const CONGO_COUNTRY_ID = '2';
+            const BURUNDI_COUNTRY_ID = '3';           
+            let rwandaData = null;
+            const group_city = document.getElementById("group-city");
 
            
-            function previewImage(input, previewId) {
-                const preview = document.getElementById(previewId);
-                if (input.files && input.files[0]) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        preview.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover" alt="Preview">`;
-                    };
-                    reader.readAsDataURL(input.files[0]);
+            async function loadRwandaData() {
+                try {
+                    const response = await fetch('/static/data/rwanda.json');
+                    rwandaData = await response.json();
+                    console.log('Rwanda data loaded successfully');
+                } catch (error) {
+                    console.error('Error loading Rwanda data:', error);
+                    alert('Erreur lors du chargement des données Rwanda');
                 }
             }
 
-           
+            loadRwandaData();
+
+            function getRwandaProvinces() {
+                if (!rwandaData) return [];
+                return Object.keys(rwandaData).map((provinceName, index) => ({
+                    id: provinceName.toLowerCase().replace(/\s+/g, '_'),
+                    name: provinceName
+                }));
+            }
+
+            function getRwandaDistricts(provinceId) {
+                if (!rwandaData) return [];
+                
+                const provinceName = Object.keys(rwandaData).find(
+                    name => name.toLowerCase().replace(/\s+/g, '_') === provinceId
+                );
+                
+                if (!provinceName) return [];
+                
+                const districts = rwandaData[provinceName];
+                return Object.keys(districts).map((districtName, index) => ({
+                    id: `${provinceId}_${districtName.toLowerCase().replace(/\s+/g, '_')}`,
+                    name: districtName,
+                    provinceName: provinceName
+                }));
+            }
+
+            function getRwandaSectors(districtId) {
+                if (!rwandaData) return [];
+                
+                const parts = districtId.split('_');
+                const provinceId = parts[0];
+                const districtNamePart = parts.slice(1).join('_');
+                
+                const provinceName = Object.keys(rwandaData).find(
+                    name => name.toLowerCase().replace(/\s+/g, '_') === provinceId
+                );
+                
+                if (!provinceName) return [];
+                
+                const districtName = Object.keys(rwandaData[provinceName]).find(
+                    name => name.toLowerCase().replace(/\s+/g, '_') === districtNamePart
+                );
+                
+                if (!districtName) return [];
+                
+                const sectors = rwandaData[provinceName][districtName];
+                return Object.keys(sectors).map((sectorName, index) => ({
+                    id: `${districtId}_${sectorName.toLowerCase().replace(/\s+/g, '_')}`,
+                    name: sectorName,
+                    districtName: districtName,
+                    provinceName: provinceName
+                }));
+            }
+
+            function getRwandaCells(sectorId) {
+                if (!rwandaData) return [];
+                
+                const parts = sectorId.split('_');
+                const provinceId = parts[0];
+                const districtNamePart = parts[1];
+                const sectorNamePart = parts.slice(2).join('_');
+                
+                const provinceName = Object.keys(rwandaData).find(
+                    name => name.toLowerCase().replace(/\s+/g, '_') === provinceId
+                );
+                
+                if (!provinceName) return [];
+                
+                const districtName = Object.keys(rwandaData[provinceName]).find(
+                    name => name.toLowerCase().replace(/\s+/g, '_') === districtNamePart
+                );
+                
+                if (!districtName) return [];
+                
+                const sectorName = Object.keys(rwandaData[provinceName][districtName]).find(
+                    name => name.toLowerCase().replace(/\s+/g, '_') === sectorNamePart
+                );
+                
+                if (!sectorName) return [];
+                
+                const cells = rwandaData[provinceName][districtName][sectorName];
+                return Object.keys(cells).map((cellName, index) => ({
+                    id: `${sectorId}_${cellName.toLowerCase().replace(/\s+/g, '_')}`,
+                    name: cellName,
+                    sectorName: sectorName,
+                    districtName: districtName,
+                    provinceName: provinceName
+                }));
+            }
+
+            function getRwandaVillages(cellId) {
+                if (!rwandaData) return [];
+                
+                const parts = cellId.split('_');
+                const provinceId = parts[0];
+                const districtNamePart = parts[1];
+                const sectorNamePart = parts[2];
+                const cellNamePart = parts.slice(3).join('_');
+                
+                const provinceName = Object.keys(rwandaData).find(
+                    name => name.toLowerCase().replace(/\s+/g, '_') === provinceId
+                );
+                
+                if (!provinceName) return [];
+                
+                const districtName = Object.keys(rwandaData[provinceName]).find(
+                    name => name.toLowerCase().replace(/\s+/g, '_') === districtNamePart
+                );
+                
+                if (!districtName) return [];
+                
+                const sectorName = Object.keys(rwandaData[provinceName][districtName]).find(
+                    name => name.toLowerCase().replace(/\s+/g, '_') === sectorNamePart
+                );
+                
+                if (!sectorName) return [];
+                
+                const cellName = Object.keys(rwandaData[provinceName][districtName][sectorName]).find(
+                    name => name.toLowerCase().replace(/\s+/g, '_') === cellNamePart
+                );
+                
+                if (!cellName) return [];
+                
+                const villages = rwandaData[provinceName][districtName][sectorName][cellName];
+                return villages.map((villageName, index) => ({
+                    id: `${cellId}_${villageName.toLowerCase().replace(/\s+/g, '_')}`,
+                    name: villageName
+                }));
+            }
+
+            async function fetchFromDatabase(endpoint, params = {}) {
+                const url = new URL(endpoint, window.location.origin);
+                Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+                
+                const response = await fetch(url);
+                return await response.json();
+            }
+
             document.getElementById('country').addEventListener('change', async function() {
                 const countryId = this.value;
-                const response = await fetch(`/api/provinces/?country_id=${countryId}`);
-                const data = await response.json();
-                updateSelect('province', data.provinces, true);
-                resetSelects(['city', 'district', 'sector', 'cell', 'village']);
+                
+                try {
+                    if (countryId === RWANDA_COUNTRY_ID) {
+                        if (!rwandaData) {
+                            alert('Données Rwanda en cours de chargement...');
+                            await loadRwandaData();
+                        }
+                        
+                        const provinces = getRwandaProvinces();
+                        
+                        updateSelect('province', provinces, true);
+                        
+                        updateSelect('city', provinces, true);
+                       
+                        resetSelects(['district', 'sector', 'cell', 'village']);
+                        group_city.classList.add('hidden'); 
+                        
+                    } else {
+                        const data = await fetchFromDatabase(`/api/provinces/?country_id=${countryId}`);
+                        updateSelect('province', data.provinces, true);
+                        resetSelects(['city', 'district', 'sector', 'cell', 'village']);
+                        group_city.classList.remove('hidden');
+
+                    }
+                } catch (error) {
+                    console.error('Error loading provinces:', error);
+                    alert('Erreur lors du chargement des provinces');
+                }
             });
 
             document.getElementById('province').addEventListener('change', async function() {
                 const provinceId = this.value;
-                const response = await fetch(`/api/cities/?province_id=${provinceId}`);
-                const data = await response.json();
-                updateSelect('city', data.cities, true);
-                resetSelects(['district', 'sector', 'cell', 'village']);
+                const countryId = document.getElementById('country').value;
+                
+                try {
+                    if (countryId === RWANDA_COUNTRY_ID) {
+                        const districts = getRwandaDistricts(provinceId);
+                        
+                        const provinceSelect = document.getElementById('province');
+                        const selectedProvince = provinceSelect.options[provinceSelect.selectedIndex];
+                        console.log(selectedProvince);
+                        if (selectedProvince.value === "kigali"){
+                             group_city.classList.remove('hidden'); 
+                             group_city.classList.add('flex'); 
+                             group_city.classList.add('block'); 
+
+                        }else {
+                             group_city.classList.add('hidden'); 
+                             group_city.classList.remove('flex'); 
+                             group_city.classList.remove('block'); 
+
+                        }
+                        updateSelect('city', [{
+                            id: provinceId,
+                            name: selectedProvince.text
+                        }], true);
+                        
+                        
+                        document.getElementById('city').value = provinceId;
+                        
+            
+                        
+                        updateSelect('district', districts, true);
+                        resetSelects(['sector', 'cell', 'village']);
+                        
+                    } else {
+                        const data = await fetchFromDatabase(`/api/cities/?province_id=${provinceId}`);
+                        updateSelect('city', data.cities, true);
+                        resetSelects(['district', 'sector', 'cell', 'village']);
+                    }
+                } catch (error) {
+                    console.error('Error loading cities:', error);
+                    alert('Erreur lors du chargement des villes');
+                }
             });
 
             document.getElementById('city').addEventListener('change', async function() {
                 const cityId = this.value;
-                const response = await fetch(`/api/districts/?city_id=${cityId}`);
-                const data = await response.json();
-                updateSelect('district', data.districts, true);
-                resetSelects(['sector', 'cell', 'village']);
+                const countryId = document.getElementById('country').value;
+                
+                try {
+                    if (countryId === RWANDA_COUNTRY_ID) {
+                        return;
+                    } else {
+                        const data = await fetchFromDatabase(`/api/districts/?city_id=${cityId}`);
+                        updateSelect('district', data.districts, true);
+                        resetSelects(['sector', 'cell', 'village']);
+                    }
+                } catch (error) {
+                    console.error('Error loading districts:', error);
+                }
             });
 
             document.getElementById('district').addEventListener('change', async function() {
                 const districtId = this.value;
-                const response = await fetch(`/api/sectors/?district_id=${districtId}`);
-                const data = await response.json();
-                updateSelect('sector', data.sectors, true);
-                resetSelects(['cell', 'village']);
+                const countryId = document.getElementById('country').value;
+                
+                try {
+                    if (countryId === RWANDA_COUNTRY_ID) {
+                        const sectors = getRwandaSectors(districtId);
+                        
+                        updateSelect('sector', sectors, true);
+                        resetSelects(['cell', 'village']);
+                        
+                    } else {
+                        const data = await fetchFromDatabase(`/api/sectors/?district_id=${districtId}`);
+                        updateSelect('sector', data.sectors, true);
+                        resetSelects(['cell', 'village']);
+                    }
+                } catch (error) {
+                    console.error('Error loading sectors:', error);
+                }
             });
 
             document.getElementById('sector').addEventListener('change', async function() {
                 const sectorId = this.value;
-                const response = await fetch(`/api/cells/?sector_id=${sectorId}`);
-                const data = await response.json();
-                updateSelect('cell', data.cells, true);
-                resetSelects(['village']);
+                const countryId = document.getElementById('country').value;
+                
+                try {
+                    if (countryId === RWANDA_COUNTRY_ID) {
+                        const cells = getRwandaCells(sectorId);
+                        
+                        updateSelect('cell', cells, true);
+                        resetSelects(['village']);
+                        
+                    } else {
+                        const data = await fetchFromDatabase(`/api/cells/?sector_id=${sectorId}`);
+                        updateSelect('cell', data.cells, true);
+                        resetSelects(['village']);
+                    }
+                } catch (error) {
+                    console.error('Error loading cells:', error);
+                }
             });
 
             document.getElementById('cell').addEventListener('change', async function() {
                 const cellId = this.value;
-                const response = await fetch(`/api/villages/?cell_id=${cellId}`);
-                const data = await response.json();
-                updateSelect('village', data.villages, true);
+                const countryId = document.getElementById('country').value;
+                
+                try {
+                    if (countryId === RWANDA_COUNTRY_ID) {
+                        const villages = getRwandaVillages(cellId);
+                        
+                        updateSelect('village', villages, true);
+                        
+                    } else {
+                        const data = await fetchFromDatabase(`/api/villages/?cell_id=${cellId}`);
+                        updateSelect('village', data.villages, true);
+                    }
+                } catch (error) {
+                    console.error('Error loading villages:', error);
+                }
             });
 
             function updateSelect(selectId, options, enable) {
@@ -683,6 +925,7 @@
                 options.forEach(opt => {
                     const option = document.createElement('option');
                     option.value = opt.id;
+                    
                     option.textContent = opt.name;
                     select.appendChild(option);
                 });
@@ -697,29 +940,38 @@
                 });
             }
 
-        
             {% if edit_mode %}
             window.addEventListener('DOMContentLoaded', async function() {
+                const countryId = document.getElementById('country').value;
+                if (countryId === RWANDA_COUNTRY_ID && !rwandaData) {
+                    await loadRwandaData();
+                }
                 
                 const countrySelect = document.getElementById('country');
                 if (countrySelect.value) {
                     countrySelect.dispatchEvent(new Event('change'));
-                    await new Promise(r => setTimeout(r, 200));
+                    await new Promise(r => setTimeout(r, 300));
+                    
                     document.getElementById('province').value = '{{ selected_province.id }}';
                     document.getElementById('province').dispatchEvent(new Event('change'));
-                    await new Promise(r => setTimeout(r, 200));
+                    await new Promise(r => setTimeout(r, 300));
+                    
                     document.getElementById('city').value = '{{ selected_city.id }}';
                     document.getElementById('city').dispatchEvent(new Event('change'));
-                    await new Promise(r => setTimeout(r, 200));
+                    await new Promise(r => setTimeout(r, 300));
+                    
                     document.getElementById('district').value = '{{ selected_district.id }}';
                     document.getElementById('district').dispatchEvent(new Event('change'));
-                    await new Promise(r => setTimeout(r, 200));
+                    await new Promise(r => setTimeout(r, 300));
+                    
                     document.getElementById('sector').value = '{{ selected_sector.id }}';
                     document.getElementById('sector').dispatchEvent(new Event('change'));
-                    await new Promise(r => setTimeout(r, 200));
+                    await new Promise(r => setTimeout(r, 300));
+                    
                     document.getElementById('cell').value = '{{ selected_cell.id }}';
                     document.getElementById('cell').dispatchEvent(new Event('change'));
-                    await new Promise(r => setTimeout(r, 200));
+                    await new Promise(r => setTimeout(r, 300));
+                    
                     document.getElementById('village').value = '{{ selected_village.id }}';
                 }
             });
