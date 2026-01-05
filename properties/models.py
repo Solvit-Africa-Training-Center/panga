@@ -97,7 +97,7 @@ class House(models.Model):
         auto_now_add=True, editable=False, null=True)
     label = models.CharField(max_length=200, null=True, blank=True)
     landlord = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, blank=True)
+    User, on_delete=models.SET_NULL, null=True, blank=True)
     location = models.ForeignKey(
         Village, on_delete=models.CASCADE, related_name='houses')
     monthly_rent = models.DecimalField(

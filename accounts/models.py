@@ -72,19 +72,17 @@ class User(AbstractUser, PermissionsMixin):
     first_name = models.CharField(_("first name"), max_length=100)
     last_name = models.CharField(_("last name"), max_length=100)
     username = models.CharField(_("username"), max_length=100, unique=True)
-
     phone = models.CharField(
-<<<<<<< HEAD
-        _("phone number"), max_length=255, unique=True, blank=True, null=True,  
-        validators=[
-            MinLengthValidator(limit_value=10),
-=======
-        _("phone number"), max_length=255, unique=True, validators=[
-            MinLengthValidator(limit_value=13),
->>>>>>> b76edf2453bc1e0e54062315fe730b25ea65f3a1
-            MaxLengthValidator(limit_value=15)
-        ]
+    _("phone number"), max_length=255, unique=True, 
+    blank=True, null=True,  
+    validators=[
+        MinLengthValidator(limit_value=13),
+        MaxLengthValidator(limit_value=15)
+    ]
     )
+
+    
+    
     is_active = models.BooleanField(_("is active"), default=True)
     created_at = models.DateTimeField(_("created on"), auto_now_add=True)
     objects = UserManager()

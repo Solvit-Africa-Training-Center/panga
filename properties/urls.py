@@ -9,14 +9,6 @@ urlpatterns = [
     path('about/', about_us, name='about'),
     path('faq/', faq, name='faq'),
     path('contact/', contact, name='contact'),
-<<<<<<< HEAD
-    path('house_create/', house_create, name='house_create'),
-    path('see_results/', see_results, name='results'),
-    path("search/", search_results, name="search_results"),
-    path('houses/<int:pk>/', house_detail, name='house_detail'),
-    path('all_houses', all_houses, name='all_houses'),
-    path('landlord/', landlord, name='landlord')
-=======
 
     path("search/", search_results, name="search_results"),
     path('houses/<int:pk>/', house_detail, name='house_detail'),
@@ -52,7 +44,6 @@ urlpatterns = [
     path(
         'landlord/visit-requests/', landlord_visit_requests, name='landlord_visit_requests'),
 
->>>>>>> b76edf2453bc1e0e54062315fe730b25ea65f3a1
 
 
-                 ]
+]
